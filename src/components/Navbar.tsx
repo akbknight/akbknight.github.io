@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Briefcase, Camera } from "lucide-react";
+import { Briefcase, Camera, Linkedin } from "lucide-react";
 
 export const Navbar = () => {
     const pathname = usePathname();
@@ -20,6 +20,11 @@ export const Navbar = () => {
             path: "/life",
             icon: <Camera className="w-4 h-4" />,
         },
+        {
+            name: "LinkedIn",
+            path: "https://www.linkedin.com/in/akshaykumardl/",
+            icon: <Linkedin className="w-4 h-4" />,
+        },
     ];
 
     return (
@@ -27,10 +32,14 @@ export const Navbar = () => {
             <div className="flex items-center gap-2 p-1.5 rounded-full border border-white/10 bg-black/50 backdrop-blur-md shadow-2xl">
                 {navItems.map((item) => {
                     const isActive = pathname === item.path;
+                    const isExternal = item.path.startsWith("http");
+
                     return (
                         <Link
                             key={item.path}
                             href={item.path}
+                            target={isExternal ? "_blank" : undefined}
+                            rel={isExternal ? "noopener noreferrer" : undefined}
                             className={cn(
                                 "relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2",
                                 isActive
@@ -51,7 +60,7 @@ export const Navbar = () => {
                             )}
                             <span className="relative z-10 flex items-center gap-2">
                                 {item.icon}
-                                {item.name}
+                                <span className="hidden sm:inline">{item.name}</span>
                             </span>
                         </Link>
                     );

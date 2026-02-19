@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Send, Mail, User, MessageSquare } from "lucide-react";
+import { Send, Mail, User, MessageSquare, Linkedin } from "lucide-react";
 
 export const Contact = () => {
     return (
@@ -94,6 +94,19 @@ export const Contact = () => {
                         Send Message
                     </button>
                 </form>
+
+                <div className="mt-8 pt-8 border-t border-white/10 text-center">
+                    <p className="text-neutral-400 mb-4 text-sm">Or connect with me professionally</p>
+                    <a
+                        href="https://www.linkedin.com/in/akshaykumardl/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-white bg-[#0077b5] hover:bg-[#0077b5]/90 px-6 py-3 rounded-xl font-medium transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                        <Linkedin className="w-5 h-5" />
+                        Connect on LinkedIn
+                    </a>
+                </div>
             </motion.div>
         </section>
     );
