@@ -20,11 +20,6 @@ export const Navbar = () => {
             path: "/life",
             icon: <Camera className="w-4 h-4" />,
         },
-        {
-            name: "LinkedIn",
-            path: "https://www.linkedin.com/in/akshaykumardl/",
-            icon: <Linkedin className="w-4 h-4" />,
-        },
     ];
 
     return (
