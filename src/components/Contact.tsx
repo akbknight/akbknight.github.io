@@ -1,113 +1,62 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Send, Mail, User, MessageSquare, Linkedin } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
+import { MagneticWrapper } from "@/components/MagneticWrapper";
 
 export const Contact = () => {
-    return (
-        <section className="w-full max-w-4xl mx-auto py-20 px-6" id="contact">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-center mb-12"
-            >
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                    Let's Connect
-                </h2>
-                <p className="text-neutral-400 max-w-lg mx-auto">
-                    Whether you have a question about my research, a potential project, or just want to say hi, I'll try my best to get back to you!
-                </p>
-            </motion.div>
+  return (
+    <section id="contact">
+      <p className="section-label mb-6">05 · Contact</p>
 
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden"
-            >
-                {/* Decorative background glow */}
-                <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-blue-500/5 rotate-12 pointer-events-none" />
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.45 }}
+      >
+        <h3
+          className="font-bold text-[var(--text)] mb-4"
+          style={{ fontSize: "clamp(1.4rem, 3vw, 1.85rem)", letterSpacing: "-0.02em", lineHeight: 1.2 }}
+        >
+          Get in touch
+        </h3>
 
-                <form
-                    action="https://formspree.io/f/mqkenpzj" // Placeholder ID, user needs to replace
-                    method="POST"
-                    className="relative z-10 space-y-6"
-                >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Name Input */}
-                        <div className="space-y-2">
-                            <label htmlFor="name" className="text-sm font-medium text-neutral-300 flex items-center gap-2">
-                                <User className="w-4 h-4 text-blue-400" />
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                required
-                                placeholder="John Doe"
-                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-neutral-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
-                            />
-                        </div>
+        <p className="text-sm text-[var(--text-2)] leading-relaxed max-w-md mb-8">
+          Open to collaboration on data engineering, analytics, and AI projects. If you want to work together or just say hello, my inbox is open.
+        </p>
 
-                        {/* Email Input */}
-                        <div className="space-y-2">
-                            <label htmlFor="email" className="text-sm font-medium text-neutral-300 flex items-center gap-2">
-                                <Mail className="w-4 h-4 text-blue-400" />
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                required
-                                placeholder="john@example.com"
-                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-neutral-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
-                            />
-                        </div>
-                    </div>
+        <MagneticWrapper>
+          <a
+            href="mailto:ak8335a@american.edu"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--bg)] bg-[var(--accent)] px-6 py-3 rounded-lg hover:opacity-90 active:scale-[0.98] transition-all duration-200"
+          >
+            <Mail className="w-4 h-4" aria-hidden="true" />
+            Say hello
+          </a>
+        </MagneticWrapper>
 
-                    {/* Message Input */}
-                    <div className="space-y-2">
-                        <label htmlFor="message" className="text-sm font-medium text-neutral-300 flex items-center gap-2">
-                            <MessageSquare className="w-4 h-4 text-blue-400" />
-                            Message
-                        </label>
-                        <textarea
-                            name="message"
-                            id="message"
-                            required
-                            rows={4}
-                            placeholder="Your message here..."
-                            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-neutral-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all resize-none"
-                        />
-                    </div>
-
-                    {/* Submit Button */}
-                    <button
-                        type="submit"
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-500/20"
-                    >
-                        <Send className="w-5 h-5" />
-                        Send Message
-                    </button>
-                </form>
-
-                <div className="mt-8 pt-8 border-t border-white/10 text-center">
-                    <p className="text-neutral-400 mb-4 text-sm">Or connect with me professionally</p>
-                    <a
-                        href="https://www.linkedin.com/in/akshaykumardl/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-white bg-[#0077b5] hover:bg-[#0077b5]/90 px-6 py-3 rounded-xl font-medium transition-all transform hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                        <Linkedin className="w-5 h-5" />
-                        Connect on LinkedIn
-                    </a>
-                </div>
-            </motion.div>
-        </section>
-    );
+        <div className="mt-10 flex items-center gap-5">
+          <a
+            href="https://github.com/akbknight"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-200"
+          >
+            <Github className="w-3.5 h-3.5" aria-hidden="true" />
+            akbknight
+          </a>
+          <a
+            href="https://www.linkedin.com/in/akshaykumardl/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-200"
+          >
+            <Linkedin className="w-3.5 h-3.5" aria-hidden="true" />
+            akshaykumardl
+          </a>
+        </div>
+      </motion.div>
+    </section>
+  );
 };

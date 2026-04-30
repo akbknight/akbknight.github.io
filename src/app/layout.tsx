@@ -1,34 +1,54 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { LenisProvider } from "@/components/LenisProvider";
+import { ViewfinderCursor } from "@/components/ViewfinderCursor";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Only JetBrains Mono via next/font — sets --font-mono CSS variable
+// Zodiak + Satoshi loaded from Fontshare CDN (link tags below)
+const mono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Akshay Kumar | Digital Twin",
-  description: "Senior Frontend Architect & Brand Strategist Portfolio. MBA Candidate at American University. Ex-U.S. Dept of State.",
+  title: "Akshay Kumar",
+  description:
+    "Software engineer and MBA candidate at American University. Former U.S. Department of State programmer. Building data pipelines, dashboards, and AI tools.",
+  openGraph: {
+    title: "Akshay Kumar",
+    description: "Software engineer. MBA candidate. Former U.S. State Dept.",
+    url: "https://akbknight.github.io",
+    siteName: "Akshay Kumar",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen`}
-      >
-        <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZmlsdGVyIGlkPSJnoiPjfeV1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjY1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-20 pointer-events-none z-50"></div>
-        {children}
+    <html lang="en" className={mono.variable} suppressHydrationWarning>
+      <head>
+        {/* Fontshare: Zodiak (editorial display serif) + Satoshi (clean sans) */}
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=zodiak@400,500,700&f[]=satoshi@300,400,500,700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased">
+        <ThemeProvider>
+          <LenisProvider>
+            <ViewfinderCursor />
+            {children}
+          </LenisProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
