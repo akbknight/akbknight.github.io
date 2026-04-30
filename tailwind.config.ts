@@ -1,38 +1,29 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-    content: [
-        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
-    theme: {
-        extend: {
-            colors: {
-                background: "#0a0a0a", // Obsidian
-                foreground: "#e5e7eb", // Silver
-                primary: {
-                    DEFAULT: "#6366f1", // Indigo
-                    foreground: "#ffffff",
-                },
-                secondary: {
-                    DEFAULT: "#1f2937", // Gray 800
-                    foreground: "#9ca3af", // Muted Gray
-                },
-                accent: {
-                    DEFAULT: "rgba(255, 255, 255, 0.1)", // Frosted glass border
-                },
-            },
-            fontFamily: {
-                sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui"],
-                mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular"],
-            },
-            backgroundImage: {
-                "glass-gradient":
-                    "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)",
-            },
-        },
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/hooks/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        // Satoshi from Fontshare — body + UI
+        sans: ["'Satoshi'", "ui-sans-serif", "system-ui"],
+        // Zodiak from Fontshare — editorial display headings
+        display: ["'Zodiak'", "Georgia", "serif"],
+        // JetBrains Mono via next/font CSS variable — code + labels
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular"],
+      },
+      screens: {
+        xs: "375px",
+      },
     },
-    plugins: [],
+  },
+  plugins: [],
 };
+
 export default config;
