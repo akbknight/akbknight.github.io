@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# akbknight.github.io
 
-## Getting Started
+Personal portfolio website for Akshay Kumar — software engineer and MBA candidate specializing in data analytics and business intelligence. Live at [akbknight.github.io](https://akbknight.github.io).
 
-First, run the development server:
+## What this project is
+
+A performance-first portfolio built to showcase five years of professional work spanning government systems engineering, enterprise backend infrastructure, and data analytics. The site uses a sticky sidebar navigation pattern with scroll-spy tracking, smooth Framer Motion transitions, and a custom cursor — presenting experience, projects, and creative work in a single, cohesive layout.
+
+The design system is minimal by intent: amber gold accents on a near-black background in dark mode, persistent preference storage, and zero reliance on third-party UI component libraries. Every interaction is purpose-built.
+
+## Key features
+
+- Sticky sidebar layout with real-time scroll-spy section tracking
+- Dark and light mode with `localStorage` persistence
+- Custom cursor — precise dot plus spring-physics ring (Framer Motion `useSpring`)
+- Section entrance animations driven by IntersectionObserver
+- Photography section pulling live Pexels API data filtered to `@akbknight` uploads
+- Fully responsive — breakpoint-tuned for 375px mobile through 1440px desktop
+- Static export via Next.js 16 with GitHub Actions CI/CD to GitHub Pages
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (static export) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animation | Framer Motion |
+| Fonts | Zodiak (display) · Satoshi (body) · JetBrains Mono (code) |
+| Icons | Lucide React |
+| CI/CD | GitHub Actions → GitHub Pages |
+
+## How to run
 
 ```bash
+# Clone the repository
+git clone https://github.com/akbknight/akbknight.github.io.git
+cd akbknight.github.io
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Opens at http://localhost:3000
+
+# Build static export
+npm run build
+# Output goes to the /out directory
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Requirements:** Node.js 18+. The photography section reads a `PEXELS_API_KEY` environment variable. Without it the section renders as a graceful fallback — nothing breaks.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Skills demonstrated
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Component architecture:** custom hooks (`useScrollSpy`), context-driven theming (`ThemeProvider`), strict TypeScript throughout
+- **Animation engineering:** Framer Motion spring physics, scroll-triggered variants, velocity-deformed cursor tracking
+- **CI/CD:** GitHub Actions workflow with secret injection, Next.js static export, and automated GitHub Pages deployment
+- **Responsive design:** mobile-first layout with Tailwind breakpoints, fluid typography, no layout shift on load
+- **Performance:** static site generation, `next/font` optimization, lazy-loaded Pexels assets
 
-## Learn More
+## Author
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Akshay Kumar**
+[linkedin.com/in/akshaykumardl](https://www.linkedin.com/in/akshaykumardl/)
