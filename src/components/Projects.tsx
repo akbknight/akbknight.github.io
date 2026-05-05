@@ -6,6 +6,15 @@ import { Github, ExternalLink, Folder } from "lucide-react";
 
 const FEATURED = [
   {
+    title: "AI Strategic Briefing Generator",
+    description:
+      "Autonomous analytics pipeline: any CSV → schema detection → descriptive stats → anomaly detection (Z-score + CUSUM) → Holt-Winters forecast → Claude AI narrative → self-contained HTML report. One command, zero configuration.",
+    tech: ["Python", "Claude API", "statsmodels", "Chart.js"],
+    impact: ["6-stage auto pipeline", "AI executive brief", "Zero-config deployment"],
+    github: "https://github.com/akbknight/ai-strategic-briefing",
+    live: "https://akbknight.github.io/ai-strategic-briefing/",
+  },
+  {
     title: "US Retail Sales Demand Forecast",
     description:
       "18-month forward forecast for US Retail & Food Services Sales using Holt-Winters triple exponential smoothing on Federal Reserve (FRED) data. Interactive dashboard with 80% and 95% predictive intervals, YoY growth analysis, and in-sample model diagnostics.",
@@ -22,15 +31,6 @@ const FEATURED = [
     impact: ["9.7M+ records processed", "$550B+ mapped", "2019–2024 coverage"],
     github: "https://github.com/akbknight/irs990-grant-dashboard",
     live: "https://akbknight.github.io/irs990-grant-dashboard/",
-  },
-  {
-    title: "MBA Admissions Funnel Dashboard",
-    description:
-      "Real-time Kogod MBA admissions analytics tracking YoY enrollment trends across programs, formats, and rounds. File-date-anchored funnel logic compares Fall 2026 vs Fall 2025 cohorts, with AU brand-styled Plotly charts and Streamlit UI.",
-    tech: ["Python", "DuckDB", "Plotly", "Streamlit"],
-    impact: ["YoY cohort comparison", "Program-level breakdown", "File-date anchored logic"],
-    github: "https://github.com/akbknight/admissions_funnel_dashboard",
-    live: null,
   },
 ];
 
