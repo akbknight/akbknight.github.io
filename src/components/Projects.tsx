@@ -40,7 +40,7 @@ const OTHER = [
     description:
       "Enterprise portal processing 217K+ rows of geospatial and financial grant data with AI-powered cleaning and interactive mapping.",
     tech: ["React", "FastAPI", "Python", "Pandas"],
-    github: "https://github.com/akbknight/global-grants-dashboard",
+    github: null,
     live: null,
   },
   {
