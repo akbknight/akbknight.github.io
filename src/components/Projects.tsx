@@ -52,6 +52,14 @@ const OTHER = [
     live: "https://akbknight.github.io/scheduling-optimizer/",
   },
   {
+    title: "Data Pipeline Validator",
+    description:
+      "Automated validation framework for multi-source data pipelines: 7 check categories (completeness, business rules, referential integrity, uniqueness) across 15 sources and 12K+ records. Health scoring with expandable per-check diagnostics.",
+    tech: ["Python", "pandas", "Chart.js", "HTML"],
+    github: "https://github.com/akbknight/data-pipeline-validator",
+    live: "https://akbknight.github.io/data-pipeline-validator/",
+  },
+  {
     title: "Crisis to Care",
     description:
       "Platform connecting first-generation college students in crisis with care resources and AI-powered triage. Gemini-backed routing surfaces the right intervention — counseling, housing, food — based on the student's situation.",
