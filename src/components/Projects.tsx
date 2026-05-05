@@ -6,6 +6,15 @@ import { Github, ExternalLink, Folder } from "lucide-react";
 
 const FEATURED = [
   {
+    title: "US Retail Sales Demand Forecast",
+    description:
+      "18-month forward forecast for US Retail & Food Services Sales using Holt-Winters triple exponential smoothing on Federal Reserve (FRED) data. Interactive dashboard with 80% and 95% predictive intervals, YoY growth analysis, and in-sample model diagnostics.",
+    tech: ["Python", "statsmodels", "Pandas", "Chart.js"],
+    impact: ["135 months of FRED data", "18-month horizon", "95% CI quantified"],
+    github: "https://github.com/akbknight/us-retail-sales-forecast",
+    live: "https://akbknight.github.io/us-retail-sales-forecast/",
+  },
+  {
     title: "IRS 990 Grant Dashboard",
     description:
       "End-to-end data pipeline mining 9.7M+ grant records from IRS Form 990 XML archives. Interactive dashboard mapping $550B+ in philanthropic giving across 2019–2024, classified by category and visualized with Chart.js.",
@@ -15,64 +24,63 @@ const FEATURED = [
     live: "https://akbknight.github.io/irs990-grant-dashboard/",
   },
   {
-    title: "Crisis to Care",
+    title: "MBA Admissions Funnel Dashboard",
     description:
-      "A platform connecting first-generation college students in crisis with immediate care resources and AI-powered routing. Built for the people who need it most — students navigating higher ed without a safety net.",
-    tech: ["React", "TypeScript", "Vite", "Gemini API"],
-    impact: ["AI-powered routing", "First-gen focused", "Instant resource access"],
-    github: "https://github.com/akbknight/crisis-to-care",
-    live: "https://akbknight.github.io/crisis-to-care/",
-  },
-  {
-    title: "MBA Hub App",
-    description:
-      "Full-stack productivity platform for MBA students: notes, resources, and collaborative tools. Built with Next.js and deployed on Vercel. Designed around real graduate-school workflows.",
-    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
-    impact: ["Full-stack deployed", "Real workflow design", "Vercel production"],
-    github: "https://github.com/akbknight/mba-hub-app",
-    live: "https://mba-hub-app.vercel.app",
+      "Real-time Kogod MBA admissions analytics tracking YoY enrollment trends across programs, formats, and rounds. File-date-anchored funnel logic compares Fall 2026 vs Fall 2025 cohorts, with AU brand-styled Plotly charts and Streamlit UI.",
+    tech: ["Python", "DuckDB", "Plotly", "Streamlit"],
+    impact: ["YoY cohort comparison", "Program-level breakdown", "File-date anchored logic"],
+    github: "https://github.com/akbknight/admissions_funnel_dashboard",
+    live: null,
   },
 ];
 
 const OTHER = [
   {
+    title: "Crisis to Care",
+    description:
+      "Platform connecting first-generation college students in crisis with care resources and AI-powered triage. Gemini-backed routing surfaces the right intervention — counseling, housing, food — based on the student's situation.",
+    tech: ["React", "TypeScript", "Vite", "Gemini API"],
+    github: "https://github.com/akbknight/crisis-to-care",
+    live: "https://akbknight.github.io/crisis-to-care/",
+  },
+  {
     title: "Global Grants Analytics Dashboard",
     description:
-      "Enterprise portal processing 217K+ rows of geospatial and financial grant data with AI-powered cleaning and interactive mapping.",
+      "Enterprise portal processing 217K+ rows of geospatial and financial grant data with AI-powered cleaning and interactive mapping. FastAPI backend with server-side filtering; React + Tailwind frontend.",
     tech: ["React", "FastAPI", "Python", "Pandas"],
     github: null,
     live: null,
   },
   {
-    title: "Capital One Bankruptcy Platform",
+    title: "MBA Hub App",
     description:
-      "Centralized backend aggregating data from 3,000+ sources. Cut legal notification time by 50% through automated validation and compliance support.",
-    tech: ["Java", "Spring Boot", "SQL", "REST APIs"],
-    github: null,
-    live: null,
+      "Full-stack productivity platform for MBA students: peer matching, study groups, rendezvous scheduling, and collaborative notes. Supabase auth gated to .edu email addresses.",
+    tech: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+    github: "https://github.com/akbknight/mba-hub-app",
+    live: "https://mba-hub-app.vercel.app",
   },
   {
     title: "SaltPepper for Windows",
     description:
-      "Intelligent Claude Code router that sends simple prompts to a local model and reserves API tokens for tasks that actually need them.",
-    tech: ["Python", "Claude API"],
+      "Intelligent Claude Code router that sends simple prompts to a local Ollama model and reserves API tokens for tasks that actually need them. Transparent cost-saving layer for Claude Code users.",
+    tech: ["Python", "Claude API", "Ollama"],
     github: "https://github.com/akbknight/saltpepper-win",
     live: null,
   },
   {
     title: "ITEC-617 DT Simulation",
     description:
-      "AI simulation helping MBA students prepare digital transformation presentations through nine distinct executive personas.",
+      "AI simulation helping MBA students prepare digital transformation presentations through nine distinct executive personas — each with realistic objections, decision criteria, and communication styles.",
     tech: ["Python", "Claude API", "Streamlit"],
     github: "https://github.com/akbknight/ITEC-617-Digital-Transformation-Project",
     live: null,
   },
   {
-    title: "U.S. State Dept Shuttle System",
+    title: "Egypt vs India Dashboard",
     description:
-      "Mission-critical scheduling and inventory architecture supporting 1,200+ diplomatic personnel. Boosted operational efficiency by 75%.",
-    tech: ["Azure", "Python", "Power Apps"],
-    github: null,
+      "Comparative macroeconomic dashboard contrasting Egypt and India across GDP growth, inflation, trade, and demographic indicators. Built for a graduate economics course.",
+    tech: ["Python", "Plotly", "HTML"],
+    github: "https://github.com/akbknight/egypt-vs-india-dashboard",
     live: null,
   },
 ];
