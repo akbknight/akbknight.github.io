@@ -44,6 +44,14 @@ const OTHER = [
     live: "https://akbknight.github.io/anomaly-detection-monitor/",
   },
   {
+    title: "Diplomatic Scheduling Optimizer",
+    description:
+      "Priority-aware resource scheduler: 180 meeting requests → 20 rooms, 150 personnel across 5 departments. Greedy constrained algorithm with multi-constraint conflict detection (capacity, clearance, attendee availability). Runs client-side.",
+    tech: ["JavaScript", "Chart.js", "Greedy Algo"],
+    github: "https://github.com/akbknight/scheduling-optimizer",
+    live: "https://akbknight.github.io/scheduling-optimizer/",
+  },
+  {
     title: "Crisis to Care",
     description:
       "Platform connecting first-generation college students in crisis with care resources and AI-powered triage. Gemini-backed routing surfaces the right intervention — counseling, housing, food — based on the student's situation.",
