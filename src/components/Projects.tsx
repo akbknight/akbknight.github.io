@@ -36,6 +36,14 @@ const FEATURED = [
 
 const OTHER = [
   {
+    title: "Economic Anomaly Detection Monitor",
+    description:
+      "Three-algorithm statistical monitoring system (Z-score, IQR, CUSUM) applied to Federal Reserve macroeconomic data. Detects COVID unemployment shock, 2008 GFC deflation, and 2021–22 inflation acceleration across 26 years of FRED data.",
+    tech: ["Python", "scipy", "Pandas", "Chart.js"],
+    github: "https://github.com/akbknight/anomaly-detection-monitor",
+    live: "https://akbknight.github.io/anomaly-detection-monitor/",
+  },
+  {
     title: "Crisis to Care",
     description:
       "Platform connecting first-generation college students in crisis with care resources and AI-powered triage. Gemini-backed routing surfaces the right intervention — counseling, housing, food — based on the student's situation.",
@@ -78,10 +86,10 @@ const OTHER = [
   {
     title: "Egypt vs India Dashboard",
     description:
-      "Comparative macroeconomic dashboard contrasting Egypt and India across GDP growth, inflation, trade, and demographic indicators. Built for a graduate economics course.",
-    tech: ["Python", "Plotly", "HTML"],
+      "Comparative macroeconomic dashboard contrasting Egypt and India across GDP growth, population, trade, and civilization history. Built for a graduate economics course at Kogod.",
+    tech: ["JavaScript", "Chart.js", "HTML/CSS"],
     github: "https://github.com/akbknight/egypt-vs-india-dashboard",
-    live: null,
+    live: "https://akbknight.github.io/egypt-vs-india-dashboard/",
   },
 ];
 
