@@ -46,10 +46,10 @@ const SOCIALS = [
 ];
 
 const ROTATING_WORDS = [
-  "data pipelines",
-  "AI tools",
   "analytics dashboards",
-  "web applications",
+  "data pipelines",
+  "predictive models",
+  "AI tools",
 ];
 
 export const LeftPanel = () => {
@@ -90,7 +90,7 @@ export const LeftPanel = () => {
             className="text-base font-medium mt-2 mb-5"
             style={{ color: "var(--text-2)", letterSpacing: "-0.01em" }}
           >
-            Software Engineer &amp; MBA Candidate
+            Analytics Engineer &amp; MBA Candidate
           </h2>
 
           {/* Animated rotating words — two lines, no layout shift */}
