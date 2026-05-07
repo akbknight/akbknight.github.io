@@ -107,6 +107,22 @@ const OTHER = [
     github: "https://github.com/akbknight/egypt-vs-india-dashboard",
     live: "https://akbknight.github.io/egypt-vs-india-dashboard/",
   },
+  {
+    title: "AI File Organizer",
+    description:
+      "Local file organizer powered by Gemini 1.5 Flash: reads file content and auto-categorizes directories into semantic folders. FastAPI backend streams live move logs to a React frontend via Server-Sent Events.",
+    tech: ["Python", "FastAPI", "React", "Gemini API"],
+    github: "https://github.com/akbknight/Ai-automation",
+    live: "https://akbknight.github.io/Ai-automation/",
+  },
+  {
+    title: "Signals>Noise: AT&T Strategy",
+    description:
+      "MBA team project proposing 'Shape Your Solution' — an AI pre-RFP diagnostic tool for AT&T's declining $18.8B B2B segment. Full business case dashboard covering financials, architecture, security, and change management.",
+    tech: ["JavaScript", "Chart.js", "Lucide", "Vite"],
+    github: "https://github.com/akbknight/Team--Signals-Noise-Project-",
+    live: "https://akbknight.github.io/Team--Signals-Noise-Project-/",
+  },
 ];
 
 const FeaturedCard = ({
