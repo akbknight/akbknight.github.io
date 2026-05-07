@@ -18,6 +18,9 @@ const SKILLS = [
   "Tailwind CSS",
   "Node.js",
   "Claude API",
+  "statsmodels",
+  "scipy",
+  "Chart.js",
 ];
 
 export const About = () => {
