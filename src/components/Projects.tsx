@@ -72,8 +72,8 @@ const OTHER = [
     description:
       "Enterprise portal processing 217K+ rows of geospatial and financial grant data with AI-powered cleaning and interactive mapping. FastAPI backend with server-side filtering; React + Tailwind frontend.",
     tech: ["React", "FastAPI", "Python", "Pandas"],
-    github: null,
-    live: null,
+    github: "https://github.com/akbknight/stitch_elegant_light_analytics_dashboard",
+    live: "https://akbknight.github.io/stitch_elegant_light_analytics_dashboard/",
   },
   {
     title: "MBA Hub App",
@@ -89,7 +89,7 @@ const OTHER = [
       "Intelligent Claude Code router that sends simple prompts to a local Ollama model and reserves API tokens for tasks that actually need them. Transparent cost-saving layer for Claude Code users.",
     tech: ["Python", "Claude API", "Ollama"],
     github: "https://github.com/akbknight/saltpepper-win",
-    live: null,
+    live: "https://akbknight.github.io/saltpepper-win/",
   },
   {
     title: "ITEC-617 DT Simulation",
@@ -122,6 +122,14 @@ const OTHER = [
     tech: ["JavaScript", "Chart.js", "Lucide", "Vite"],
     github: "https://github.com/akbknight/Team--Signals-Noise-Project-",
     live: "https://akbknight.github.io/Team--Signals-Noise-Project-/",
+  },
+  {
+    title: "Kogod Admissions Funnel",
+    description:
+      "Enrollment analytics dashboard for Kogod MBA programs: tracks Started → Submitted → Completed → Admitted across MBA, Online, and Specialized Masters. Year-over-year comparison with domestic/international breakdowns and deposit pacing charts.",
+    tech: ["Python", "Streamlit", "DuckDB", "Plotly"],
+    github: "https://github.com/akbknight/admissions_funnel_dashboard",
+    live: "https://akbknight.github.io/admissions_funnel_dashboard/",
   },
 ];
 
