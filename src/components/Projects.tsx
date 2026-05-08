@@ -131,6 +131,22 @@ const OTHER = [
     github: "https://github.com/akbknight/admissions_funnel_dashboard",
     live: "https://akbknight.github.io/admissions_funnel_dashboard/",
   },
+  {
+    title: "Economic Scenario Analysis",
+    description:
+      "Interactive macro 'what-if' dashboard: adjust Fed funds rate, inflation, and unemployment to project retail growth and recession probability. Preset scenarios for Soft Landing, Stagflation, and Recession. Historical FRED data embedded.",
+    tech: ["JavaScript", "Chart.js", "HTML/CSS"],
+    github: "https://github.com/akbknight/economic-scenario-analysis",
+    live: "https://akbknight.github.io/economic-scenario-analysis/",
+  },
+  {
+    title: "Supply Chain Scenario Planner",
+    description:
+      "Diplomatic logistics simulation: EOQ-based reorder optimization across 8 supply categories. Scenario controls for demand spikes, supply disruptions, and lead time delays. Real-time stockout risk and inventory value calculations.",
+    tech: ["JavaScript", "Chart.js", "EOQ Model"],
+    github: "https://github.com/akbknight/supply-chain-planner",
+    live: "https://akbknight.github.io/supply-chain-planner/",
+  },
 ];
 
 const FeaturedCard = ({
