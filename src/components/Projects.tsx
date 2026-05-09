@@ -129,7 +129,7 @@ const OTHER = [
       "Enrollment analytics dashboard for Kogod MBA programs: tracks Started → Submitted → Completed → Admitted across MBA, Online, and Specialized Masters. Year-over-year comparison with domestic/international breakdowns and deposit pacing charts.",
     tech: ["Python", "Streamlit", "DuckDB", "Plotly"],
     github: "https://github.com/akbknight/admissions_funnel_dashboard",
-    live: "https://akbknight.github.io/admissions_funnel_dashboard/",
+    live: "https://admissionsfunneldashboard-8pbzttpynneixaywcls7rx.streamlit.app/",
   },
   {
     title: "Economic Scenario Analysis",
