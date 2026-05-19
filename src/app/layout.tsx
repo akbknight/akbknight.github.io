@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LenisProvider } from "@/components/LenisProvider";
@@ -35,6 +36,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={mono.variable} suppressHydrationWarning>
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZNVJE10PWP"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZNVJE10PWP');
+          `}
+        </Script>
         {/* Fontshare: Zodiak (editorial display serif) + Satoshi (clean sans) */}
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link
