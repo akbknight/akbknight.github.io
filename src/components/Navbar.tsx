@@ -12,7 +12,6 @@ const NAV_ITEMS = [
   { name: "Life", path: "/life" },
 ];
 
-// AK monogram SVG logo
 const AKLogo = () => (
   <svg
     width="28"
@@ -24,18 +23,11 @@ const AKLogo = () => (
     role="img"
   >
     <rect width="28" height="28" rx="6" fill="var(--accent)" />
-    {/* A */}
-    <path
-      d="M5 21L8.5 9H10L13.5 21H12L11.2 18H7.2L6.5 21H5ZM7.6 16.8H10.8L9.2 11.2L7.6 16.8Z"
-      fill="#09090B"
-      fontSize="13"
-      fontWeight="700"
-    />
-    {/* K */}
-    <path
-      d="M15 9H16.5V14.2L20.5 9H22.3L18.5 14L22.5 21H20.7L17.5 15.5L16.5 16.7V21H15V9Z"
-      fill="#09090B"
-    />
+    <g stroke="#09090B" fill="none" strokeWidth="2.8">
+      <path d="M5 23 L13 5 L13 23" strokeLinecap="square" strokeLinejoin="miter" />
+      <line x1="8" y1="16" x2="13" y2="16" strokeLinecap="butt" />
+      <path d="M24 5 L13 13 L24 23" strokeLinecap="square" strokeLinejoin="miter" />
+    </g>
   </svg>
 );
 

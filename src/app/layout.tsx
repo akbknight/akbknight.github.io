@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   title: "Akshay Kumar",
   description:
     "Software engineer and MBA candidate at American University. Former U.S. Department of State programmer. Building data pipelines, dashboards, and AI tools.",
+  icons: {
+    icon: [
+      { url: "/brand/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/brand/favicon.svg",
+  },
   openGraph: {
     title: "Akshay Kumar",
     description: "Software engineer. MBA candidate. Former U.S. State Dept.",
