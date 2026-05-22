@@ -1,6 +1,6 @@
 # akbknight.github.io
 
-Personal portfolio website for Akshay Kumar — software engineer and MBA candidate specializing in data analytics and business intelligence. Live at [akbknight.github.io](https://akbknight.github.io).
+Personal portfolio website for Akshay Kumar = software engineer and MBA candidate specializing in data analytics and business intelligence. Live at [akbknight.github.io](https://akbknight.github.io).
 
 ## What this project is
 
