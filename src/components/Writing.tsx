@@ -14,7 +14,7 @@ export const Writing = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.45 }}
-        className="group flex gap-6 rounded-xl border border-[var(--border)] p-6 transition-all duration-300 hover:border-white/12 hover:bg-white/[0.02]"
+        className="card-surface group flex gap-6 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] p-6 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
       >
         {/* Book cover */}
         <a
@@ -38,13 +38,13 @@ export const Writing = () => {
 
         {/* Content */}
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-1">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200 mb-1">
             Dawn&apos;s Hunger
           </h3>
-          <p className="text-[11px] font-mono text-[var(--text-muted)] italic mb-3">
+          <p className="text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400 italic mb-3">
             &ldquo;When desire crosses oceans, even touchless love burns.&rdquo;
           </p>
-          <p className="text-[12px] text-[var(--text-muted)] leading-relaxed mb-4">
+          <p className="text-[12px] text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
             A narrative exploration of urban isolation and the unseen forces that drive us.
           </p>
           <div className="flex flex-wrap items-center gap-4">
@@ -52,7 +52,7 @@ export const Writing = () => {
               href="https://www.amazon.com/dp/B0FCMZW2N1"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-[var(--text-2)] hover:text-[var(--accent)] transition-colors duration-200"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-zinc-700 dark:text-zinc-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors duration-200"
             >
               Amazon Kindle
               <ExternalLink className="w-3 h-3" aria-hidden="true" />
@@ -61,7 +61,7 @@ export const Writing = () => {
               href="https://books.apple.com/us/book/dawns-hunger/id6746973914"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-[var(--text-2)] hover:text-[var(--accent)] transition-colors duration-200"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-zinc-700 dark:text-zinc-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors duration-200"
             >
               Apple Books
               <ExternalLink className="w-3 h-3" aria-hidden="true" />
@@ -80,18 +80,18 @@ export const Writing = () => {
       >
         <Link
           href="/life"
-          className="group flex items-center justify-between rounded-xl border border-[var(--border)] px-6 py-4 transition-all duration-300 hover:border-white/12 hover:bg-white/[0.02]"
+          className="card-surface group flex items-center justify-between rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] px-6 py-4 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
         >
           <div>
-            <p className="text-[13px] font-medium text-[var(--text)] group-hover:text-[var(--accent)] transition-colors duration-200">
+            <p className="text-[13px] font-medium text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200">
               Photography &amp; more
             </p>
-            <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
               Pexels contributor · Beyond the terminal
             </p>
           </div>
           <svg
-            className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all duration-200 shrink-0"
+            className="w-4 h-4 text-zinc-400 dark:text-zinc-500 group-hover:text-sky-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all duration-200 shrink-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

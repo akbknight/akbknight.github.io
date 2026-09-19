@@ -160,10 +160,10 @@ export const Projects = () => {
     <section id="projects" className="pt-2">
       <div className="mb-6">
         <span className="section-label">04 · Flagship Projects</span>
-        <h3 className="text-xl font-bold tracking-tight text-white mt-1">
+        <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
           Production Systems &amp; Technical Audits
         </h3>
-        <p className="text-xs text-zinc-400 mt-1">
+        <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
           Selected high-impact engineering repositories demonstrating forensic auditing, big data pipelines, and econometric modeling.
         </p>
       </div>
@@ -173,34 +173,34 @@ export const Projects = () => {
         {featured.map((p, idx) => (
           <div
             key={p.title}
-            className="card-surface p-5 rounded-xl flex flex-col justify-between group relative border border-white/[0.08]"
+            className="card-surface p-5 rounded-xl flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/30"
           >
             <div>
               {/* Badge & Category Header */}
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                   {p.badge}
                 </span>
-                <span className="text-[10px] font-mono-code text-zinc-500">
+                <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">
                   {p.category}
                 </span>
               </div>
 
               {/* Title */}
-              <h4 className="text-base font-bold text-white group-hover:text-sky-400 transition-colors flex items-center gap-1.5">
+              <h4 className="text-base font-bold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors flex items-center gap-1.5">
                 {p.title}
               </h4>
 
               {/* Description */}
-              <p className="text-xs text-zinc-300 mt-2.5 leading-relaxed">
+              <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-2.5 leading-relaxed">
                 {p.description}
               </p>
 
               {/* Impact Metrics Grid */}
-              <div className="grid grid-cols-2 gap-1.5 mt-4 pt-3 border-t border-white/[0.06]">
+              <div className="grid grid-cols-2 gap-1.5 mt-4 pt-3 border-t border-zinc-100 dark:border-white/[0.06]">
                 {p.metrics.map((m) => (
-                  <div key={m} className="text-[10px] font-mono-code text-zinc-300 flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-400" />
+                  <div key={m} className="text-[10px] font-mono-code text-zinc-700 dark:text-zinc-300 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400" />
                     <span>{m}</span>
                   </div>
                 ))}
@@ -208,7 +208,7 @@ export const Projects = () => {
             </div>
 
             {/* Bottom Tech Stack & Action Links */}
-            <div className="mt-5 pt-3 border-t border-white/[0.06] flex items-center justify-between">
+            <div className="mt-5 pt-3 border-t border-zinc-100 dark:border-white/[0.06] flex items-center justify-between">
               <div className="flex flex-wrap gap-1">
                 {p.tech.slice(0, 3).map((t) => (
                   <span key={t} className="tech-pill">
@@ -224,7 +224,7 @@ export const Projects = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View ${p.title} source code on GitHub`}
-                    className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                    className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors"
                   >
                     <Github className="w-4 h-4" />
                   </a>
@@ -235,7 +235,7 @@ export const Projects = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View live demo of ${p.title}`}
-                    className="p-1.5 rounded text-zinc-400 hover:text-sky-400 hover:bg-zinc-800 transition-colors"
+                    className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
                   </a>
@@ -247,9 +247,9 @@ export const Projects = () => {
       </div>
 
       {/* Secondary Project Directory Header & Filter */}
-      <div className="pt-4 border-t border-white/[0.08]">
+      <div className="pt-4 border-t border-zinc-200 dark:border-white/[0.08]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-          <h4 className="text-sm font-bold text-zinc-200 uppercase font-mono-code tracking-wider">
+          <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 uppercase font-mono-code tracking-wider">
             Engineering Archive &amp; Tooling
           </h4>
 
@@ -259,10 +259,10 @@ export const Projects = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`text-[10px] font-mono-code px-2 py-1 rounded transition-colors ${
+                className={`text-[10px] font-mono-code px-2 py-1 rounded transition-colors cursor-pointer ${
                   selectedCategory === cat
-                    ? "bg-sky-500/20 text-sky-400 border border-sky-500/30"
-                    : "bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 border border-zinc-800"
+                    ? "bg-sky-50 text-sky-700 border border-sky-300 dark:bg-sky-500/20 dark:text-sky-400 dark:border-sky-500/30"
+                    : "bg-zinc-100 dark:bg-zinc-900/60 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 border border-zinc-200 dark:border-zinc-800"
                 }`}
               >
                 {cat}
@@ -276,22 +276,22 @@ export const Projects = () => {
           {secondary.map((p) => (
             <div
               key={p.title}
-              className="card-surface p-3.5 rounded-lg border border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              className="card-surface p-3.5 rounded-lg border border-zinc-200/80 dark:border-white/[0.06] bg-white dark:bg-[#0E0E14] shadow-xs dark:shadow-none flex flex-col sm:flex-row sm:items-center justify-between gap-3"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono-code text-zinc-500">{p.category}</span>
-                  <span className="text-zinc-600">·</span>
-                  <h5 className="text-xs font-semibold text-white hover:text-sky-400 transition-colors">
+                  <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">{p.category}</span>
+                  <span className="text-zinc-400 dark:text-zinc-600">·</span>
+                  <h5 className="text-xs font-semibold text-zinc-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                     {p.title}
                   </h5>
                 </div>
-                <p className="text-[11px] text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
                   {p.description}
                 </p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   {p.tech.map((t) => (
-                    <span key={t} className="text-[9px] font-mono-code text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
+                    <span key={t} className="text-[9px] font-mono-code text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800">
                       {t}
                     </span>
                   ))}
@@ -305,7 +305,7 @@ export const Projects = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`GitHub repo for ${p.title}`}
-                    className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                    className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors"
                   >
                     <Github className="w-3.5 h-3.5" />
                   </a>
@@ -316,7 +316,7 @@ export const Projects = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Live site for ${p.title}`}
-                    className="p-1.5 rounded text-zinc-400 hover:text-sky-400 hover:bg-zinc-800 transition-colors"
+                    className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>

@@ -85,7 +85,7 @@ export const CustomCursor = () => {
         style={{ ...base, x: ringX, y: ringY, width: RING, height: RING }}
         animate={{
           borderRadius: "50%",
-          border: "1px solid rgba(255,255,255,0.18)",
+          border: "1.5px solid var(--accent)",
           scale: active ? 1.5 : 1,
           opacity: visible ? 0.7 : 0,
         }}

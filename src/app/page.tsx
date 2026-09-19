@@ -50,15 +50,15 @@ export default function Home() {
 
             {/* Accessible Executive Footer */}
             <footer
-              className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-white/[0.08]"
+              className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/[0.08]"
             >
-              <p className="text-[11px] font-mono-code text-zinc-400">
+              <p className="text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400">
                 Architected &amp; engineered by Akshay Kumar · {new Date().getFullYear()}
               </p>
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setIsResumeOpen(true)}
-                  className="text-[11px] font-mono-code text-sky-400 hover:text-sky-300 transition-colors"
+                  className="text-[11px] font-mono-code text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors cursor-pointer"
                 >
                   Curriculum Vitae (PDF) ↗
                 </button>
@@ -66,13 +66,13 @@ export default function Home() {
                   href="https://github.com/akbknight/akbknight.github.io"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[11px] font-mono-code text-zinc-400 hover:text-sky-400 transition-colors"
+                  className="text-[11px] font-mono-code text-zinc-500 hover:text-sky-600 dark:text-zinc-400 dark:hover:text-sky-400 transition-colors"
                 >
                   Source Code ↗
                 </a>
                 <a
                   href="/life"
-                  className="text-[11px] font-mono-code text-zinc-400 hover:text-sky-400 transition-colors"
+                  className="text-[11px] font-mono-code text-zinc-500 hover:text-sky-600 dark:text-zinc-400 dark:hover:text-sky-400 transition-colors"
                 >
                   Photography &amp; Essays ↗
                 </a>

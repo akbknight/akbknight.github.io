@@ -138,22 +138,22 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl bg-[#0B0B10] border border-white/[0.12] shadow-2xl shadow-sky-950/30 overflow-hidden text-zinc-100"
+            className="relative z-10 w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl bg-white dark:bg-[#0B0B10] border border-zinc-200 dark:border-white/[0.12] shadow-2xl shadow-black/20 dark:shadow-sky-950/30 overflow-hidden text-zinc-900 dark:text-zinc-100"
           >
             {/* Top Bar Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 border-b border-white/[0.08] bg-[#07070A]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 border-b border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-[#07070A]">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+                <div className="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+                  <h2 className="text-sm font-semibold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
                     Akshay Kumar · Executive Résumé
-                    <span className="text-[10px] font-mono-code font-medium px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                    <span className="text-[10px] font-mono-code font-medium px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
                       Verified 2026–2027
                     </span>
                   </h2>
-                  <p className="text-[11px] font-mono-code text-zinc-400">
+                  <p className="text-[11px] font-mono-code text-zinc-600 dark:text-zinc-400">
                     Washington, DC · American University Kogod MBA (STEM) · Ex-U.S. State Dept
                   </p>
                 </div>
@@ -164,7 +164,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                 <a
                   href="/assets/Akshay_Resume.pdf"
                   download="Akshay_Kumar_Resume.pdf"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-[#050507] text-xs font-semibold tracking-tight transition-all duration-150 shadow-[0_0_15px_rgba(56,189,248,0.35)]"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-[#050507] text-xs font-semibold tracking-tight transition-all duration-150 shadow-sm dark:shadow-[0_0_15px_rgba(56,189,248,0.35)]"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download PDF</span>
@@ -174,27 +174,27 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                   href="https://www.linkedin.com/in/akshaykumardl/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-200 border border-white/10 text-xs font-medium transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border border-zinc-300 dark:bg-zinc-800/80 dark:hover:bg-zinc-700/80 dark:text-zinc-200 dark:border-white/10 text-xs font-medium transition-colors"
                 >
-                  <Linkedin className="w-3.5 h-3.5 text-sky-400" />
+                  <Linkedin className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
                   <span className="hidden sm:inline">LinkedIn</span>
-                  <ExternalLink className="w-3 h-3 text-zinc-400" />
+                  <ExternalLink className="w-3 h-3 text-zinc-500 dark:text-zinc-400" />
                 </a>
 
                 <button
                   onClick={handleCopyEmail}
                   aria-label="Copy Akshay Kumar email address"
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-300 border border-white/10 text-xs font-medium transition-colors"
+                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 border border-zinc-300 dark:bg-zinc-800/80 dark:hover:bg-zinc-700/80 dark:text-zinc-300 dark:border-white/10 text-xs font-medium transition-colors cursor-pointer"
                   title="Copy email to clipboard"
                 >
                   {copiedEmail ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-[11px] text-emerald-400">Copied</span>
+                      <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Copied</span>
                     </>
                   ) : (
                     <>
-                      <Mail className="w-3.5 h-3.5 text-zinc-400" />
+                      <Mail className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
                       <span className="hidden md:inline text-[11px]">Copy Email</span>
                     </>
                   )}
@@ -203,7 +203,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                 <button
                   onClick={onClose}
                   aria-label="Close résumé modal"
-                  className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors ml-1"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors ml-1 cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -211,13 +211,13 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex items-center gap-2 px-6 pt-3 border-b border-white/[0.06] bg-[#07070A]/50">
+            <div className="flex items-center gap-2 px-6 pt-3 border-b border-zinc-200 dark:border-white/[0.06] bg-zinc-100/50 dark:bg-[#07070A]/50">
               <button
                 onClick={() => setActiveTab("highlights")}
-                className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors ${
+                className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors cursor-pointer ${
                   activeTab === "highlights"
-                    ? "border-sky-400 text-sky-400"
-                    : "border-transparent text-zinc-400 hover:text-zinc-200"
+                    ? "border-sky-600 dark:border-sky-400 text-sky-700 dark:text-sky-400 font-semibold"
+                    : "border-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
                 }`}
               >
                 <Briefcase className="w-3.5 h-3.5" />
@@ -226,10 +226,10 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
 
               <button
                 onClick={() => setActiveTab("pdf")}
-                className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors ${
+                className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors cursor-pointer ${
                   activeTab === "pdf"
-                    ? "border-sky-400 text-sky-400"
-                    : "border-transparent text-zinc-400 hover:text-zinc-200"
+                    ? "border-sky-600 dark:border-sky-400 text-sky-700 dark:text-sky-400 font-semibold"
+                    : "border-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
                 }`}
               >
                 <Eye className="w-3.5 h-3.5" />
@@ -238,10 +238,10 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
 
               <button
                 onClick={() => setActiveTab("ats")}
-                className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors ${
+                className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors cursor-pointer ${
                   activeTab === "ats"
-                    ? "border-sky-400 text-sky-400"
-                    : "border-transparent text-zinc-400 hover:text-zinc-200"
+                    ? "border-sky-600 dark:border-sky-400 text-sky-700 dark:text-sky-400 font-semibold"
+                    : "border-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
                 }`}
               >
                 <Terminal className="w-3.5 h-3.5" />
@@ -255,37 +255,37 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
               {activeTab === "highlights" && (
                 <div className="space-y-8 text-sm">
                   {/* Executive Summary */}
-                  <div className="p-4 rounded-xl border border-sky-500/20 bg-sky-950/15">
-                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-sky-400 mb-2">
+                  <div className="p-4 rounded-xl border border-sky-300 bg-sky-50 dark:border-sky-500/20 dark:bg-sky-950/15">
+                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400 mb-2">
                       Professional Trajectory
                     </h3>
-                    <p className="text-zinc-200 leading-relaxed text-xs sm:text-sm">
+                    <p className="text-zinc-800 dark:text-zinc-200 leading-relaxed text-xs sm:text-sm">
                       MBA candidate (Business Analytics &amp; AI) with 7+ years turning government and financial-services data into leadership decisions — vetting-system rollout across 10+ U.S. embassies, visa and fee-revenue analytics for mission leadership, and a financial-research platform licensed by four major U.S. banks.
                     </p>
                   </div>
 
                   {/* Experience Timeline */}
                   <div>
-                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-400 mb-4 flex items-center gap-2">
-                      <Briefcase className="w-3.5 h-3.5 text-sky-400" />
+                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-4 flex items-center gap-2">
+                      <Briefcase className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
                       Professional Experience
                     </h3>
 
                     <div className="space-y-6">
                       {/* American University */}
-                      <div className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
+                      <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
-                          <h4 className="font-semibold text-white text-sm">
+                          <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
                             Research Assistant (Part-Time)
                           </h4>
-                          <span className="text-[11px] font-mono-code text-sky-400">
+                          <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
                             Nov 2025 – Apr 2026
                           </span>
                         </div>
-                        <p className="text-xs text-zinc-300 font-medium mb-3">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
                           American University, Kogod School of Business · Washington, DC
                         </p>
-                        <ul className="space-y-2 text-xs text-zinc-300 leading-relaxed list-disc list-inside">
+                        <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
                             Authored background materials and a strategic research brief on technology policy adoption across 20+ peer institutions, delivering findings and talking points directly to Kogod School senior leadership to inform institutional decision-making.
                           </li>
@@ -296,19 +296,19 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                       </div>
 
                       {/* U.S. Department of State */}
-                      <div className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
+                      <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
-                          <h4 className="font-semibold text-white text-sm">
+                          <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
                             Computer Programmer · Diplomatic Systems &amp; Analytics
                           </h4>
-                          <span className="text-[11px] font-mono-code text-sky-400">
+                          <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
                             Nov 2022 – Sep 2025
                           </span>
                         </div>
-                        <p className="text-xs text-zinc-300 font-medium mb-3">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
                           U.S. Department of State · New Delhi, India
                         </p>
-                        <ul className="space-y-2 text-xs text-zinc-300 leading-relaxed list-disc list-inside">
+                        <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
                             Supported U.S. government relations and global policy operations by leading rollout of a diplomatic vetting system across 10+ embassies in South Asia, Europe, and Africa, navigating complex cross-jurisdictional policy and reputational compliance requirements.
                           </li>
@@ -325,42 +325,42 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                       </div>
 
                       {/* AIS Info · Capital One */}
-                      <div className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
+                      <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
-                          <h4 className="font-semibold text-white text-sm">
+                          <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
                             Software Engineer · Java Backend Developer
                           </h4>
-                          <span className="text-[11px] font-mono-code text-sky-400">
+                          <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
                             Nov 2021 – Nov 2022
                           </span>
                         </div>
-                        <p className="text-xs text-zinc-300 font-medium mb-3">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
                           AIS Info · Capital One · Gurugram, India
                         </p>
-                        <ul className="space-y-2 text-xs text-zinc-300 leading-relaxed list-disc list-inside">
+                        <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
                             Built a financial research platform for Capital One aggregating bankruptcy filings and deceased-identity records from U.S. court and public sources, enabling analyst teams to conduct credit and compliance research at scale.
                           </li>
                           <li>
-                            Supported new business development by producing data outputs and research reports that led <strong className="text-white">Wells Fargo, JP Morgan, and Chase</strong> to independently license the platform for their own financial research and compliance operations.
+                            Supported new business development by producing data outputs and research reports that led <strong className="text-zinc-900 dark:text-white">Wells Fargo, JP Morgan, and Chase</strong> to independently license the platform for their own financial research and compliance operations.
                           </li>
                         </ul>
                       </div>
 
                       {/* MS Star Computers */}
-                      <div className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
+                      <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
-                          <h4 className="font-semibold text-white text-sm">
+                          <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
                             Software Application Developer
                           </h4>
-                          <span className="text-[11px] font-mono-code text-sky-400">
+                          <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
                             Jul 2018 – Nov 2021
                           </span>
                         </div>
-                        <p className="text-xs text-zinc-300 font-medium mb-3">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
                           MS Star Computers Pvt Ltd · New Delhi, India
                         </p>
-                        <ul className="space-y-2 text-xs text-zinc-300 leading-relaxed list-disc list-inside">
+                        <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
                             Managed multiple client projects simultaneously for a government client and two private companies, balancing shifting priorities across all three engagements while meeting deadlines and maintaining quality of deliverables.
                           </li>
@@ -374,49 +374,49 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
 
                   {/* Education & Leadership */}
                   <div>
-                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-400 mb-4 flex items-center gap-2">
-                      <GraduationCap className="w-3.5 h-3.5 text-sky-400" />
+                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-4 flex items-center gap-2">
+                      <GraduationCap className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
                       Education &amp; Leadership
                     </h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
+                      <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex items-center justify-between gap-2 mb-1">
-                          <h4 className="font-semibold text-white text-sm">
+                          <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
                             American University
                           </h4>
-                          <span className="text-[10px] font-mono-code text-sky-400">
+                          <span className="text-[10px] font-mono-code text-sky-700 dark:text-sky-400">
                             Expected May 2027
                           </span>
                         </div>
-                        <p className="text-xs text-zinc-300 mb-2 font-medium">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-300 mb-2 font-medium">
                           Kogod School of Business · Washington, DC
                         </p>
-                        <p className="text-xs text-zinc-400 leading-relaxed mb-2">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-2">
                           Master of Business Administration (MBA): STEM Designation · Specialization: Business Analytics &amp; AI
                         </p>
-                        <p className="text-[11px] text-zinc-300 leading-relaxed bg-white/[0.03] p-2 rounded border border-white/[0.05]">
-                          <strong className="text-sky-300">Operations Leader, Analytics Club at AU:</strong> Organizing speaker events, coordinating meetings, and managing projects for 50+ members.
+                        <p className="text-[11px] text-zinc-700 dark:text-zinc-300 leading-relaxed bg-zinc-100 dark:bg-white/[0.03] p-2 rounded border border-zinc-200 dark:border-white/[0.05]">
+                          <strong className="text-sky-700 dark:text-sky-300">Operations Leader, Analytics Club at AU:</strong> Organizing speaker events, coordinating meetings, and managing projects for 50+ members.
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
+                      <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex items-center justify-between gap-2 mb-1">
-                          <h4 className="font-semibold text-white text-sm">
+                          <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
                             Maharishi Dayanand Univ.
                           </h4>
-                          <span className="text-[10px] font-mono-code text-zinc-400">
+                          <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">
                             Aug 2021
                           </span>
                         </div>
-                        <p className="text-xs text-zinc-300 mb-2 font-medium">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-300 mb-2 font-medium">
                           Bachelor of Technology (B.Tech) · CSE
                         </p>
-                        <p className="text-xs text-zinc-400 leading-relaxed mb-2">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-2">
                           Earned full tuition waiver based on national merit ranking (AIR 1245) across state exams.
                         </p>
-                        <div className="pt-2 border-t border-white/[0.05]">
-                          <p className="text-[11px] text-zinc-400">
+                        <div className="pt-2 border-t border-zinc-200 dark:border-white/[0.05]">
+                          <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
                             <strong>Govt Polytechnic Jhajjar:</strong> Polytechnic Diploma in Computer Engineering (May 2018).
                           </p>
                         </div>
@@ -426,29 +426,29 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
 
                   {/* Skills & Certifications */}
                   <div>
-                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-400 mb-4 flex items-center gap-2">
-                      <Award className="w-3.5 h-3.5 text-sky-400" />
+                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-4 flex items-center gap-2">
+                      <Award className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
                       Skills &amp; Enterprise Certifications
                     </h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <div className="p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02]">
-                        <h4 className="text-xs font-semibold text-white mb-2">Analytics &amp; Modeling</h4>
-                        <p className="text-xs text-zinc-400 leading-relaxed">
+                      <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
+                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Analytics &amp; Modeling</h4>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                           Python (pandas, statsmodels, scipy), SQL, Power BI, Tableau, Streamlit, DuckDB, Excel Advanced Modeling.
                         </p>
                       </div>
 
-                      <div className="p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02]">
-                        <h4 className="text-xs font-semibold text-white mb-2">Cloud &amp; Systems</h4>
-                        <p className="text-xs text-zinc-400 leading-relaxed">
+                      <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
+                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Cloud &amp; Systems</h4>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                           AWS S3, Microsoft Azure, Power Apps, Power Automate, SharePoint, MySQL, Java, Git/GitHub Actions.
                         </p>
                       </div>
 
-                      <div className="p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02]">
-                        <h4 className="text-xs font-semibold text-white mb-2">Verified Credentials</h4>
-                        <p className="text-xs text-zinc-400 leading-relaxed">
+                      <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
+                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Verified Credentials</h4>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                           Azure Administrator Associate · Red Hat Certified System Administrator (RHCSA) · Full Stack MERN.
                         </p>
                       </div>
@@ -460,21 +460,21 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
               {/* TAB 2: ORIGINAL PDF VIEWER */}
               {activeTab === "pdf" && (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-white/[0.03] border border-white/[0.08] text-xs">
-                    <span className="text-zinc-300 font-mono-code">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.08] text-xs">
+                    <span className="text-zinc-700 dark:text-zinc-300 font-mono-code">
                       File: Akshay_Resume.pdf (369 KB) · High-Resolution PDF
                     </span>
                     <a
                       href="/assets/Akshay_Resume.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 font-medium"
+                      className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium"
                     >
                       Open in Full Tab <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
 
-                  <div className="w-full h-[65vh] rounded-xl overflow-hidden border border-white/10 bg-zinc-900 shadow-inner">
+                  <div className="w-full h-[65vh] rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-900 shadow-inner">
                     <iframe
                       src="/assets/Akshay_Resume.pdf#toolbar=1&navpanes=0"
                       className="w-full h-full"
@@ -482,12 +482,12 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                     />
                   </div>
 
-                  <p className="text-[11px] text-zinc-400 text-center font-mono-code">
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 text-center font-mono-code">
                     PDF rendering not working on your mobile device?{" "}
                     <a
                       href="/assets/Akshay_Resume.pdf"
                       download="Akshay_Kumar_Resume.pdf"
-                      className="text-sky-400 underline"
+                      className="text-sky-600 dark:text-sky-400 underline"
                     >
                       Tap here to download directly
                     </a>
@@ -500,28 +500,28 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
               {activeTab === "ats" && (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-zinc-400 font-mono-code">
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 font-mono-code">
                       Pristine plain text formatted for seamless copy-pasting into Applicant Tracking Systems (ATS).
                     </p>
                     <button
                       onClick={handleCopyText}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-mono-code border border-white/10 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border border-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-white dark:border-white/10 text-xs font-mono-code transition-colors cursor-pointer"
                     >
                       {copiedText ? (
                         <>
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                          <span className="text-emerald-400">Copied to Clipboard</span>
+                          <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                          <span className="text-emerald-600 dark:text-emerald-400 font-medium">Copied to Clipboard</span>
                         </>
                       ) : (
                         <>
-                          <Copy className="w-3.5 h-3.5 text-zinc-400" />
+                          <Copy className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
                           <span>Copy Plain Text</span>
                         </>
                       )}
                     </button>
                   </div>
 
-                  <pre className="p-4 rounded-xl bg-[#060609] border border-white/[0.08] text-[11px] font-mono-code text-zinc-300 leading-relaxed whitespace-pre-wrap overflow-x-auto max-h-[60vh]">
+                  <pre className="p-4 rounded-xl bg-zinc-50 dark:bg-[#060609] border border-zinc-200 dark:border-white/[0.08] text-[11px] font-mono-code text-zinc-800 dark:text-zinc-300 leading-relaxed whitespace-pre-wrap overflow-x-auto max-h-[60vh]">
                     {RESUME_PLAIN_TEXT}
                   </pre>
                 </div>
@@ -529,7 +529,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             </div>
 
             {/* Bottom Footer Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-3 border-t border-white/[0.08] bg-[#07070A] text-xs text-zinc-400">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-3 border-t border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-[#07070A] text-xs text-zinc-600 dark:text-zinc-400">
               <div className="flex items-center gap-4">
                 <span>📍 Washington, DC</span>
                 <span>✉️ ak8335a@american.edu</span>
@@ -540,7 +540,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                   href="https://www.linkedin.com/in/akshaykumardl/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sky-400 hover:text-sky-300 font-medium transition-colors"
+                  className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors"
                 >
                   linkedin.com/in/akshaykumardl ↗
                 </a>

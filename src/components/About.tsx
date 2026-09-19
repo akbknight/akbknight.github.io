@@ -35,32 +35,32 @@ export const About = () => {
       >
         <p className="section-label mb-5">01 · About &amp; Focus</p>
 
-        <div className="space-y-4 text-sm text-[var(--text-2)] leading-relaxed">
+        <div className="space-y-4 text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
           <p>
             I&apos;m an analytics engineer and STEM MBA candidate at{" "}
-            <span className="text-white font-medium">
+            <span className="text-zinc-900 dark:text-white font-semibold">
               American University&apos;s Kogod School of Business
             </span>{" "}
-            (Washington, DC · Expected May 2027), specializing in Business Analytics &amp; Artificial Intelligence. I also serve as{" "}
-            <span className="text-white font-medium">Operations Leader for the Analytics Club at AU</span>, managing collaborative projects and executive speaker programs for 50+ members.
+            (Washington, DC · Expected May 2027), concentrating in Business Analytics &amp; Artificial Intelligence. I also serve as{" "}
+            <span className="text-zinc-900 dark:text-white font-semibold">Operations Leader for the Analytics Club at AU</span>, managing collaborative projects and executive speaker programs for 50+ members.
           </p>
           <p>
             Prior to business school, I spent three years as a computer programmer at the{" "}
-            <span className="text-white font-medium">
+            <span className="text-zinc-900 dark:text-white font-semibold">
               U.S. Department of State
             </span>{" "}
             in New Delhi — leading the cross-jurisdictional rollout of a diplomatic vetting system across 10+ embassies in South Asia, Europe, and Africa, while delivering consular fee-revenue and visa analytics directly to mission leadership.
           </p>
           <p>
             Before my government service, I built enterprise backend and financial research infrastructure for{" "}
-            <span className="text-white font-medium">Capital One</span> through AIS Info, ingesting and normalizing court filings across 3,000+ public sources. The platform&apos;s high-throughput performance led{" "}
-            <span className="text-white font-medium">Wells Fargo, JP Morgan, and Chase</span> to independently license the technology for their own compliance operations.
+            <span className="text-zinc-900 dark:text-white font-semibold">Capital One</span> through AIS Info, ingesting and normalizing court filings across 3,000+ public sources. The platform&apos;s high-throughput performance led{" "}
+            <span className="text-zinc-900 dark:text-white font-semibold">Wells Fargo, JP Morgan, and Chase</span> to independently license the technology for their own compliance operations.
           </p>
           <p>
             Today, I focus on the intersection of high-throughput data engineering, econometric forecasting, and AI systems analysis. Outside of code, I&apos;m a{" "}
             <a
               href="/life"
-              className="text-white underline underline-offset-4 decoration-white/20 hover:decoration-sky-400 hover:text-sky-300 transition-all duration-150"
+              className="text-zinc-900 dark:text-white font-medium underline underline-offset-4 decoration-zinc-300 dark:decoration-white/20 hover:decoration-sky-500 hover:text-sky-600 dark:hover:text-sky-300 transition-all duration-150"
             >
               published author
             </a>{" "}
@@ -73,7 +73,7 @@ export const About = () => {
           {SKILLS.map((skill) => (
             <span
               key={skill}
-              className="text-[11px] font-mono-code text-zinc-300 border border-white/[0.08] bg-[#09090E] px-2.5 py-1.5 rounded-lg hover:text-sky-300 hover:border-sky-500/30 transition-all duration-150"
+              className="text-[11px] font-mono-code text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-xs dark:shadow-none px-2.5 py-1.5 rounded-lg hover:text-sky-600 dark:hover:text-sky-300 hover:border-sky-400/40 dark:hover:border-sky-500/30 transition-all duration-150"
             >
               {skill}
             </span>
