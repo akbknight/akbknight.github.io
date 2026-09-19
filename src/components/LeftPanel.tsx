@@ -1,247 +1,167 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Mail, BookOpen, Sun, Moon, FileText } from "lucide-react";
+import { motion } from "framer-motion";
+import { Github, Linkedin, Mail, BookOpen, Sun, Moon, FileText, ArrowUpRight } from "lucide-react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useTheme } from "@/components/ThemeProvider";
 
 const NAV_SECTIONS = [
-  { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
-  { id: "projects", label: "Projects" },
-  { id: "writing", label: "Writing" },
-  { id: "contact", label: "Contact" },
-  { id: "photography", label: "Photography" },
+  { id: "about", label: "01 · About" },
+  { id: "experience", label: "02 · Experience" },
+  { id: "architecture", label: "03 · Data Architecture" },
+  { id: "projects", label: "04 · Flagship Projects" },
+  { id: "writing", label: "05 · Publications & Notes" },
+  { id: "contact", label: "06 · Contact" },
 ];
 
 const SOCIALS = [
   {
     href: "https://github.com/akbknight",
-    label: "GitHub",
-    icon: <Github className="w-[18px] h-[18px]" />,
+    label: "GitHub Profile",
+    icon: <Github className="w-4 h-4" />,
   },
   {
     href: "https://www.linkedin.com/in/akshaykumardl/",
-    label: "LinkedIn",
-    icon: <Linkedin className="w-[18px] h-[18px]" />,
+    label: "LinkedIn Profile",
+    icon: <Linkedin className="w-4 h-4" />,
   },
   {
     href: "mailto:ak8335a@american.edu",
-    label: "Email",
-    icon: <Mail className="w-[18px] h-[18px]" />,
+    label: "Email Contact",
+    icon: <Mail className="w-4 h-4" />,
   },
   {
     href: "/life",
-    label: "Writing & Photography",
-    icon: <BookOpen className="w-[18px] h-[18px]" />,
+    label: "Essays & Photography",
+    icon: <BookOpen className="w-4 h-4" />,
     internal: true,
   },
   {
     href: "https://www.linkedin.com/in/akshaykumardl/",
-    label: "View résumé on LinkedIn",
-    icon: <FileText className="w-[18px] h-[18px]" />,
+    label: "View Résumé",
+    icon: <FileText className="w-4 h-4" />,
   },
-];
-
-const ROTATING_WORDS = [
-  "analytics dashboards",
-  "data pipelines",
-  "predictive models",
-  "AI tools",
 ];
 
 export const LeftPanel = () => {
   const activeId = useScrollSpy(NAV_SECTIONS.map((s) => s.id));
   const { theme, toggle } = useTheme();
-  const [wordIndex, setWordIndex] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setWordIndex((i) => (i + 1) % ROTATING_WORDS.length);
-    }, 2800);
-    return () => clearInterval(t);
-  }, []);
 
   return (
     <div className="flex flex-col justify-between h-full">
-      {/* Hero block */}
+      {/* Header Profile Block */}
       <div>
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Name */}
+          {/* Identity & Status */}
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-sky-500/20 bg-sky-500/5 mb-4">
+            <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
+            <span className="text-[11px] font-mono-code font-medium text-sky-400 uppercase tracking-wider">
+              Available for Strategic Roles
+            </span>
+          </div>
+
           <h1
-            className="font-bold tracking-tight"
+            className="font-bold tracking-tight text-white"
             style={{
-              fontSize: "clamp(1.9rem, 4.5vw, 2.75rem)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.03em",
-              color: "var(--text)",
+              fontSize: "clamp(2rem, 4.5vw, 2.85rem)",
+              lineHeight: 1.05,
+              letterSpacing: "-0.04em",
             }}
           >
             Akshay Kumar
           </h1>
 
-          <h2
-            className="text-base font-medium mt-2 mb-5"
-            style={{ color: "var(--text-2)", letterSpacing: "-0.01em" }}
-          >
+          <h2 className="text-base font-medium mt-2 text-zinc-300 tracking-tight">
             Analytics Engineer &amp; MBA Candidate
           </h2>
 
-          {/* Animated rotating words — two lines, no layout shift */}
-          <div className="text-sm mb-5 leading-relaxed" style={{ color: "var(--text-muted)" }}>
-            <div className="flex items-center gap-1.5">
-              <span>I build</span>
-              <span
-                style={{
-                  position: "relative",
-                  display: "inline-block",
-                  width: "160px",
-                  height: "1.3em",
-                  overflow: "hidden",
-                  verticalAlign: "bottom",
-                }}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={wordIndex}
-                    initial={{ opacity: 0, y: "100%" }}
-                    animate={{ opacity: 1, y: "0%" }}
-                    exit={{ opacity: 0, y: "-100%" }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      bottom: 0,
-                      fontWeight: 500,
-                      whiteSpace: "nowrap",
-                      color: "var(--accent)",
-                    }}
-                  >
-                    {ROTATING_WORDS[wordIndex]}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-            </div>
-            <div>— and write about what I find.</div>
-          </div>
+          {/* Metric-Driven Punchy Mission Statement */}
+          <p className="text-sm mt-4 text-zinc-400 leading-relaxed max-w-sm">
+            Former <span className="text-zinc-200 font-medium">U.S. Department of State</span> programmer &amp; Kogod MBA. Engineering high-throughput data pipelines, forensic software audits, and automated intelligence systems.
+          </p>
 
-          {/* Credentials strip */}
-          <div className="flex flex-wrap gap-1.5">
-            {["U.S. State Dept", "Kogod MBA", "AU Researcher"].map((tag) => (
-              <span
-                key={tag}
-                className="text-[10px] font-mono tracking-widest uppercase px-2 py-1 rounded-sm"
-                style={{
-                  color: "var(--text-muted)",
-                  border: "1px solid var(--border)",
-                }}
-              >
-                {tag}
-              </span>
-            ))}
+          {/* Executive Badges */}
+          <div className="flex flex-wrap gap-1.5 mt-5">
+            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-900/80 text-zinc-300 border border-zinc-800">
+              Ex-U.S. State Dept
+            </span>
+            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-900/80 text-zinc-300 border border-zinc-800">
+              Kogod MBA &apos;26
+            </span>
+            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-900/80 text-zinc-300 border border-zinc-800">
+              DataOps &amp; Audit
+            </span>
           </div>
         </motion.div>
 
-        {/* Scrollspy nav — desktop only */}
-        <nav className="mt-12 hidden lg:block" aria-label="Page sections">
-          <ul className="space-y-0.5">
-            {NAV_SECTIONS.map((section, i) => {
-              const isActive = activeId === section.id;
+        {/* Semantic Navigation with Strict Spring Physics */}
+        <nav className="mt-12 hidden lg:block" aria-label="Primary page navigation">
+          <ul className="space-y-1">
+            {NAV_SECTIONS.map((sec, i) => {
+              const isActive = activeId === sec.id;
               return (
-                <motion.li
-                  key={section.id}
-                  initial={{ opacity: 0, x: -14 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.15 + i * 0.06, duration: 0.4 }}
-                >
+                <li key={sec.id}>
                   <a
-                    href={`#${section.id}`}
-                    className="group flex items-center gap-4 py-2 transition-all duration-250"
+                    href={`#${sec.id}`}
+                    className={`group flex items-center gap-3.5 py-1.5 transition-colors duration-150 ${
+                      isActive ? "text-sky-400 font-semibold" : "text-zinc-400 hover:text-zinc-200"
+                    }`}
                   >
                     <span
-                      style={{
-                        display: "block",
-                        height: "1px",
-                        width: isActive ? "3rem" : "1.5rem",
-                        background: isActive ? "var(--text)" : "var(--text-muted)",
-                        transition: "all 0.3s ease",
-                      }}
+                      className={`h-[1px] transition-all duration-200 ${
+                        isActive ? "w-8 bg-sky-400" : "w-3 bg-zinc-600 group-hover:w-5 group-hover:bg-zinc-400"
+                      }`}
                     />
-                    <span
-                      className="text-[11px] font-mono uppercase tracking-[0.14em]"
-                      style={{
-                        color: isActive ? "var(--text)" : "var(--text-muted)",
-                        transition: "color 0.3s ease",
-                      }}
-                    >
-                      {section.label}
+                    <span className="text-xs font-mono-code uppercase tracking-widest">
+                      {sec.label}
                     </span>
                   </a>
-                </motion.li>
+                </li>
               );
             })}
           </ul>
         </nav>
       </div>
 
-      {/* Social links + theme toggle */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.55, duration: 0.5 }}
-        className="flex items-center flex-wrap gap-0.5 mt-10 lg:mt-0"
-      >
-        {SOCIALS.map(({ href, label, icon, internal }) => {
-          const cls =
-            "min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md transition-all duration-200 hover:bg-white/[0.05]";
-          const style = { color: "var(--text-muted)" };
-          return internal ? (
+      {/* Social & Contact Bar */}
+      <div className="flex items-center gap-2 mt-10 lg:mt-0 pt-6 border-t border-white/[0.06]">
+        {SOCIALS.map((soc) =>
+          soc.internal ? (
             <Link
-              key={label}
-              href={href}
-              aria-label={label}
-              className={cls}
-              style={style}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-muted)"; }}
+              key={soc.label}
+              href={soc.href}
+              aria-label={soc.label}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors border border-transparent hover:border-zinc-700/60"
             >
-              {icon}
+              {soc.icon}
             </Link>
           ) : (
             <a
-              key={label}
-              href={href}
+              key={soc.label}
+              href={soc.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={label}
-              className={cls}
-              style={style}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-muted)"; }}
+              aria-label={soc.label}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors border border-transparent hover:border-zinc-700/60"
             >
-              {icon}
+              {soc.icon}
             </a>
-          );
-        })}
+          )
+        )}
 
-        {/* Theme toggle */}
         <button
           onClick={toggle}
-          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md transition-all duration-200 hover:bg-white/[0.05]"
-          style={{ color: "var(--text-muted)" }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text)"; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-muted)"; }}
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors border border-transparent hover:border-zinc-700/60 ml-auto"
         >
-          {theme === "dark" ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
+          {theme === "dark" ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-400" />}
         </button>
-      </motion.div>
+      </div>
     </div>
   );
 };

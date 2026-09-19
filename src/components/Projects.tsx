@@ -1,365 +1,328 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Github, ExternalLink, Folder } from "lucide-react";
+import { Github, ExternalLink, ShieldAlert, Cpu, BarChart2, TrendingUp, Sparkles, Database, Layers } from "lucide-react";
 
-const FEATURED = [
+interface Project {
+  title: string;
+  badge?: string;
+  category: "Forensics & Security" | "Data Pipelines & AI" | "Macroeconomics" | "Enterprise Systems";
+  description: string;
+  tech: string[];
+  metrics: string[];
+  github: string | null;
+  live: string | null;
+  featured?: boolean;
+}
+
+const PROJECTS: Project[] = [
   {
-    title: "AI Strategic Briefing Generator",
+    title: "Deborah Research Assistant: Forensic Audit",
+    badge: "Flagship Audit",
+    category: "Forensics & Security",
     description:
-      "Autonomous analytics pipeline: any CSV → schema detection → descriptive stats → anomaly detection (Z-score + CUSUM) → Holt-Winters forecast → Claude AI narrative → self-contained HTML report. One command, zero configuration.",
-    tech: ["Python", "Claude API", "statsmodels", "Chart.js"],
-    impact: ["6-stage auto pipeline", "AI executive brief", "Zero-config deployment"],
-    github: "https://github.com/akbknight/ai-strategic-briefing",
-    live: "https://akbknight.github.io/ai-strategic-briefing/",
+      "Cryptographic post-mortem and forensic reconstruction across 62 legacy archives (43 unique SHA-256 digests) and 4,426 test cases. Uncovered critical time-of-check to time-of-use DNS-rebinding SSRF vulnerabilities, cross-platform NTFS file-lock collisions, and upstream Cloudflare 403 blocks. Built automated Continuous DataOps via GitHub Actions.",
+    tech: ["Python", "Pandas", "Matplotlib", "GitHub Actions", "AST Audit"],
+    metrics: ["62 Archives Audited", "4,426 Tests Verified", "75% Debt Resolved", "Automated CI/CD"],
+    github: "https://github.com/akbknight/deborah-research-assistant-audit",
+    live: "https://github.com/akbknight/deborah-research-assistant-audit",
+    featured: true,
   },
   {
-    title: "US Retail Sales Demand Forecast",
+    title: "IRS 990 Philanthropic Grant Miner",
+    badge: "$550B+ Analyzed",
+    category: "Data Pipelines & AI",
     description:
-      "18-month forward forecast for US Retail & Food Services Sales using Holt-Winters triple exponential smoothing on Federal Reserve (FRED) data. Interactive dashboard with 80% and 95% predictive intervals, YoY growth analysis, and in-sample model diagnostics.",
-    tech: ["Python", "statsmodels", "Pandas", "Chart.js"],
-    impact: ["135 months of FRED data", "18-month horizon", "95% CI quantified"],
-    github: "https://github.com/akbknight/us-retail-sales-forecast",
-    live: "https://akbknight.github.io/us-retail-sales-forecast/",
-  },
-  {
-    title: "IRS 990 Grant Dashboard",
-    description:
-      "End-to-end data pipeline mining 9.7M+ grant records from IRS Form 990 XML archives. Interactive dashboard mapping $550B+ in philanthropic giving across 2019–2024, classified by category and visualized with Chart.js.",
-    tech: ["Python", "Pandas", "HTML", "Chart.js"],
-    impact: ["9.7M+ records processed", "$550B+ mapped", "2019–2024 coverage"],
+      "High-throughput data engineering pipeline extracting and categorizing 9.7M+ grant records from IRS Form 990 XML archives. Mapped over $550B in charitable funding across 2019–2024 with zero API dependencies, automated entity classification, and interactive visual reporting.",
+    tech: ["Python", "Pandas", "XML Parsing", "DuckDB", "Chart.js"],
+    metrics: ["9.7M+ XML Records", "$550B+ Capital Mapped", "2019–2024 Scope", "Zero-API Engine"],
     github: "https://github.com/akbknight/irs990-grant-dashboard",
     live: "https://akbknight.github.io/irs990-grant-dashboard/",
+    featured: true,
   },
-];
-
-const OTHER = [
+  {
+    title: "AI Strategic Briefing Generator",
+    badge: "Autonomous Intelligence",
+    category: "Data Pipelines & AI",
+    description:
+      "Autonomous 6-stage analytics pipeline: Raw CSV ingestion → schema inference → statistical profiling → anomaly detection (Z-score & CUSUM) → Holt-Winters forecasting → Claude AI narrative synthesis into executive-ready HTML briefs.",
+    tech: ["Python", "Claude API", "statsmodels", "scipy", "Chart.js"],
+    metrics: ["6-Stage Pipeline", "Zero Configuration", "Automated Anomaly Detection"],
+    github: "https://github.com/akbknight/ai-strategic-briefing",
+    live: "https://akbknight.github.io/ai-strategic-briefing/",
+    featured: true,
+  },
+  {
+    title: "US Retail Demand Forecast Engine",
+    badge: "Econometric Modeling",
+    category: "Macroeconomics",
+    description:
+      "18-month forward predictive demand model for U.S. Retail & Food Services Sales using Holt-Winters triple exponential smoothing on Federal Reserve (FRED) time-series data. Features 80% and 95% predictive confidence intervals with in-sample diagnostics.",
+    tech: ["Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
+    metrics: ["135 Months FRED Data", "18-Month Horizon", "95% Predictive Intervals"],
+    github: "https://github.com/akbknight/us-retail-sales-forecast",
+    live: "https://akbknight.github.io/us-retail-sales-forecast/",
+    featured: true,
+  },
   {
     title: "Economic Anomaly Detection Monitor",
+    category: "Macroeconomics",
     description:
-      "Three-algorithm statistical monitoring system (Z-score, IQR, CUSUM) applied to Federal Reserve macroeconomic data. Detects COVID unemployment shock, 2008 GFC deflation, and 2021–22 inflation acceleration across 26 years of FRED data.",
+      "Three-algorithm statistical anomaly monitoring system (Z-Score, IQR, CUSUM) applied across 26 years of Federal Reserve macroeconomic indicators. Pinpoints shock regimes including the 2008 GFC, 2020 COVID deflation, and 2021–22 inflation spikes.",
     tech: ["Python", "scipy", "Pandas", "Chart.js"],
+    metrics: ["26 Years FRED Data", "3 Detection Algorithms"],
     github: "https://github.com/akbknight/anomaly-detection-monitor",
     live: "https://akbknight.github.io/anomaly-detection-monitor/",
   },
   {
-    title: "Diplomatic Scheduling Optimizer",
+    title: "Diplomatic Resource & Scheduling Optimizer",
+    category: "Enterprise Systems",
     description:
-      "Priority-aware resource scheduler: 180 meeting requests → 20 rooms, 150 personnel across 5 departments. Greedy constrained algorithm with multi-constraint conflict detection (capacity, clearance, attendee availability). Runs client-side.",
-    tech: ["JavaScript", "Chart.js", "Greedy Algo"],
+      "Greedy constraint-satisfaction scheduling engine built to resolve complex multi-departmental constraints: 180 high-priority meeting requests across 20 secure rooms and 150 cleared personnel. Features zero-lag client-side computation.",
+    tech: ["JavaScript", "Greedy Algorithm", "Chart.js"],
+    metrics: ["180 Meeting Matrix", "150 Personnel Cleared", "Conflict-Free Resolution"],
     github: "https://github.com/akbknight/scheduling-optimizer",
     live: "https://akbknight.github.io/scheduling-optimizer/",
   },
   {
-    title: "Data Pipeline Validator",
+    title: "Data Pipeline Validation Framework",
+    category: "Enterprise Systems",
     description:
-      "Automated validation framework for multi-source data pipelines: 7 check categories (completeness, business rules, referential integrity, uniqueness) across 15 sources and 12K+ records. Health scoring with expandable per-check diagnostics.",
-    tech: ["Python", "pandas", "Chart.js", "HTML"],
+      "Automated integrity verification framework executing 7 discrete check categories (completeness, referential integrity, schema drift, distribution boundaries) across 15 enterprise sources and 12,000+ financial records.",
+    tech: ["Python", "Pandas", "HTML", "Chart.js"],
+    metrics: ["7 Check Categories", "12K+ Records Validated", "Automated Health Scoring"],
     github: "https://github.com/akbknight/data-pipeline-validator",
     live: "https://akbknight.github.io/data-pipeline-validator/",
   },
   {
-    title: "Crisis to Care",
+    title: "Crisis to Care Triage Platform",
+    category: "Data Pipelines & AI",
     description:
-      "Platform connecting first-generation college students in crisis with care resources and AI-powered triage. Gemini-backed routing surfaces the right intervention — counseling, housing, food — based on the student's situation.",
+      "Digital intervention platform connecting first-generation university students in acute distress with campus resources. Uses Gemini AI for multi-dimensional triage across mental health, emergency housing, and food insecurity.",
     tech: ["React", "TypeScript", "Vite", "Gemini API"],
+    metrics: ["Automated Triage", "Campus Resource Routing"],
     github: "https://github.com/akbknight/crisis-to-care",
     live: "https://akbknight.github.io/crisis-to-care/",
   },
   {
-    title: "Global Grants Analytics Dashboard",
+    title: "SaltPepper for Windows: AI Cost Optimizer",
+    category: "Data Pipelines & AI",
     description:
-      "Enterprise portal processing 217K+ rows of geospatial and financial grant data with AI-powered cleaning and interactive mapping. FastAPI backend with server-side filtering; React + Tailwind frontend.",
-    tech: ["React", "FastAPI", "Python", "Pandas"],
-    github: "https://github.com/akbknight/stitch_elegant_light_analytics_dashboard",
-    live: "https://akbknight.github.io/stitch_elegant_light_analytics_dashboard/",
-  },
-  {
-    title: "MBA Hub App",
-    description:
-      "Full-stack productivity platform for MBA students: peer matching, study groups, rendezvous scheduling, and collaborative notes. Supabase auth gated to .edu email addresses.",
-    tech: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
-    github: "https://github.com/akbknight/mba-hub-app",
-    live: "https://mba-hub-app.vercel.app",
-  },
-  {
-    title: "SaltPepper for Windows",
-    description:
-      "Intelligent Claude Code router that sends simple prompts to a local Ollama model and reserves API tokens for tasks that actually need them. Transparent cost-saving layer for Claude Code users.",
-    tech: ["Python", "Claude API", "Ollama"],
+      "Local intelligence router: leverages local Gemma2 / Ollama models for routine tasks and conditionally routes high-complexity operations to Claude Code API. Delivers 40–70% token cost reduction.",
+    tech: ["Python", "Ollama", "Claude API", "CLI"],
+    metrics: ["40–70% Cost Reduction", "Local LLM Fallback"],
     github: "https://github.com/akbknight/saltpepper-win",
     live: "https://akbknight.github.io/saltpepper-win/",
   },
   {
-    title: "ITEC-617 DT Simulation",
+    title: "Kogod MBA Admissions Funnel Analytics",
+    category: "Enterprise Systems",
     description:
-      "AI simulation helping MBA students prepare digital transformation presentations through nine distinct executive personas — each with realistic objections, decision criteria, and communication styles.",
-    tech: ["Python", "Claude API", "Streamlit"],
-    github: "https://github.com/akbknight/ITEC-617-Digital-Transformation-Project",
-    live: null,
-  },
-  {
-    title: "Egypt vs India Dashboard",
-    description:
-      "Comparative macroeconomic dashboard contrasting Egypt and India across GDP growth, population, trade, and civilization history. Built for a graduate economics course at Kogod.",
-    tech: ["JavaScript", "Chart.js", "HTML/CSS"],
-    github: "https://github.com/akbknight/egypt-vs-india-dashboard",
-    live: "https://akbknight.github.io/egypt-vs-india-dashboard/",
-  },
-  {
-    title: "AI File Organizer",
-    description:
-      "Local file organizer powered by Gemini 1.5 Flash: reads file content and auto-categorizes directories into semantic folders. FastAPI backend streams live move logs to a React frontend via Server-Sent Events.",
-    tech: ["Python", "FastAPI", "React", "Gemini API"],
-    github: "https://github.com/akbknight/Ai-automation",
-    live: "https://akbknight.github.io/Ai-automation/",
-  },
-  {
-    title: "Signals>Noise: AT&T Strategy",
-    description:
-      "MBA team project proposing 'Shape Your Solution' — an AI pre-RFP diagnostic tool for AT&T's declining $18.8B B2B segment. Full business case dashboard covering financials, architecture, security, and change management.",
-    tech: ["JavaScript", "Chart.js", "Lucide", "Vite"],
-    github: "https://github.com/akbknight/Team--Signals-Noise-Project-",
-    live: "https://akbknight.github.io/Team--Signals-Noise-Project-/",
-  },
-  {
-    title: "Kogod Admissions Funnel",
-    description:
-      "Enrollment analytics dashboard for Kogod MBA programs: tracks Started → Submitted → Completed → Admitted across MBA, Online, and Specialized Masters. Year-over-year comparison with domestic/international breakdowns and deposit pacing charts.",
+      "Interactive admissions analytics portal for Kogod MBA leadership: YoY conversion funnel tracking across domestic and international applicant pools. Powered by DuckDB and Plotly.",
     tech: ["Python", "Streamlit", "DuckDB", "Plotly"],
+    metrics: ["YoY Funnel Analysis", "Deposit Pacing Telemetry"],
     github: "https://github.com/akbknight/admissions_funnel_dashboard",
     live: "https://admissionsfunneldashboard-8pbzttpynneixaywcls7rx.streamlit.app/",
   },
   {
-    title: "Economic Scenario Analysis",
+    title: "Signals>Noise: AT&T Enterprise AI Strategy",
+    category: "Enterprise Systems",
     description:
-      "Interactive macro 'what-if' dashboard: adjust Fed funds rate, inflation, and unemployment to project retail growth and recession probability. Preset scenarios for Soft Landing, Stagflation, and Recession. Historical FRED data embedded.",
-    tech: ["JavaScript", "Chart.js", "HTML/CSS"],
+      "MBA team capstone project proposing 'Shape Your Solution' — an AI diagnostic pre-RFP tool for AT&T's $18.8B B2B segment. Covers financial modeling, architectural integration, and change management.",
+    tech: ["JavaScript", "Chart.js", "Lucide", "Vite"],
+    metrics: ["$18.8B Segment Analysis", "Pre-RFP Architecture"],
+    github: "https://github.com/akbknight/Team--Signals-Noise-Project-",
+    live: "https://akbknight.github.io/Team--Signals-Noise-Project-/",
+  },
+  {
+    title: "Macroeconomic Scenario Simulator",
+    category: "Macroeconomics",
+    description:
+      "Interactive 'what-if' econometric simulation: manipulate Federal Reserve discount rates, CPI inflation, and unemployment metrics to model GDP growth and recession probabilities using embedded FRED data.",
+    tech: ["JavaScript", "Chart.js", "HTML5"],
+    metrics: ["3 Preset Scenarios", "Real-Time Probability Estimation"],
     github: "https://github.com/akbknight/economic-scenario-analysis",
     live: "https://akbknight.github.io/economic-scenario-analysis/",
   },
-  {
-    title: "Supply Chain Scenario Planner",
-    description:
-      "Diplomatic logistics simulation: EOQ-based reorder optimization across 8 supply categories. Scenario controls for demand spikes, supply disruptions, and lead time delays. Real-time stockout risk and inventory value calculations.",
-    tech: ["JavaScript", "Chart.js", "EOQ Model"],
-    github: "https://github.com/akbknight/supply-chain-planner",
-    live: "https://akbknight.github.io/supply-chain-planner/",
-  },
 ];
 
-const FeaturedCard = ({
-  project,
-  index,
-}: {
-  project: (typeof FEATURED)[0];
-  index: number;
-}) => {
-  const cardRef = useRef<HTMLElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    card.style.setProperty("--mx", `${x}%`);
-    card.style.setProperty("--my", `${y}%`);
-  };
-
-  return (
-  <motion.article
-    ref={cardRef}
-    onMouseMove={handleMouseMove}
-    initial={{ opacity: 0, y: 22 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.45, delay: index * 0.08 }}
-    className="group relative rounded-xl border border-[var(--border)] p-6 transition-all duration-300 hover:border-white/[0.14] hover:bg-white/[0.025]"
-  >
-    {/* Cursor-following radial glow */}
-    <div
-      className="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-      style={{ background: "radial-gradient(350px circle at var(--mx, 50%) var(--my, 50%), rgba(232,160,32,0.05), transparent 70%)" }}
-    />
-
-    <div className="relative z-10">
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-sm font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors duration-200 leading-tight pr-4">
-          {project.title}
-        </h3>
-        <div className="flex items-center gap-3 shrink-0">
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.title} on GitHub`}
-              className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-200"
-            >
-              <Github className="w-4 h-4" />
-            </a>
-          )}
-          {project.live && (
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open ${project.title} live`}
-              className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-200"
-            >
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
-        </div>
-      </div>
-
-      <p className="text-[13px] text-[var(--text-muted)] leading-relaxed mb-3">
-        {project.description}
-      </p>
-
-      {/* Impact chips */}
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {project.impact.map((r) => (
-          <span
-            key={r}
-            className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full"
-            style={{
-              background: "var(--accent-dim)",
-              color: "var(--accent)",
-              border: "1px solid rgba(232,160,32,0.18)",
-            }}
-          >
-            {r}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        {project.tech.map((t) => (
-          <span
-            key={t}
-            className="text-[10px] font-mono text-[var(--text-2)] bg-[var(--bg-surface)] px-2 py-1 rounded-sm"
-          >
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
-  </motion.article>
-  );
-};
-
-const OtherCard = ({
-  project,
-  index,
-}: {
-  project: (typeof OTHER)[0];
-  index: number;
-}) => (
-  <motion.article
-    initial={{ opacity: 0, y: 16 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-30px" }}
-    transition={{ duration: 0.4, delay: index * 0.06 }}
-    className="group flex flex-col rounded-lg border border-[var(--border)] p-5 transition-all duration-300 hover:border-[var(--accent)]/25 hover:bg-white/[0.02]"
-  >
-    <div className="flex items-start justify-between mb-4">
-      <Folder
-        className="w-4 h-4 text-[var(--accent)]"
-        aria-hidden="true"
-      />
-      <div className="flex items-center gap-2">
-        {project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${project.title} on GitHub`}
-            className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors duration-200"
-          >
-            <Github className="w-3.5 h-3.5" />
-          </a>
-        )}
-        {project.live && (
-          <a
-            href={project.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Open ${project.title}`}
-            className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors duration-200"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-        )}
-      </div>
-    </div>
-
-    <h4 className="text-[13px] font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors duration-200 mb-2">
-      {project.title}
-    </h4>
-
-    <p className="text-[12px] text-[var(--text-muted)] leading-relaxed flex-1">
-      {project.description}
-    </p>
-
-    <div className="flex flex-wrap gap-x-3 gap-y-1 mt-5">
-      {project.tech.map((t) => (
-        <span key={t} className="text-[10px] font-mono text-[var(--text-muted)]">
-          {t}
-        </span>
-      ))}
-    </div>
-  </motion.article>
-);
-
 export const Projects = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
+  const categories = ["All", "Forensics & Security", "Data Pipelines & AI", "Macroeconomics", "Enterprise Systems"];
+  const featured = PROJECTS.filter((p) => p.featured);
+  const secondary = PROJECTS.filter((p) => !p.featured && (selectedCategory === "All" || p.category === selectedCategory));
+
   return (
-    <section id="projects">
-      <p className="section-label mb-6">03 · Projects</p>
-
-      {/* Featured */}
-      <div className="space-y-4 mb-10">
-        {FEATURED.map((proj, i) => (
-          <FeaturedCard key={proj.title} project={proj} index={i} />
-        ))}
+    <section id="projects" className="pt-2">
+      <div className="mb-6">
+        <span className="section-label">04 · Flagship Projects</span>
+        <h3 className="text-xl font-bold tracking-tight text-white mt-1">
+          Production Systems &amp; Technical Audits
+        </h3>
+        <p className="text-xs text-zinc-400 mt-1">
+          Selected high-impact engineering repositories demonstrating forensic auditing, big data pipelines, and econometric modeling.
+        </p>
       </div>
 
-      {/* Other */}
-      <p className="section-label mb-4" style={{ color: "var(--text-muted)" }}>
-        Other noteworthy projects
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {OTHER.map((proj, i) => (
-          <OtherCard key={proj.title} project={proj} index={i} />
-        ))}
-      </div>
-
-      {/* GitHub link */}
-      <div className="mt-8">
-        <a
-          href="https://github.com/akbknight"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--text-2)] hover:text-[var(--accent)] transition-colors duration-200 group"
-        >
-          View all on GitHub
-          <svg
-            className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
+      {/* Flagship Bento Grid (Top 4) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+        {featured.map((p, idx) => (
+          <div
+            key={p.title}
+            className="card-surface p-5 rounded-xl flex flex-col justify-between group relative border border-white/[0.08]"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 17L17 7M17 7H7M17 7v10"
-            />
-          </svg>
-        </a>
+            <div>
+              {/* Badge & Category Header */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                  {p.badge}
+                </span>
+                <span className="text-[10px] font-mono-code text-zinc-500">
+                  {p.category}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h4 className="text-base font-bold text-white group-hover:text-sky-400 transition-colors flex items-center gap-1.5">
+                {p.title}
+              </h4>
+
+              {/* Description */}
+              <p className="text-xs text-zinc-300 mt-2.5 leading-relaxed">
+                {p.description}
+              </p>
+
+              {/* Impact Metrics Grid */}
+              <div className="grid grid-cols-2 gap-1.5 mt-4 pt-3 border-t border-white/[0.06]">
+                {p.metrics.map((m) => (
+                  <div key={m} className="text-[10px] font-mono-code text-zinc-300 flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-sky-400" />
+                    <span>{m}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom Tech Stack & Action Links */}
+            <div className="mt-5 pt-3 border-t border-white/[0.06] flex items-center justify-between">
+              <div className="flex flex-wrap gap-1">
+                {p.tech.slice(0, 3).map((t) => (
+                  <span key={t} className="tech-pill">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2">
+                {p.github && (
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${p.title} source code on GitHub`}
+                    className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                )}
+                {p.live && (
+                  <a
+                    href={p.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View live demo of ${p.title}`}
+                    className="p-1.5 rounded text-zinc-400 hover:text-sky-400 hover:bg-zinc-800 transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Secondary Project Directory Header & Filter */}
+      <div className="pt-4 border-t border-white/[0.08]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <h4 className="text-sm font-bold text-zinc-200 uppercase font-mono-code tracking-wider">
+            Engineering Archive &amp; Tooling
+          </h4>
+
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-1">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`text-[10px] font-mono-code px-2 py-1 rounded transition-colors ${
+                  selectedCategory === cat
+                    ? "bg-sky-500/20 text-sky-400 border border-sky-500/30"
+                    : "bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 border border-zinc-800"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Dense Archive List */}
+        <div className="space-y-3">
+          {secondary.map((p) => (
+            <div
+              key={p.title}
+              className="card-surface p-3.5 rounded-lg border border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+            >
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono-code text-zinc-500">{p.category}</span>
+                  <span className="text-zinc-600">·</span>
+                  <h5 className="text-xs font-semibold text-white hover:text-sky-400 transition-colors">
+                    {p.title}
+                  </h5>
+                </div>
+                <p className="text-[11px] text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                  {p.description}
+                </p>
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {p.tech.map((t) => (
+                    <span key={t} className="text-[9px] font-mono-code text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                {p.github && (
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`GitHub repo for ${p.title}`}
+                    className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                  </a>
+                )}
+                {p.live && (
+                  <a
+                    href={p.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Live site for ${p.title}`}
+                    className="p-1.5 rounded text-zinc-400 hover:text-sky-400 hover:bg-zinc-800 transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

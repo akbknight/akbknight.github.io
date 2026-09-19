@@ -1,23 +1,26 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LenisProvider } from "@/components/LenisProvider";
-import { ViewfinderCursor } from "@/components/ViewfinderCursor";
 import "./globals.css";
 
-// Only JetBrains Mono via next/font — sets --font-mono CSS variable
-// Zodiak + Satoshi loaded from Fontshare CDN (link tags below)
+const sans = Inter({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 const mono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Akshay Kumar",
+  title: "Akshay Kumar — Analytics Engineer & MBA Candidate",
   description:
-    "Software engineer and MBA candidate at American University. Former U.S. Department of State programmer. Building data pipelines, dashboards, and AI tools.",
+    "Analytics Engineer and MBA Candidate at American University Kogod School of Business. Former U.S. Department of State programmer. Building data pipelines, forensic audits, and strategic intelligence systems.",
   icons: {
     icon: [
       { url: "/brand/favicon.svg", type: "image/svg+xml" },
@@ -25,10 +28,10 @@ export const metadata: Metadata = {
     apple: "/brand/favicon.svg",
   },
   openGraph: {
-    title: "Akshay Kumar",
-    description: "Software engineer. MBA candidate. Former U.S. State Dept.",
+    title: "Akshay Kumar — Analytics Engineer & MBA Candidate",
+    description: "Former U.S. State Dept Programmer · Kogod MBA · Forensic Systems & Data Pipelines",
     url: "https://akbknight.github.io",
-    siteName: "Akshay Kumar",
+    siteName: "Akshay Kumar Portfolio",
     type: "website",
   },
 };
@@ -39,19 +42,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={mono.variable} suppressHydrationWarning>
-      <head>
-        {/* Fontshare: Zodiak (editorial display serif) + Satoshi (clean sans) */}
-        <link rel="preconnect" href="https://api.fontshare.com" />
-        <link
-          href="https://api.fontshare.com/v2/css?f[]=zodiak@400,500,700&f[]=satoshi@300,400,500,700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="antialiased">
+    <html lang="en" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+      <body className="antialiased font-sans selection:bg-sky-500/20 selection:text-sky-400">
         <ThemeProvider>
           <LenisProvider>
-            <ViewfinderCursor />
             {children}
           </LenisProvider>
         </ThemeProvider>
