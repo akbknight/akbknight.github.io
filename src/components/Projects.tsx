@@ -77,6 +77,7 @@ const PROJECTS: Project[] = [
   },
   {
     title: "Diplomatic Resource & Scheduling Optimizer",
+    badge: "Diplomatic Systems",
     category: "Enterprise Systems",
     description:
       "Greedy constraint-satisfaction scheduling engine built to resolve complex multi-departmental constraints: 180 high-priority meeting requests across 20 secure rooms and 150 cleared personnel. Features zero-lag client-side computation.",
@@ -84,6 +85,7 @@ const PROJECTS: Project[] = [
     metrics: ["180 Meeting Matrix", "150 Personnel Cleared", "Conflict-Free Resolution"],
     github: "https://github.com/akbknight/scheduling-optimizer",
     live: "https://akbknight.github.io/scheduling-optimizer/",
+    featured: true,
   },
   {
     title: "Data Pipeline Validation Framework",

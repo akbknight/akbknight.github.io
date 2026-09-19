@@ -4,23 +4,24 @@ import { motion } from "framer-motion";
 
 const SKILLS = [
   "Python",
+  "SQL",
+  "Pandas",
+  "DuckDB",
   "TypeScript",
   "React",
   "Next.js",
-  "SQL",
   "FastAPI",
-  "Pandas",
-  "DuckDB",
-  "Plotly",
   "Streamlit",
-  "Azure",
-  "Power Apps",
-  "Tailwind CSS",
-  "Node.js",
-  "Claude API",
+  "Power BI",
+  "Tableau",
   "statsmodels",
   "scipy",
+  "Azure Administrator Associate",
+  "Red Hat RHCSA",
+  "AWS S3",
+  "Power Apps & Automate",
   "Chart.js",
+  "GitHub Actions CI/CD",
 ];
 
 export const About = () => {
@@ -30,38 +31,36 @@ export const About = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4 }}
       >
-        <p className="section-label mb-5">01 · About</p>
+        <p className="section-label mb-5">01 · About &amp; Focus</p>
 
         <div className="space-y-4 text-sm text-[var(--text-2)] leading-relaxed">
           <p>
-            I&apos;m a software engineer and MBA candidate at{" "}
-            <span className="text-[var(--text)] font-medium">
+            I&apos;m an analytics engineer and STEM MBA candidate at{" "}
+            <span className="text-white font-medium">
               American University&apos;s Kogod School of Business
-            </span>
-            , studying business analytics and strategy. Before school, I spent
-            three years as a computer programmer at the{" "}
-            <span className="text-[var(--text)] font-medium">
+            </span>{" "}
+            (Washington, DC · Expected May 2027), specializing in Business Analytics &amp; Artificial Intelligence. I also serve as{" "}
+            <span className="text-white font-medium">Operations Leader for the Analytics Club at AU</span>, managing collaborative projects and executive speaker programs for 50+ members.
+          </p>
+          <p>
+            Prior to business school, I spent three years as a computer programmer at the{" "}
+            <span className="text-white font-medium">
               U.S. Department of State
             </span>{" "}
-            in New Delhi — building scheduling and analytics systems used by
-            1,200+ diplomats and support staff.
+            in New Delhi — leading the cross-jurisdictional rollout of a diplomatic vetting system across 10+ embassies in South Asia, Europe, and Africa, while delivering consular fee-revenue and visa analytics directly to mission leadership.
           </p>
           <p>
-            Before that, I built enterprise backend infrastructure for{" "}
-            <span className="text-[var(--text)] font-medium">Capital One</span>{" "}
-            through a fintech consultancy, aggregating data from 3,000+ sources
-            and cutting legal notification time in half through automated
-            validation pipelines.
+            Before my government service, I built enterprise backend and financial research infrastructure for{" "}
+            <span className="text-white font-medium">Capital One</span> through AIS Info, ingesting and normalizing court filings across 3,000+ public sources. The platform&apos;s high-throughput performance led{" "}
+            <span className="text-white font-medium">Wells Fargo, JP Morgan, and Chase</span> to independently license the technology for their own compliance operations.
           </p>
           <p>
-            These days I work on data pipelines, interactive dashboards, and AI
-            tooling — anything where engineering complexity meets real human
-            stakes. Outside of code, I&apos;m a{" "}
+            Today, I focus on the intersection of high-throughput data engineering, econometric forecasting, and AI systems analysis. Outside of code, I&apos;m a{" "}
             <a
               href="/life"
-              className="text-[var(--text)] underline underline-offset-4 decoration-[var(--border)] hover:decoration-[var(--accent)] transition-all duration-200"
+              className="text-white underline underline-offset-4 decoration-white/20 hover:decoration-sky-400 hover:text-sky-300 transition-all duration-150"
             >
               published author
             </a>{" "}
@@ -74,7 +73,7 @@ export const About = () => {
           {SKILLS.map((skill) => (
             <span
               key={skill}
-              className="text-[11px] font-mono text-[var(--text-2)] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 rounded hover:text-[var(--accent)] hover:border-[var(--accent)]/30 transition-all duration-200"
+              className="text-[11px] font-mono-code text-zinc-300 border border-white/[0.08] bg-[#09090E] px-2.5 py-1.5 rounded-lg hover:text-sky-300 hover:border-sky-500/30 transition-all duration-150"
             >
               {skill}
             </span>

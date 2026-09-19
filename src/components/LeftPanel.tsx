@@ -44,7 +44,11 @@ const SOCIALS = [
   },
 ];
 
-export const LeftPanel = () => {
+interface LeftPanelProps {
+  onOpenResume?: () => void;
+}
+
+export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
   const activeId = useScrollSpy(NAV_SECTIONS.map((s) => s.id));
   const { theme, toggle } = useTheme();
 
@@ -82,7 +86,7 @@ export const LeftPanel = () => {
 
           {/* Metric-Driven Punchy Mission Statement */}
           <p className="text-sm mt-4 text-zinc-400 leading-relaxed max-w-sm">
-            Former <span className="text-zinc-200 font-medium">U.S. Department of State</span> programmer &amp; Kogod MBA. Engineering high-throughput data pipelines, forensic software audits, and automated intelligence systems.
+            Former <span className="text-zinc-200 font-medium">U.S. Department of State</span> programmer &amp; Kogod STEM MBA. Engineering high-throughput data pipelines, forensic software audits, and automated intelligence systems.
           </p>
 
           {/* Executive Badges */}
@@ -91,18 +95,34 @@ export const LeftPanel = () => {
               Ex-U.S. State Dept
             </span>
             <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-900/80 text-zinc-300 border border-zinc-800">
-              Kogod MBA &apos;26
+              Kogod MBA &apos;27
             </span>
             <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-900/80 text-zinc-300 border border-zinc-800">
               DataOps &amp; Audit
             </span>
           </div>
+
+          {/* Direct Sidebar Quick Resume Button */}
+          {onOpenResume && (
+            <div className="mt-6">
+              <button
+                onClick={onOpenResume}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 text-xs font-mono-code font-medium transition-all duration-150 group"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Interactive Résumé</span>
+                <span className="text-[9px] uppercase px-1 rounded bg-sky-500/20 text-sky-300 group-hover:bg-sky-500/30">
+                  PDF View
+                </span>
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* Semantic Navigation with Strict Spring Physics */}
-        <nav className="mt-12 hidden lg:block" aria-label="Primary page navigation">
+        <nav className="mt-10 hidden lg:block" aria-label="Primary page navigation">
           <ul className="space-y-1">
-            {NAV_SECTIONS.map((sec, i) => {
+            {NAV_SECTIONS.map((sec) => {
               const isActive = activeId === sec.id;
               return (
                 <li key={sec.id}>
@@ -140,6 +160,15 @@ export const LeftPanel = () => {
             >
               {soc.icon}
             </Link>
+          ) : soc.label === "View Résumé" && onOpenResume ? (
+            <button
+              key={soc.label}
+              onClick={onOpenResume}
+              aria-label="Open interactive résumé modal"
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-400 hover:text-sky-400 hover:bg-zinc-800/60 transition-colors border border-transparent hover:border-zinc-700/60"
+            >
+              {soc.icon}
+            </button>
           ) : (
             <a
               key={soc.label}

@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { LeftPanel } from "@/components/LeftPanel";
+import { HeroSection } from "@/components/HeroSection";
 import { About } from "@/components/About";
 import { Experience } from "@/components/Experience";
 import { ArchitectureDiagram } from "@/components/ArchitectureDiagram";
@@ -8,8 +10,11 @@ import { Projects } from "@/components/Projects";
 import { Writing } from "@/components/Writing";
 import { PhotoLanes } from "@/components/PhotoLanes";
 import { Contact } from "@/components/Contact";
+import { ResumeModal } from "@/components/ResumeModal";
 
 export default function Home() {
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+
   return (
     <main
       className="min-h-[100dvh]"
@@ -23,31 +28,40 @@ export default function Home() {
             aria-label="Executive profile and site navigation"
             className="
               lg:sticky lg:top-0 lg:max-h-screen lg:overflow-hidden
-              lg:w-[42%] xl:w-[40%]
+              lg:w-[40%] xl:w-[38%]
               flex flex-col
               pt-16 pb-10 lg:py-24
             "
           >
-            <LeftPanel />
+            <LeftPanel onOpenResume={() => setIsResumeOpen(true)} />
           </aside>
 
           {/* ── Right: scrollable narrative & technical portfolio ── */}
-          <div className="lg:w-[58%] xl:w-[60%] pt-4 lg:pt-24 pb-24 space-y-24">
+          <div className="lg:w-[60%] xl:w-[62%] pt-6 lg:pt-20 pb-24 space-y-20">
+            {/* Commanding Hero Section with verified metrics & dual CTAs */}
+            <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
+
             <About />
-            <Experience />
+            <Experience onOpenResume={() => setIsResumeOpen(true)} />
             <ArchitectureDiagram />
             <Projects />
             <Writing />
-            <Contact />
+            <Contact onOpenResume={() => setIsResumeOpen(true)} />
 
             {/* Accessible Executive Footer */}
             <footer
               className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-white/[0.08]"
             >
               <p className="text-[11px] font-mono-code text-zinc-400">
-                Architected &amp; built by Akshay Kumar · {new Date().getFullYear()}
+                Architected &amp; engineered by Akshay Kumar · {new Date().getFullYear()}
               </p>
               <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setIsResumeOpen(true)}
+                  className="text-[11px] font-mono-code text-sky-400 hover:text-sky-300 transition-colors"
+                >
+                  Curriculum Vitae (PDF) ↗
+                </button>
                 <a
                   href="https://github.com/akbknight/akbknight.github.io"
                   target="_blank"
@@ -71,6 +85,12 @@ export default function Home() {
 
       {/* ── Visual Breakout: Curated photography lanes ── */}
       <PhotoLanes />
+
+      {/* ── High-Fidelity Interactive Resume Modal ── */}
+      <ResumeModal
+        isOpen={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+      />
     </main>
   );
 }
