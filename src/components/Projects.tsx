@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Github, ExternalLink, ShieldAlert, Cpu, BarChart2, TrendingUp, Sparkles, Database, Layers } from "lucide-react";
+import { SpotlightCard } from "@/components/SpotlightCard";
+import { MagneticWrapper } from "@/components/MagneticWrapper";
 
 interface Project {
   title: string;
@@ -30,13 +32,13 @@ const PROJECTS: Project[] = [
     featured: true,
   },
   {
-    title: "IRS 990 Philanthropic Grant Miner",
-    badge: "$550B+ Analyzed",
+    title: "IRS 990 Philanthropic Grant Miner & 3D Spatial Engine",
+    badge: "$550B+ Capital Mapped",
     category: "Data Pipelines & AI",
     description:
-      "High-throughput data engineering pipeline extracting and categorizing 9.7M+ grant records from IRS Form 990 XML archives. Mapped over $550B in charitable funding across 2019–2024 with zero API dependencies, automated entity classification, and interactive visual reporting.",
-    tech: ["Python", "Pandas", "XML Parsing", "DuckDB", "Chart.js"],
-    metrics: ["9.7M+ XML Records", "$550B+ Capital Mapped", "2019–2024 Scope", "Zero-API Engine"],
+      "Enterprise data engineering and visual intelligence system mapping $550.2B across 9.7M+ IRS Form 990 records. Features hardware-accelerated 3D WebGL global capital flow arcs (Globe.gl/Three.js), econometric log-log outlier detection matrices (Plotly.js), and D3 TopoJSON national choropleths with zero-API latency.",
+    tech: ["Python", "Globe.gl (Three.js)", "Plotly.js", "D3 TopoJSON", "DuckDB"],
+    metrics: ["9.7M+ XML Records", "$550B+ Capital Mapped", "3D WebGL Capital Arcs", "Log-Log Outlier Matrix"],
     github: "https://github.com/akbknight/irs990-grant-dashboard",
     live: "https://akbknight.github.io/irs990-grant-dashboard/",
     featured: true,
@@ -170,10 +172,10 @@ export const Projects = () => {
 
       {/* Flagship Bento Grid (Top 4) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-        {featured.map((p, idx) => (
-          <div
+        {featured.map((p) => (
+          <SpotlightCard
             key={p.title}
-            className="card-surface p-5 rounded-xl flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/30"
+            className="p-5 flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/30"
           >
             <div>
               {/* Badge & Category Header */}
@@ -219,30 +221,34 @@ export const Projects = () => {
 
               <div className="flex items-center gap-2">
                 {p.github && (
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`View ${p.title} source code on GitHub`}
-                    className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <Github className="w-4 h-4" />
-                  </a>
+                  <MagneticWrapper strength={0.25}>
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View ${p.title} source code on GitHub`}
+                      className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors inline-flex"
+                    >
+                      <Github className="w-4 h-4" />
+                    </a>
+                  </MagneticWrapper>
                 )}
                 {p.live && (
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`View live demo of ${p.title}`}
-                    className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
+                  <MagneticWrapper strength={0.25}>
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View live demo of ${p.title}`}
+                      className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors inline-flex"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </MagneticWrapper>
                 )}
               </div>
             </div>
-          </div>
+          </SpotlightCard>
         ))}
       </div>
 
@@ -274,9 +280,9 @@ export const Projects = () => {
         {/* Dense Archive List */}
         <div className="space-y-3">
           {secondary.map((p) => (
-            <div
+            <SpotlightCard
               key={p.title}
-              className="card-surface p-3.5 rounded-lg border border-zinc-200/80 dark:border-white/[0.06] bg-white dark:bg-[#0E0E14] shadow-xs dark:shadow-none flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              className="p-3.5 rounded-lg border border-zinc-200/80 dark:border-white/[0.06] bg-white dark:bg-[#0E0E14] shadow-xs dark:shadow-none flex flex-col sm:flex-row sm:items-center justify-between gap-3"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2">
@@ -300,29 +306,33 @@ export const Projects = () => {
 
               <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
                 {p.github && (
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`GitHub repo for ${p.title}`}
-                    className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <Github className="w-3.5 h-3.5" />
-                  </a>
+                  <MagneticWrapper strength={0.25}>
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`GitHub repo for ${p.title}`}
+                      className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors inline-flex"
+                    >
+                      <Github className="w-3.5 h-3.5" />
+                    </a>
+                  </MagneticWrapper>
                 )}
                 {p.live && (
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Live site for ${p.title}`}
-                    className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  <MagneticWrapper strength={0.25}>
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Live site for ${p.title}`}
+                      className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors inline-flex"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </MagneticWrapper>
                 )}
               </div>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
       </div>

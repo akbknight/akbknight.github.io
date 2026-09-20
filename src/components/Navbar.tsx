@@ -41,7 +41,7 @@ export const Navbar = () => {
         className="flex items-center gap-1 px-2 py-1.5 rounded-full border border-zinc-200/90 dark:border-white/10 bg-white/85 dark:bg-zinc-950/80 backdrop-blur-xl shadow-lg shadow-black/5 dark:shadow-black/40"
       >
         {/* Logo */}
-        <Link href="/" aria-label="Home" className="p-1 mr-1">
+        <Link href="/" prefetch={false} aria-label="Home" className="p-1 mr-1">
           <AKLogo />
         </Link>
 
@@ -55,6 +55,7 @@ export const Navbar = () => {
             <Link
               key={item.path}
               href={item.path}
+              prefetch={false}
               className={cn(
                 "relative px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-200",
                 isActive

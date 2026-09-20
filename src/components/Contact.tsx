@@ -18,7 +18,7 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.45 }}
-        className="card-surface p-6 sm:p-8 rounded-2xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#08080D]/90 backdrop-blur-sm shadow-sm dark:shadow-none"
+        className="card-surface p-5 sm:p-8 rounded-2xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#08080D]/90 backdrop-blur-sm shadow-sm dark:shadow-none"
       >
         <h3
           className="font-bold text-zinc-900 dark:text-white mb-3"
@@ -66,15 +66,15 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
         </div>
 
         <div className="pt-6 border-t border-zinc-200 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-600 dark:text-zinc-400">
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 sm:gap-6">
             <a
               href="https://github.com/akbknight"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors duration-150"
             >
-              <Github className="w-3.5 h-3.5" aria-hidden="true" />
-              github.com/akbknight
+              <Github className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+              <span>github.com/akbknight</span>
             </a>
             <a
               href="https://www.linkedin.com/in/akshaykumardl/"
@@ -82,8 +82,8 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors duration-150"
             >
-              <Linkedin className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" aria-hidden="true" />
-              linkedin.com/in/akshaykumardl
+              <Linkedin className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" aria-hidden="true" />
+              <span>linkedin.com/in/akshaykumardl</span>
             </a>
           </div>
 

@@ -80,6 +80,7 @@ export const Writing = () => {
       >
         <Link
           href="/life"
+          prefetch={false}
           className="card-surface group flex items-center justify-between rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] px-6 py-4 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
         >
           <div>

@@ -11,16 +11,24 @@ import { Writing } from "@/components/Writing";
 import { PhotoLanes } from "@/components/PhotoLanes";
 import { Contact } from "@/components/Contact";
 import { ResumeModal } from "@/components/ResumeModal";
+import { AmbientCanvas } from "@/components/AmbientCanvas";
+import { ScrollProgressBar } from "@/components/ScrollProgressBar";
+import { CustomCursor } from "@/components/CustomCursor";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   return (
     <main
-      className="min-h-[100dvh]"
+      className="min-h-[100dvh] relative"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
-      <div className="mx-auto max-w-screen-xl px-6 md:px-12 lg:px-20">
+      {/* ── Awwwards-Tier Micro-Interactive Layer ── */}
+      <ScrollProgressBar />
+      <AmbientCanvas />
+      <CustomCursor />
+
+      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:px-12 lg:px-20">
         <div className="lg:flex lg:gap-12 xl:gap-16">
 
           {/* ── Left: sticky sidebar with executive profile ──── */}
@@ -40,7 +48,6 @@ export default function Home() {
           <div className="lg:w-[60%] xl:w-[62%] pt-6 lg:pt-20 pb-24 space-y-20">
             {/* Commanding Hero Section with verified metrics & dual CTAs */}
             <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
-
             <About />
             <Experience onOpenResume={() => setIsResumeOpen(true)} />
             <ArchitectureDiagram />

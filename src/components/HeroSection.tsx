@@ -11,6 +11,8 @@ import {
   Landmark,
   TrendingUp,
 } from "lucide-react";
+import { SpotlightCard } from "@/components/SpotlightCard";
+import { MagneticWrapper } from "@/components/MagneticWrapper";
 
 interface HeroSectionProps {
   onOpenResume: () => void;
@@ -100,28 +102,32 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         className="flex flex-wrap items-center gap-3 pt-6 pb-8"
       >
         {/* Primary CTA: Open Interactive Resume Modal */}
-        <button
-          onClick={onOpenResume}
-          className="group relative inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-[#050507] text-xs sm:text-sm font-semibold tracking-tight transition-all duration-150 shadow-[0_2px_12px_rgba(2,132,199,0.3)] dark:shadow-[0_0_24px_rgba(56,189,248,0.35)] cursor-pointer"
-        >
-          <FileText className="w-4 h-4" />
-          <span>View Interactive Résumé</span>
-          <span className="text-[10px] font-mono-code font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-black/15 dark:bg-black/20 ml-0.5">
-            Modal + PDF
-          </span>
-        </button>
+        <MagneticWrapper strength={0.25}>
+          <button
+            onClick={onOpenResume}
+            className="group relative inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-[#050507] text-xs sm:text-sm font-semibold tracking-tight transition-all duration-150 shadow-[0_2px_12px_rgba(2,132,199,0.3)] dark:shadow-[0_0_24px_rgba(56,189,248,0.35)] cursor-pointer"
+          >
+            <FileText className="w-4 h-4" />
+            <span>View Interactive Résumé</span>
+            <span className="text-[10px] font-mono-code font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-black/15 dark:bg-black/20 ml-0.5">
+              Modal + PDF
+            </span>
+          </button>
+        </MagneticWrapper>
 
         {/* Secondary CTA: Direct LinkedIn Connection */}
-        <a
-          href="https://www.linkedin.com/in/akshaykumardl/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-zinc-50 text-zinc-900 border border-zinc-300 shadow-sm dark:bg-zinc-900/90 dark:hover:bg-zinc-800 dark:text-zinc-100 dark:border-white/[0.14] text-xs sm:text-sm font-medium transition-all duration-150 group"
-        >
-          <Linkedin className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-          <span>Connect on LinkedIn</span>
-          <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </a>
+        <MagneticWrapper strength={0.25}>
+          <a
+            href="https://www.linkedin.com/in/akshaykumardl/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-zinc-50 text-zinc-900 border border-zinc-300 shadow-sm dark:bg-zinc-900/90 dark:hover:bg-zinc-800 dark:text-zinc-100 dark:border-white/[0.14] text-xs sm:text-sm font-medium transition-all duration-150 group"
+          >
+            <Linkedin className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+            <span>Connect on LinkedIn</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
+        </MagneticWrapper>
 
         {/* Fast PDF direct download */}
         <a
@@ -143,9 +149,9 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         className="grid grid-cols-2 lg:grid-cols-4 gap-3 pt-2"
       >
         {METRICS.map((m, idx) => (
-          <div
+          <SpotlightCard
             key={idx}
-            className="card-surface p-3.5 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/30 transition-all duration-150"
+            className="p-3.5 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/30 transition-all duration-150"
           >
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
@@ -159,7 +165,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
             <p className="text-[11px] text-zinc-600 dark:text-zinc-400 leading-tight">
               {m.detail}
             </p>
-          </div>
+          </SpotlightCard>
         ))}
       </motion.div>
     </section>

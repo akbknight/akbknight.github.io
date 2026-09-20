@@ -4,7 +4,9 @@
 @variant light (&:where(.light, .light *));
 
 /* ─── Apple-Grade Semantic Tokens: Light Mode (Default Root) ─────── */
-:root {
+:root,
+.light,
+[data-theme="light"] {
   --bg:             #FBFBFD;  /* Apple signature luminous off-white */
   --bg-surface:     #F4F4F6;  /* Subtle elevated neutral */
   --bg-card:        #FFFFFF;  /* Pure crisp card surface */
@@ -31,7 +33,10 @@
 }
 
 /* ─── Linear / OLED Dark Mode Tokens ─────────────────────────────── */
-.dark, [data-theme="dark"] {
+html.dark,
+html[data-theme="dark"],
+.dark:not(.light),
+[data-theme="dark"]:not([data-theme="light"]) {
   --bg:             #050507;  /* Deep OLED obsidian */
   --bg-surface:     #0B0B0F;  /* Elevated obsidian */
   --bg-card:        #0E0E14;  /* Glassmorphic card surface */
@@ -179,4 +184,51 @@ section { scroll-margin-top: 32px; }
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* ─── Awwwards-Tier Spotlight Card Dynamic Glow ────────────────────── */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    450px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+    var(--spotlight-color, var(--border-accent)),
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+    var(--accent-glow),
+    transparent 80%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+
+.spotlight-card:hover::before,
+.spotlight-card:hover::after {
+  opacity: 1;
 }
