@@ -20,27 +20,27 @@ interface HeroSectionProps {
 
 const METRICS = [
   {
-    value: "$550B+",
-    label: "Capital Mapped",
-    detail: "9.7M+ IRS 990 XML records analyzed with zero API dependencies",
-    icon: <TrendingUp className="w-4 h-4 text-sky-600 dark:text-sky-400" />,
-  },
-  {
-    value: "10+",
-    label: "U.S. Embassies",
-    detail: "Diplomatic vetting platform deployed across South Asia, Europe & Africa",
+    value: "+30%",
+    label: "Visa Throughput",
+    detail: "Built demand forecasting dashboard guiding consular staffing for U.S. Dept of State",
     icon: <Landmark className="w-4 h-4 text-sky-600 dark:text-sky-400" />,
   },
   {
-    value: "4 Major",
-    label: "Banks Licensed",
-    detail: "Platform adopted by Wells Fargo, JP Morgan, Chase & Capital One",
+    value: "Capital One",
+    label: "Verified Data",
+    detail: "Java pipelines classifying U.S. court & bankruptcy records across 94 federal districts",
     icon: <Building2 className="w-4 h-4 text-sky-600 dark:text-sky-400" />,
   },
   {
-    value: "4,426",
-    label: "Tests Audited",
-    detail: "Forensic code reconstruction across 62 archives with CI/CD DataOps",
+    value: "$550B+",
+    label: "Capital Mapped",
+    detail: "9.7M+ IRS 990 XML records analyzed with 3D WebGL capital flow arcs",
+    icon: <TrendingUp className="w-4 h-4 text-sky-600 dark:text-sky-400" />,
+  },
+  {
+    value: "7+ Years",
+    label: "Engineering",
+    detail: "Building persistent decision-support systems and operational analytics products",
     icon: <ShieldCheck className="w-4 h-4 text-sky-600 dark:text-sky-400" />,
   },
 ];
@@ -137,7 +137,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
           title="Direct PDF download"
         >
           <Download className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline font-mono-code text-[11px]">Download PDF (369 KB)</span>
+          <span className="hidden sm:inline font-mono-code text-[11px]">Download PDF</span>
         </a>
       </motion.div>
 

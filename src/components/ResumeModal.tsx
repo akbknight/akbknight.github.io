@@ -24,54 +24,47 @@ interface ResumeModalProps {
 }
 
 const RESUME_PLAIN_TEXT = `AKSHAY KUMAR
-Washington, DC · (202) 415-4366 · ak8335a@american.edu · linkedin.com/in/akshaykumardl
+Washington, DC | (202) 415-4366 | ak8335a@american.edu
+linkedin.com/in/akshaykumardl | github.com/akbknight | akbknight.github.io
 
 SUMMARY
-MBA candidate (Business Analytics & AI) with 7+ years turning government and financial-services data into leadership decisions — vetting-system rollout across 10+ U.S. embassies, visa and fee-revenue analytics for mission leadership, and a financial-research platform licensed by four major U.S. banks.
-
-EDUCATION
-American University, Kogod School of Business, Washington, DC (Expected May 2027)
-Master of Business Administration (MBA): STEM Designation, Specialization: Business Analytics and AI
-Operations Leader, Analytics Club at AU (Spring 2026 to Present): organizing speaker events, coordinating meetings, and managing projects for a team of 50+ members, balancing multiple assignments and shifting priorities across the semester
-Relevant Coursework: Business Insight through Analytics, Predictive Analytics, Advanced Text Analytics
-
-Maharishi Dayanand University, Rohtak, Haryana, India (Aug 2021)
-Bachelor of Technology, Specialization: Computer Science and Engineering
-Earned full tuition waiver based on national merit ranking (AIR 1245) across Haryana state exams
-
-Government Polytechnic Jhajjar, Haryana, India (May 2018)
-Polytechnic Diploma in Computer Engineering
+MBA candidate at American University (May 2027) with 7+ years of software engineering experience in data integration and operational analytics. Built decision-support systems for the U.S. Department of State and banking-data products serving Capital One, connecting technical delivery to staffing capacity and customer verification.
 
 EXPERIENCE
-American University, Kogod School of Business, Washington, DC (Nov 2025 to Apr 2026)
-Research Assistant (Part-Time)
-• Authored background materials and a strategic research brief on technology policy adoption across 20+ peer institutions, delivering findings and talking points directly to Kogod School senior leadership to inform institutional decision-making
-• Built a Python Streamlit dashboard automating admissions funnel tracking across applicants, admits, deferrals, and yields, replacing manual Excel pivot tables each recruitment cycle and expanding what leadership could monitor from a single static report to a dynamic, multi-metric view
+U.S. Department of State · New Delhi, India
+Computer Programmer · November 2022 – September 2025
+• Supported a 30% increase in daily visa-request throughput by building a dashboard that exposed seasonal demand by visa type and guided consular staffing decisions
+• Replaced manual consular complaint tracking with Power Apps, Power Automate, and SharePoint workflows, consolidating service requests into a centralized intake and routing process
+• Deployed consular vetting software across U.S. diplomatic posts in India, configuring workflows and training staff so participating teams could use the platform in day-to-day operations
 
-U.S. Department of State, New Delhi, India (Nov 2022 to Sep 2025)
-Computer Programmer (consular systems, data reporting, and cross-post analytics for 10+ diplomatic missions)
-• Supported U.S. government relations and global policy operations by leading rollout of a diplomatic vetting system across 10+ embassies in South Asia, Europe, and Africa, navigating complex cross-jurisdictional policy and reputational compliance requirements
-• Produced analytical reports on visa application volumes and fee revenue used directly by mission leadership to make operational decisions, while managing ad-hoc support requests across multiple consular teams simultaneously
-• Developed written guidance materials, training documentation, and briefings for consular staff, bringing non-technical stakeholders across 4 consulates to full operational readiness on a new government platform
-• Improved mission service quality by designing complaint-routing workflows that eliminated manual follow-up, reducing case resolution time and demonstrating accountability for consistency across all sites
+AIS Info · Gurugram, India
+Software Engineer (Java Backend Developer) · November 2021 – November 2022
+• Delivered verified bankruptcy data to Capital One by building Java pipelines that classified fragmented U.S. court records, loaded databases, and integrated third-party person and bankruptcy verification
+• Developed a commercial database of U.S. deceased-person records to support bank customer verification, consolidating source data so clients could update accounts and screen loan applicants against death records
 
-AIS Info · Capital One, Gurugram, India (Nov 2021 to Nov 2022)
-Software Engineer, Java Backend Developer
-• Built a financial research platform for Capital One aggregating bankruptcy filings and deceased-identity records from U.S. court and public sources, enabling analyst teams to conduct credit and compliance research at scale
-• Supported new business development by producing data outputs and research reports that led Wells Fargo, JP Morgan, and Chase to independently license the platform for their own financial research and compliance operations
+MS Star Computers Pvt. Ltd. · New Delhi, India
+Software Application Developer · July 2018 – November 2021
+• Moved classes online for 3 schools serving grades 1–12 during COVID-19 by building a Flutter application that replaced scattered WhatsApp-distributed Zoom links with centralized class access for teachers and students
 
-MS Star Computers Pvt Ltd, New Delhi, India (Jul 2018 to Nov 2021)
-Software Application Developer
-• Managed multiple client projects simultaneously for a government client and two private companies, balancing shifting priorities across all three engagements while meeting deadlines and maintaining quality of deliverables
-• Reduced administrative processing time for three institutions by building tailored management solutions, translating complex client requirements into clear strategy documents and delivering on-time with zero escalations
+EDUCATION
+American University, Kogod School of Business · Washington, DC
+Master of Business Administration · Expected May 2027
+Coursework: Business Insight through Analytics, Predictive Analytics, Advanced Text Analytics
 
-SKILLS AND CERTIFICATIONS
-Analytics: Python (pandas), SQL, Power BI, Tableau, Streamlit, Excel
-Technical: AWS S3, Azure, Power Apps, Power Automate, SharePoint, MySQL, R, Java, database management, Microsoft 365
-Certifications: Azure Administrator Associate, Red Hat Certified System Administrator (RHCSA), Full Stack Development (MERN), Business Analytics certification (in progress, American University)`;
+Maharishi Dayanand University · Rohtak, India
+Bachelor of Technology, Computer Science and Engineering · August 2021
+
+PROJECTS
+U.S. Retail Sales Forecast (https://github.com/akbknight/us-retail-sales-forecast)
+• Converted Federal Reserve Economic Data (FRED) into retail-sales forecasts using Python and Holt-Winters models; evaluated predictions against a 12-month holdout to quantify error with MAPE, MAE, and RMSE
+
+SKILLS
+Programming & data: Python, SQL, Java, R, pandas, NumPy, MySQL, ETL pipelines, REST APIs
+Analytics: Power BI, Excel, Streamlit, statsmodels, time-series forecasting, forecast evaluation
+Applications & cloud: Flutter, Power Apps, Power Automate, SharePoint, AWS S3`;
 
 export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
-  const [activeTab, setActiveTab] = useState<"highlights" | "pdf" | "ats">("highlights");
+  const [activeTab, setActiveTab] = useState<"highlights" | "pdf" | "ats">("pdf");
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
 
@@ -257,10 +250,10 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                   {/* Executive Summary */}
                   <div className="p-4 rounded-xl border border-sky-300 bg-sky-50 dark:border-sky-500/20 dark:bg-sky-950/15">
                     <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400 mb-2">
-                      Professional Trajectory
+                      Professional Summary
                     </h3>
                     <p className="text-zinc-800 dark:text-zinc-200 leading-relaxed text-xs sm:text-sm">
-                      MBA candidate (Business Analytics &amp; AI) with 7+ years turning government and financial-services data into leadership decisions — vetting-system rollout across 10+ U.S. embassies, visa and fee-revenue analytics for mission leadership, and a financial-research platform licensed by four major U.S. banks.
+                      MBA candidate at American University (May 2027) with 7+ years of software engineering experience in data integration and operational analytics. Built decision-support systems for the U.S. Department of State and banking-data products serving Capital One, connecting technical delivery to staffing capacity and customer verification.
                     </p>
                   </div>
 
@@ -272,37 +265,14 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                     </h3>
 
                     <div className="space-y-6">
-                      {/* American University */}
-                      <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
-                        <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
-                          <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
-                            Research Assistant (Part-Time)
-                          </h4>
-                          <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
-                            Nov 2025 – Apr 2026
-                          </span>
-                        </div>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
-                          American University, Kogod School of Business · Washington, DC
-                        </p>
-                        <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
-                          <li>
-                            Authored background materials and a strategic research brief on technology policy adoption across 20+ peer institutions, delivering findings and talking points directly to Kogod School senior leadership to inform institutional decision-making.
-                          </li>
-                          <li>
-                            Built a Python Streamlit dashboard automating admissions funnel tracking across applicants, admits, deferrals, and yields, replacing manual Excel pivot tables each recruitment cycle and expanding what leadership could monitor from a single static report to a dynamic, multi-metric view.
-                          </li>
-                        </ul>
-                      </div>
-
                       {/* U.S. Department of State */}
                       <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
                           <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
-                            Computer Programmer · Diplomatic Systems &amp; Analytics
+                            Computer Programmer
                           </h4>
                           <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
-                            Nov 2022 – Sep 2025
+                            November 2022 – September 2025
                           </span>
                         </div>
                         <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
@@ -310,146 +280,158 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                         </p>
                         <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
-                            Supported U.S. government relations and global policy operations by leading rollout of a diplomatic vetting system across 10+ embassies in South Asia, Europe, and Africa, navigating complex cross-jurisdictional policy and reputational compliance requirements.
+                            Supported a 30% increase in daily visa-request throughput by building a dashboard that exposed seasonal demand by visa type and guided consular staffing decisions.
                           </li>
                           <li>
-                            Produced analytical reports on visa application volumes and fee revenue used directly by mission leadership to make operational decisions, while managing ad-hoc support requests across multiple consular teams simultaneously.
+                            Replaced manual consular complaint tracking with Power Apps, Power Automate, and SharePoint workflows, consolidating service requests into a centralized intake and routing process.
                           </li>
                           <li>
-                            Developed written guidance materials, training documentation, and briefings for consular staff, bringing non-technical stakeholders across 4 consulates to full operational readiness on a new government platform.
-                          </li>
-                          <li>
-                            Improved mission service quality by designing complaint-routing workflows that eliminated manual follow-up, reducing case resolution time and demonstrating accountability for consistency across all sites.
+                            Deployed consular vetting software across U.S. diplomatic posts in India, configuring workflows and training staff so participating teams could use the platform in day-to-day operations.
                           </li>
                         </ul>
                       </div>
 
-                      {/* AIS Info · Capital One */}
+                      {/* AIS Info */}
                       <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
                           <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
-                            Software Engineer · Java Backend Developer
+                            Software Engineer (Java Backend Developer)
                           </h4>
                           <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
-                            Nov 2021 – Nov 2022
+                            November 2021 – November 2022
                           </span>
                         </div>
                         <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
-                          AIS Info · Capital One · Gurugram, India
+                          AIS Info · Gurugram, India
                         </p>
                         <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
-                            Built a financial research platform for Capital One aggregating bankruptcy filings and deceased-identity records from U.S. court and public sources, enabling analyst teams to conduct credit and compliance research at scale.
+                            Delivered verified bankruptcy data to Capital One by building Java pipelines that classified fragmented U.S. court records, loaded databases, and integrated third-party person and bankruptcy verification.
                           </li>
                           <li>
-                            Supported new business development by producing data outputs and research reports that led <strong className="text-zinc-900 dark:text-white">Wells Fargo, JP Morgan, and Chase</strong> to independently license the platform for their own financial research and compliance operations.
+                            Developed a commercial database of U.S. deceased-person records to support bank customer verification, consolidating source data so clients could update accounts and screen loan applicants against death records.
                           </li>
                         </ul>
                       </div>
 
-                      {/* MS Star Computers */}
+                      {/* MS Star Computers Pvt. Ltd. */}
                       <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex flex-wrap items-baseline justify-between gap-1 mb-1">
                           <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
                             Software Application Developer
                           </h4>
                           <span className="text-[11px] font-mono-code text-sky-700 dark:text-sky-400">
-                            Jul 2018 – Nov 2021
+                            July 2018 – November 2021
                           </span>
                         </div>
                         <p className="text-xs text-zinc-600 dark:text-zinc-300 font-medium mb-3">
-                          MS Star Computers Pvt Ltd · New Delhi, India
+                          MS Star Computers Pvt. Ltd. · New Delhi, India
                         </p>
                         <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
-                            Managed multiple client projects simultaneously for a government client and two private companies, balancing shifting priorities across all three engagements while meeting deadlines and maintaining quality of deliverables.
-                          </li>
-                          <li>
-                            Reduced administrative processing time for three institutions by building tailored management solutions, translating complex client requirements into clear strategy documents and delivering on-time with zero escalations.
+                            Moved classes online for 3 schools serving grades 1–12 during COVID-19 by building a Flutter application that replaced scattered WhatsApp-distributed Zoom links with centralized class access for teachers and students.
                           </li>
                         </ul>
                       </div>
                     </div>
                   </div>
 
-                  {/* Education & Leadership */}
+                  {/* Education */}
                   <div>
                     <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-4 flex items-center gap-2">
                       <GraduationCap className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-                      Education &amp; Leadership
+                      Education
                     </h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex items-center justify-between gap-2 mb-1">
                           <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
-                            American University
+                            American University, Kogod School of Business
                           </h4>
                           <span className="text-[10px] font-mono-code text-sky-700 dark:text-sky-400">
                             Expected May 2027
                           </span>
                         </div>
                         <p className="text-xs text-zinc-600 dark:text-zinc-300 mb-2 font-medium">
-                          Kogod School of Business · Washington, DC
+                          Washington, DC · Master of Business Administration
                         </p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-2">
-                          Master of Business Administration (MBA): STEM Designation · Specialization: Business Analytics &amp; AI
-                        </p>
-                        <p className="text-[11px] text-zinc-700 dark:text-zinc-300 leading-relaxed bg-zinc-100 dark:bg-white/[0.03] p-2 rounded border border-zinc-200 dark:border-white/[0.05]">
-                          <strong className="text-sky-700 dark:text-sky-300">Operations Leader, Analytics Club at AU:</strong> Organizing speaker events, coordinating meetings, and managing projects for 50+ members.
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                          <em>Coursework:</em> Business Insight through Analytics, Predictive Analytics, Advanced Text Analytics
                         </p>
                       </div>
 
                       <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
                         <div className="flex items-center justify-between gap-2 mb-1">
                           <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
-                            Maharishi Dayanand Univ.
+                            Maharishi Dayanand University
                           </h4>
                           <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">
-                            Aug 2021
+                            August 2021
                           </span>
                         </div>
                         <p className="text-xs text-zinc-600 dark:text-zinc-300 mb-2 font-medium">
-                          Bachelor of Technology (B.Tech) · CSE
+                          Rohtak, India · Bachelor of Technology
                         </p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-2">
-                          Earned full tuition waiver based on national merit ranking (AIR 1245) across state exams.
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                          Computer Science and Engineering
                         </p>
-                        <div className="pt-2 border-t border-zinc-200 dark:border-white/[0.05]">
-                          <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-                            <strong>Govt Polytechnic Jhajjar:</strong> Polytechnic Diploma in Computer Engineering (May 2018).
-                          </p>
-                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Skills & Certifications */}
+                  {/* Highlighted Project */}
+                  <div>
+                    <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-4 flex items-center gap-2">
+                      <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+                      Featured Project
+                    </h3>
+                    <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <h4 className="font-semibold text-zinc-900 dark:text-white text-sm">
+                          U.S. Retail Sales Forecast
+                        </h4>
+                        <a
+                          href="https://github.com/akbknight/us-retail-sales-forecast"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] font-mono-code text-sky-600 dark:text-sky-400 hover:underline"
+                        >
+                          GitHub Repo ↗
+                        </a>
+                      </div>
+                      <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                        Converted Federal Reserve Economic Data (FRED) into retail-sales forecasts using Python and Holt-Winters models; evaluated predictions against a 12-month holdout to quantify error with MAPE, MAE, and RMSE.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Skills */}
                   <div>
                     <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-4 flex items-center gap-2">
                       <Award className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-                      Skills &amp; Enterprise Certifications
+                      Skills
                     </h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
-                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Analytics &amp; Modeling</h4>
+                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Programming &amp; Data</h4>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                          Python (pandas, statsmodels, scipy), SQL, Power BI, Tableau, Streamlit, DuckDB, Excel Advanced Modeling.
+                          Python, SQL, Java, R, pandas, NumPy, MySQL, ETL pipelines, REST APIs
                         </p>
                       </div>
 
                       <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
-                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Cloud &amp; Systems</h4>
+                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Analytics</h4>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                          AWS S3, Microsoft Azure, Power Apps, Power Automate, SharePoint, MySQL, Java, Git/GitHub Actions.
+                          Power BI, Excel, Streamlit, statsmodels, time-series forecasting, forecast evaluation
                         </p>
                       </div>
 
                       <div className="p-3.5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-white/[0.02]">
-                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Verified Credentials</h4>
+                        <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">Applications &amp; Cloud</h4>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                          Azure Administrator Associate · Red Hat Certified System Administrator (RHCSA) · Full Stack MERN.
+                          Flutter, Power Apps, Power Automate, SharePoint, AWS S3
                         </p>
                       </div>
                     </div>
@@ -462,7 +444,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.08] text-xs">
                     <span className="text-zinc-700 dark:text-zinc-300 font-mono-code">
-                      File: Akshay_Resume.pdf (369 KB) · High-Resolution PDF
+                      File: Akshay_Resume.pdf · High-Resolution PDF
                     </span>
                     <a
                       href="/assets/Akshay_Resume.pdf"

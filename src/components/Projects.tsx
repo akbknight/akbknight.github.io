@@ -20,18 +20,6 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
-    title: "Deborah Research Assistant: Forensic Audit",
-    badge: "Flagship Audit",
-    category: "Forensics & Security",
-    description:
-      "Cryptographic post-mortem and forensic reconstruction across 62 legacy archives (43 unique SHA-256 digests) and 4,426 test cases. Uncovered critical time-of-check to time-of-use DNS-rebinding SSRF vulnerabilities, cross-platform NTFS file-lock collisions, and upstream Cloudflare 403 blocks. Built automated Continuous DataOps via GitHub Actions.",
-    tech: ["Python", "Pandas", "Matplotlib", "GitHub Actions", "AST Audit"],
-    metrics: ["62 Archives Audited", "4,426 Tests Verified", "75% Debt Resolved", "Automated CI/CD"],
-    github: "https://github.com/akbknight/deborah-research-assistant-audit",
-    live: "https://github.com/akbknight/deborah-research-assistant-audit",
-    featured: true,
-  },
-  {
     title: "IRS 990 Philanthropic Grant Miner & 3D Spatial Engine",
     badge: "$550B+ Capital Mapped",
     category: "Data Pipelines & AI",
@@ -48,9 +36,9 @@ const PROJECTS: Project[] = [
     badge: "Autonomous Intelligence",
     category: "Data Pipelines & AI",
     description:
-      "Autonomous 6-stage analytics pipeline: Raw CSV ingestion → schema inference → statistical profiling → anomaly detection (Z-score & CUSUM) → Holt-Winters forecasting → Claude AI narrative synthesis into executive-ready HTML briefs.",
-    tech: ["Python", "Claude API", "statsmodels", "scipy", "Chart.js"],
-    metrics: ["6-Stage Pipeline", "Zero Configuration", "Automated Anomaly Detection"],
+      "Autonomous 6-stage analytics pipeline with Three.js particle wave canvas: Raw CSV ingestion → schema inference → statistical profiling → anomaly detection (Z-score & CUSUM) → Holt-Winters forecasting → Claude AI narrative synthesis into executive-ready briefs.",
+    tech: ["Three.js", "Python", "Claude API", "statsmodels", "Chart.js"],
+    metrics: ["6-Stage Pipeline", "Zero Configuration", "Interactive Z-Score Slider", "Three.js 3D Canvas"],
     github: "https://github.com/akbknight/ai-strategic-briefing",
     live: "https://akbknight.github.io/ai-strategic-briefing/",
     featured: true,
@@ -60,11 +48,23 @@ const PROJECTS: Project[] = [
     badge: "Econometric Modeling",
     category: "Macroeconomics",
     description:
-      "18-month forward predictive demand model for U.S. Retail & Food Services Sales using Holt-Winters triple exponential smoothing on Federal Reserve (FRED) time-series data. Features 80% and 95% predictive confidence intervals with in-sample diagnostics.",
-    tech: ["Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
-    metrics: ["135 Months FRED Data", "18-Month Horizon", "95% Predictive Intervals"],
+      "18-month forward predictive demand model for U.S. Retail & Food Services Sales using Holt-Winters triple exponential smoothing on Federal Reserve (FRED) time-series data. Features Three.js constellation canvas, 80% & 95% predictive confidence intervals, and Real-Time Econometric Tuning Studio.",
+    tech: ["Three.js", "Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
+    metrics: ["135 Months FRED Data", "18-Month Horizon", "Interactive Hyperparameters", "Three.js Canvas"],
     github: "https://github.com/akbknight/us-retail-sales-forecast",
     live: "https://akbknight.github.io/us-retail-sales-forecast/",
+    featured: true,
+  },
+  {
+    title: "Diplomatic Resource & Scheduling Optimizer",
+    badge: "Diplomatic Systems",
+    category: "Enterprise Systems",
+    description:
+      "Greedy constraint-satisfaction scheduling engine built to resolve complex multi-departmental constraints: 180 high-priority meeting requests across 20 secure rooms and 150 cleared personnel. Features Three.js 3D kinetic lattice and interactive stress test simulation.",
+    tech: ["Three.js", "JavaScript", "Greedy Algorithm", "Chart.js"],
+    metrics: ["180 Meeting Matrix", "150 Personnel Cleared", "Three.js 3D Lattice", "Stress Test Simulation"],
+    github: "https://github.com/akbknight/scheduling-optimizer",
+    live: "https://akbknight.github.io/scheduling-optimizer/",
     featured: true,
   },
   {
@@ -76,18 +76,6 @@ const PROJECTS: Project[] = [
     metrics: ["26 Years FRED Data", "3 Detection Algorithms"],
     github: "https://github.com/akbknight/anomaly-detection-monitor",
     live: "https://akbknight.github.io/anomaly-detection-monitor/",
-  },
-  {
-    title: "Diplomatic Resource & Scheduling Optimizer",
-    badge: "Diplomatic Systems",
-    category: "Enterprise Systems",
-    description:
-      "Greedy constraint-satisfaction scheduling engine built to resolve complex multi-departmental constraints: 180 high-priority meeting requests across 20 secure rooms and 150 cleared personnel. Features zero-lag client-side computation.",
-    tech: ["JavaScript", "Greedy Algorithm", "Chart.js"],
-    metrics: ["180 Meeting Matrix", "150 Personnel Cleared", "Conflict-Free Resolution"],
-    github: "https://github.com/akbknight/scheduling-optimizer",
-    live: "https://akbknight.github.io/scheduling-optimizer/",
-    featured: true,
   },
   {
     title: "Data Pipeline Validation Framework",
@@ -161,21 +149,24 @@ export const Projects = () => {
   return (
     <section id="projects" className="pt-2">
       <div className="mb-6">
-        <span className="section-label">04 · Flagship Projects</span>
+        <span className="section-label">04 · Flagship Live Applications</span>
         <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
-          Production Systems &amp; Technical Audits
+          Interactive Data Systems &amp; Visual Engines
         </h3>
         <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-          Selected high-impact engineering repositories demonstrating forensic auditing, big data pipelines, and econometric modeling.
+          Click any card to launch the live deployed application in a new tab. Equipped with Three.js 3D WebGL, interactive econometric simulators, and real-time telemetry.
         </p>
       </div>
 
-      {/* Flagship Bento Grid (Top 4) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+      {/* Flagship Bento Grid (Top 4 Visual Applications) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         {featured.map((p) => (
           <SpotlightCard
             key={p.title}
-            className="p-5 flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/30"
+            onClick={() => {
+              if (p.live) window.open(p.live, "_blank", "noopener,noreferrer");
+            }}
+            className="p-5 flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/40 cursor-pointer transition-all duration-300 hover:scale-[1.012] hover:shadow-xl hover:shadow-sky-500/10"
           >
             <div>
               {/* Badge & Category Header */}
@@ -188,9 +179,10 @@ export const Projects = () => {
                 </span>
               </div>
 
-              {/* Title */}
-              <h4 className="text-base font-bold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors flex items-center gap-1.5">
-                {p.title}
+              {/* Title with hover color */}
+              <h4 className="text-base font-bold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors flex items-center justify-between gap-2">
+                <span>{p.title}</span>
+                <ExternalLink className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all text-sky-600 dark:text-sky-400 shrink-0" />
               </h4>
 
               {/* Description */}
@@ -226,6 +218,7 @@ export const Projects = () => {
                       href={p.github}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       aria-label={`View ${p.title} source code on GitHub`}
                       className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors inline-flex"
                     >
@@ -234,22 +227,58 @@ export const Projects = () => {
                   </MagneticWrapper>
                 )}
                 {p.live && (
-                  <MagneticWrapper strength={0.25}>
-                    <a
-                      href={p.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View live demo of ${p.title}`}
-                      className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors inline-flex"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </MagneticWrapper>
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-300 bg-sky-500/10 border border-sky-500/20 px-2 py-0.5 rounded-full group-hover:bg-sky-600 group-hover:text-white dark:group-hover:bg-sky-400 dark:group-hover:text-zinc-950 transition-colors">
+                    Live Demo ↗
+                  </span>
                 )}
               </div>
             </div>
           </SpotlightCard>
         ))}
+      </div>
+
+      {/* DEDICATED SECTION: FORENSIC AUDITS & COMMAND-LINE SYSTEMS (DEMOTED DEBORAH) */}
+      <div className="mb-10 p-5 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-50/70 dark:bg-[#0A0A10]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <div className="flex items-center gap-2">
+            <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <h4 className="text-xs font-mono-code font-bold uppercase tracking-wider text-zinc-900 dark:text-white">
+              Forensic &amp; Cryptographic Systems Audits · Command-Line Tool
+            </h4>
+          </div>
+          <a
+            href="https://github.com/akbknight/deborah-research-assistant-audit"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-mono-code text-sky-600 dark:text-sky-400 hover:underline font-medium"
+          >
+            <span>GitHub Repository</span>
+            <Github className="w-3.5 h-3.5" />
+          </a>
+        </div>
+
+        <div className="space-y-2">
+          <h5 className="text-sm font-bold text-zinc-900 dark:text-white">
+            Deborah Research Assistant: Complete Forensic Audit &amp; Reconstruction
+          </h5>
+          <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
+            Cryptographic post-mortem and forensic reconstruction across 62 legacy archives (43 unique SHA-256 digests) and 4,426 test cases. Uncovered critical time-of-check to time-of-use DNS-rebinding SSRF vulnerabilities, cross-platform NTFS file-lock collisions, and upstream Cloudflare 403 blocks. Built automated Continuous DataOps via GitHub Actions.
+          </p>
+          <div className="flex flex-wrap gap-2 pt-2">
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
+              62 Archives Audited
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
+              4,426 Tests Verified
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
+              SHA-256 Digest Verification
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
+              Automated CI/CD Workflows
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Secondary Project Directory Header & Filter */}

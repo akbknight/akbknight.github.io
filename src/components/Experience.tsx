@@ -10,61 +10,43 @@ interface ExperienceProps {
 
 const EXPERIENCES = [
   {
-    period: "Nov 2025 – Apr 2026",
-    role: "Research Assistant (Part-Time)",
-    company: "American University, Kogod School of Business",
-    url: "https://www.american.edu/kogod/",
-    context:
-      "Kogod leadership needed strategic technology policy analysis across peer institutions and automated analytics across admissions recruitment cycles.",
-    actions: [
-      "Authored background materials and a strategic research brief on technology policy adoption across 20+ peer institutions, delivering findings and talking points directly to Kogod School senior leadership.",
-      "Built a Python Streamlit dashboard automating admissions funnel tracking across applicants, admits, deferrals, and yields, replacing manual Excel pivot tables each recruitment cycle and expanding visibility to dynamic, multi-metric monitoring.",
-      "Operations Leader for AU Analytics Club (50+ members): organized executive speaker events, coordinated meetings, and managed collaborative analytics projects.",
-    ],
-    results: ["20+ Peer Institutions Analyzed", "Streamlit Pipeline Deployed", "50+ Club Members Led"],
-  },
-  {
     period: "Nov 2022 – Sep 2025",
-    role: "Computer Programmer · Diplomatic Systems & Consular Analytics",
-    company: "U.S. Department of State",
+    role: "Computer Programmer",
+    company: "U.S. Department of State · New Delhi, India",
     url: null,
     context:
-      "Consular systems, diplomatic vetting, and visa revenue analytics across 10+ missions required automated cross-jurisdictional workflows and executive reporting.",
+      "Decision-support systems, operational analytics, and consular workflows for diplomatic posts across India.",
     actions: [
-      "Supported U.S. government relations and global policy operations by leading rollout of a diplomatic vetting system across 10+ embassies in South Asia, Europe, and Africa, navigating complex policy and compliance requirements.",
-      "Produced analytical reports on visa application volumes and fee revenue used directly by mission leadership to make operational decisions.",
-      "Developed written guidance materials, training documentation, and briefings for consular staff, bringing non-technical stakeholders across 4 consulates to full operational readiness.",
-      "Improved mission service quality by designing complaint-routing workflows that eliminated manual follow-up, reducing case resolution time by 75%.",
+      "Supported a 30% increase in daily visa-request throughput by building a dashboard that exposed seasonal demand by visa type and guided consular staffing decisions.",
+      "Replaced manual consular complaint tracking with Power Apps, Power Automate, and SharePoint workflows, consolidating service requests into a centralized intake and routing process.",
+      "Deployed consular vetting software across U.S. diplomatic posts in India, configuring workflows and training staff so participating teams could use the platform in day-to-day operations.",
     ],
-    results: ["10+ Embassies Deployed", "75% Workload Reduction", "4 Consulates Trained", "Fee Revenue Analytics"],
+    results: ["+30% Visa Throughput", "Automated Case Intake", "Pan-India Post Rollout"],
   },
   {
     period: "Nov 2021 – Nov 2022",
-    role: "Software Engineer · Java Backend Developer",
-    company: "AIS Info · Capital One",
+    role: "Software Engineer (Java Backend Developer)",
+    company: "AIS Info · Gurugram, India",
     url: null,
     context:
-      "Capital One needed automated aggregation and classification of bankruptcy filings and deceased-identity records from 3,000+ court and public data feeds.",
+      "High-throughput data pipelines and commercial verification products serving Capital One and major financial institutions.",
     actions: [
-      "Built a financial research platform for Capital One aggregating bankruptcy filings and deceased-identity records from U.S. court and public sources, enabling analyst teams to conduct credit and compliance research at scale.",
-      "Engineered automated validation, classification, and routing pipelines that cut legal notification latency by 50%.",
-      "Supported new business development by producing data outputs and research reports that led Wells Fargo, JP Morgan, and Chase to independently license the platform for their own operations.",
+      "Delivered verified bankruptcy data to Capital One by building Java pipelines that classified fragmented U.S. court records, loaded databases, and integrated third-party person and bankruptcy verification.",
+      "Developed a commercial database of U.S. deceased-person records to support bank customer verification, consolidating source data so clients could update accounts and screen loan applicants against death records.",
     ],
-    results: ["3,000+ Court Feeds", "Licensed by 4 Major Banks", "50% Latency Cut"],
+    results: ["Capital One Delivery", "Automated Court Pipelines", "Deceased Record DB"],
   },
   {
     period: "Jul 2018 – Nov 2021",
     role: "Software Application Developer",
-    company: "MS Star Computers Pvt Ltd",
+    company: "MS Star Computers Pvt. Ltd. · New Delhi, India",
     url: null,
     context:
-      "Managed simultaneous software delivery for a government client and two private enterprises with strict deadlines and complex data requirements.",
+      "Application development and digital infrastructure migration across regional schools and enterprises.",
     actions: [
-      "Managed multiple client projects simultaneously for a government client and two private companies, balancing shifting priorities while meeting deadlines and maintaining quality of deliverables.",
-      "Reduced administrative processing time for three institutions by 40% by building tailored workflow management solutions.",
-      "Replaced ad-hoc spreadsheet systems with structured data collection tools purpose-built for each client's workflow.",
+      "Moved classes online for 3 schools serving grades 1–12 during COVID-19 by building a Flutter application that replaced scattered WhatsApp-distributed Zoom links with centralized class access for teachers and students.",
     ],
-    results: ["40% Faster Processing", "3 Enterprise Clients", "Zero Escalations"],
+    results: ["3 K-12 Schools Migrated", "Flutter Unified Portal", "Zero Disruptions"],
   },
 ];
 
