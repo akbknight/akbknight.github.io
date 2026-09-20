@@ -87,13 +87,16 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
 
           {/* Metric-Driven Mission Statement */}
           <p className="text-sm mt-4 text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm">
-            Former <span className="text-zinc-900 dark:text-zinc-200 font-medium">U.S. Department of State</span> programmer &amp; Kogod STEM MBA candidate. Engineering high-throughput data pipelines, forensic software audits, and automated intelligence systems.
+            Former <span className="text-zinc-900 dark:text-zinc-200 font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) &amp; Kogod STEM MBA candidate. Engineering high-throughput data pipelines, forensic audits, and automated intelligence systems.
           </p>
 
           {/* Executive Badges */}
           <div className="flex flex-wrap gap-1.5 mt-5">
             <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-900/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800">
               Ex-U.S. State Dept
+            </span>
+            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
+              Ambassador Commended
             </span>
             <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-900/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800">
               Kogod MBA &apos;27

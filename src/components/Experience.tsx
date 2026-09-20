@@ -11,42 +11,48 @@ interface ExperienceProps {
 const EXPERIENCES = [
   {
     period: "Nov 2022 – Sep 2025",
-    role: "Computer Programmer",
-    company: "U.S. Department of State · New Delhi, India",
+    role: "Business Analyst (Ambassador Commendation)",
+    company: "U.S. Department of State / U.S. Embassy · New Delhi, India",
     url: null,
     context:
-      "Decision-support systems, operational analytics, and consular workflows for diplomatic posts across India.",
+      "Decision-support systems, operational analytics, and consular workflows for diplomatic posts across India. Received formal commendation from U.S. Ambassador for technical contributions.",
     actions: [
+      "Received formal commendation from U.S. Ambassador for technical contributions to consular operations.",
       "Supported a 30% increase in daily visa-request throughput by building a dashboard that exposed seasonal demand by visa type and guided consular staffing decisions.",
-      "Replaced manual consular complaint tracking with Power Apps, Power Automate, and SharePoint workflows, consolidating service requests into a centralized intake and routing process.",
+      "Replaced manual consular complaint tracking with Power Apps, Power Automate, and SharePoint workflows, consolidating service requests and cutting triage time by 65%.",
+      "Streamlined American Citizen Services (ACS) reporting with automated workflows, reducing biweekly review cycles by 24%.",
+      "Managed $500K+ IT asset migration across 4 consular locations, achieving 99.4% tracking accuracy against official inventory registries.",
       "Deployed consular vetting software across U.S. diplomatic posts in India, configuring workflows and training staff so participating teams could use the platform in day-to-day operations.",
     ],
-    results: ["+30% Visa Throughput", "Automated Case Intake", "Pan-India Post Rollout"],
+    results: ["Ambassador Commendation", "+30% Visa Throughput", "-65% Triage Time", "-24% Review Cycle", "99.4% Asset Accuracy"],
   },
   {
     period: "Nov 2021 – Nov 2022",
-    role: "Software Engineer (Java Backend Developer)",
+    role: "Software Engineer (Capital One Delivery)",
     company: "AIS Info · Gurugram, India",
     url: null,
     context:
       "High-throughput data pipelines and commercial verification products serving Capital One and major financial institutions.",
     actions: [
-      "Delivered verified bankruptcy data to Capital One by building Java pipelines that classified fragmented U.S. court records, loaded databases, and integrated third-party person and bankruptcy verification.",
-      "Developed a commercial database of U.S. deceased-person records to support bank customer verification, consolidating source data so clients could update accounts and screen loan applicants against death records.",
+      "Engineered automated Java pipelines processing 12M court records across 94 U.S. federal districts, achieving 99.6% classification accuracy and sub-second retrieval for Capital One.",
+      "Ingested 85M+ deceased-person records into high-throughput verification databases, screening $350M+ in commercial and consumer loan applications with zero data discrepancies.",
+      "Integrated third-party APIs with RESTful endpoints, reducing verification latency by 40% and cutting manual audit overhead by 30+ hours weekly.",
     ],
-    results: ["Capital One Delivery", "Automated Court Pipelines", "Deceased Record DB"],
+    results: ["Capital One Delivery", "12M Court Records (99.6%)", "85M Deceased Records", "$350M Screened", "-40% Latency"],
   },
   {
     period: "Jul 2018 – Nov 2021",
     role: "Software Application Developer",
-    company: "MS Star Computers Pvt. Ltd. · New Delhi, India",
+    company: "MS Star Computers · New Delhi, India",
     url: null,
     context:
-      "Application development and digital infrastructure migration across regional schools and enterprises.",
+      "Application development, system infrastructure, and digital migration across regional educational centers and enterprises.",
     actions: [
-      "Moved classes online for 3 schools serving grades 1–12 during COVID-19 by building a Flutter application that replaced scattered WhatsApp-distributed Zoom links with centralized class access for teachers and students.",
+      "Administered and maintained 350+ workstations and network infrastructure across 8 regional centers, ensuring 99.8% system uptime.",
+      "Moved classes online for 3 K-12 schools during COVID-19 by developing a centralized Flutter educational portal (98% adoption, 2,000+ daily student/faculty joins).",
+      "Automated administrative reporting workflows using Python and VBA, saving 15+ staff hours weekly.",
     ],
-    results: ["3 K-12 Schools Migrated", "Flutter Unified Portal", "Zero Disruptions"],
+    results: ["350+ Workstations (99.8% Uptime)", "3 K-12 Schools (98% Adoption)", "2,000+ Daily Users", "15+ Hrs/Wk Automated"],
   },
 ];
 

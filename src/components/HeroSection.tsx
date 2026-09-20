@@ -90,7 +90,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         </h1>
 
         <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl pt-1">
-          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> programmer and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod MBA candidate</span> (STEM, Business Analytics &amp; AI).
+          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod MBA candidate</span> (STEM, Business Analytics &amp; AI · GPA 3.8).
         </p>
       </motion.div>
 
