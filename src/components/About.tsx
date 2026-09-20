@@ -43,22 +43,21 @@ export const About = () => {
               American University&apos;s Kogod School of Business
             </span>{" "}
             (Washington, DC · Expected May 2027), concentrating in Business Analytics &amp; Artificial Intelligence. I also serve as{" "}
-            <span className="text-zinc-900 dark:text-white font-semibold">Operations Leader for the Analytics Club at AU</span>, managing collaborative projects and executive speaker programs for 50+ members.
+            <span className="text-zinc-900 dark:text-white font-semibold">Operations Leader for the Analytics Club at AU</span>, connecting data systems to collaborative projects.
           </p>
           <p>
             Prior to business school, I spent three years as a computer programmer at the{" "}
             <span className="text-zinc-900 dark:text-white font-semibold">
               U.S. Department of State
             </span>{" "}
-            in New Delhi — leading the cross-jurisdictional rollout of a diplomatic vetting system across 10+ embassies in South Asia, Europe, and Africa, while delivering consular fee-revenue and visa analytics directly to mission leadership.
+            in New Delhi — supporting a 30% increase in daily visa-request throughput with seasonal demand dashboards, consolidating consular service complaints into centralized Power Platform workflows, and deploying consular vetting software across U.S. diplomatic posts in India.
           </p>
           <p>
-            Before my government service, I built enterprise backend and financial research infrastructure for{" "}
-            <span className="text-zinc-900 dark:text-white font-semibold">Capital One</span> through AIS Info, ingesting and normalizing court filings across 3,000+ public sources. The platform&apos;s high-throughput performance led{" "}
-            <span className="text-zinc-900 dark:text-white font-semibold">Wells Fargo, JP Morgan, and Chase</span> to independently license the technology for their own compliance operations.
+            Previously at AIS Info, I delivered verified bankruptcy data to{" "}
+            <span className="text-zinc-900 dark:text-white font-semibold">Capital One</span> by engineering Java pipelines that classified fragmented U.S. court records across 94 federal districts, and built a commercial deceased-person verification database to support bank customer screening and loan underwriting.
           </p>
           <p>
-            Today, I focus on the intersection of high-throughput data engineering, econometric forecasting, and AI systems analysis. Outside of code, I&apos;m a{" "}
+            Earlier at MS Star Computers, I moved classes online for 3 schools serving grades 1–12 during COVID-19 by developing a centralized Flutter educational portal that eliminated fragmented communications. Outside of code, I&apos;m a{" "}
             <a
               href="/life"
               className="text-zinc-900 dark:text-white font-medium underline underline-offset-4 decoration-zinc-300 dark:decoration-white/20 hover:decoration-sky-500 hover:text-sky-600 dark:hover:text-sky-300 transition-all duration-150"
