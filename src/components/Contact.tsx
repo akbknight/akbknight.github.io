@@ -93,7 +93,7 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
             className="inline-flex items-center gap-1.5 font-mono-code text-[11px] text-zinc-600 hover:text-sky-600 dark:text-zinc-400 dark:hover:text-sky-300 transition-colors"
           >
             <Download className="w-3 h-3" />
-            <span>Akshay_Resume.pdf (369 KB)</span>
+            <span>Akshay_Resume.pdf</span>
           </a>
         </div>
       </motion.div>
