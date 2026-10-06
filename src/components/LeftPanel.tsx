@@ -91,12 +91,35 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
               </span>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-sky-600/20 dark:border-sky-500/20 bg-sky-500/10 dark:bg-sky-500/5 w-fit">
-                <span className="w-2 h-2 rounded-full bg-sky-600 dark:bg-sky-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
-                <span className="text-[11px] font-mono-code font-medium text-sky-700 dark:text-sky-400 uppercase tracking-wider">
-                  Available for Roles
-                </span>
+            <div className="flex flex-col gap-1.5 flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-sky-600/20 dark:border-sky-500/20 bg-sky-500/10 dark:bg-sky-500/5 w-fit">
+                  <span className="w-2 h-2 rounded-full bg-sky-600 dark:bg-sky-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
+                  <span className="text-[11px] font-mono-code font-medium text-sky-700 dark:text-sky-400 uppercase tracking-wider">
+                    Available for Roles
+                  </span>
+                </div>
+
+                {/* Prominent Quick Theme Toggle */}
+                <button
+                  type="button"
+                  onClick={toggle}
+                  aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                  className="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-mono-code border border-zinc-200 dark:border-white/[0.1] bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-all shadow-xs cursor-pointer"
+                  title="Toggle Dark / Light theme"
+                >
+                  {theme === "dark" ? (
+                    <>
+                      <Sun className="w-3.5 h-3.5 text-amber-400" />
+                      <span className="text-[10px]">Light</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="w-3.5 h-3.5 text-sky-600" />
+                      <span className="text-[10px]">Dark</span>
+                    </>
+                  )}
+                </button>
               </div>
 
               {/* Mascot selector toggle */}

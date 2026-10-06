@@ -3,36 +3,8 @@
 @variant dark (&:where(.dark, .dark *));
 @variant light (&:where(.light, .light *));
 
-/* ─── Apple-Grade Semantic Tokens: Light Mode (Default Root) ─────── */
+/* ─── Linear / OLED Dark Mode Tokens (Default Root) ─────────────── */
 :root,
-.light,
-[data-theme="light"] {
-  --bg:             #FBFBFD;  /* Apple signature luminous off-white */
-  --bg-surface:     #F4F4F6;  /* Subtle elevated neutral */
-  --bg-card:        #FFFFFF;  /* Pure crisp card surface */
-  --bg-card-hover:  #F8F9FA;  /* Subtle responsive hover */
-  --border:         rgba(0, 0, 0, 0.08); /* 1px precision hairline border */
-  --border-subtle:  rgba(0, 0, 0, 0.04);
-  --border-accent:  rgba(2, 132, 199, 0.35);
-
-  /* WCAG 2.2 AAA Contrast Tokens for Light Mode */
-  --text:           #09090B;  /* Deep charcoal pitch black (18:1 contrast) */
-  --text-2:         #27272A;  /* High-legibility body charcoal (13:1 contrast) */
-  --text-muted:     #52525B;  /* Muted slate metadata (7.3:1 contrast - WCAG AAA) */
-  --text-dim:       #71717A;
-
-  /* Electric Sapphire / Cyan Accent */
-  --accent:         #0284C7;
-  --accent-glow:    rgba(2, 132, 199, 0.12);
-  --accent-subtle:  rgba(2, 132, 199, 0.06);
-  --accent-hover:   #0369A1;
-
-  /* Apple-Style Depth & Elevation */
-  --card-shadow:       0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px -2px rgba(0, 0, 0, 0.03);
-  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 32px -4px rgba(0, 0, 0, 0.08);
-}
-
-/* ─── Linear / OLED Dark Mode Tokens ─────────────────────────────── */
 html.dark,
 html[data-theme="dark"],
 .dark:not(.light),
@@ -60,6 +32,35 @@ html[data-theme="dark"],
   /* Linear-Style Glow & Ambient Elevation */
   --card-shadow:       0 2px 8px rgba(0, 0, 0, 0.4);
   --card-shadow-hover: 0 16px 36px -4px rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(56, 189, 248, 0.15);
+}
+
+/* ─── Apple-Grade Semantic Tokens: Light Mode ────────────────────── */
+html.light,
+html[data-theme="light"],
+.light:not(.dark),
+[data-theme="light"]:not([data-theme="dark"]) {
+  --bg:             #FBFBFD;  /* Apple signature luminous off-white */
+  --bg-surface:     #F4F4F6;  /* Subtle elevated neutral */
+  --bg-card:        #FFFFFF;  /* Pure crisp card surface */
+  --bg-card-hover:  #F8F9FA;  /* Subtle responsive hover */
+  --border:         rgba(0, 0, 0, 0.08); /* 1px precision hairline border */
+  --border-subtle:  rgba(0, 0, 0, 0.04);
+  --border-accent:  rgba(2, 132, 199, 0.35);
+
+  /* WCAG 2.2 AAA Contrast Tokens for Light Mode */
+  --text:           #09090B;  /* Deep charcoal pitch black (18:1 contrast) */
+  --text-2:         #27272A;  /* High-legibility body charcoal (13:1 contrast) */
+  --text-muted:     #52525B;  /* Muted slate metadata (7.3:1 contrast - WCAG AAA) */
+  --text-dim:       #71717A;
+
+  /* Electric Sapphire / Cyan Accent */
+  --accent:         #0284C7;
+  --accent-glow:    rgba(2, 132, 199, 0.12);
+  --accent-subtle:  rgba(2, 132, 199, 0.06);
+  --accent-hover:   #0369A1;
+
+  --card-shadow:       0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px -2px rgba(0, 0, 0, 0.03);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 32px -4px rgba(0, 0, 0, 0.08);
 }
 
 /* ─── Global Reset & Typography Enforcements ─────────────────────── */
