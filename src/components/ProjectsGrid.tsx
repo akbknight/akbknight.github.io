@@ -14,7 +14,8 @@ const projectsData = [
         title: "Global Grants Analytics Dashboard",
         description: "A decoupled, enterprise-grade data portal processing 217K+ rows of geospatial and financial grant data. Features AI-powered data cleaning and interactive mapping.",
         techStack: ["React", "Tailwind CSS", "FastAPI", "Python", "Pandas"],
-        githubLink: "https://github.com/akbknight/global-grants-dashboard",
+        liveLink: "https://akbknight.github.io/irs990-grant-dashboard/",
+        githubLink: "https://github.com/akbknight/irs990-grant-dashboard",
     },
     {
         title: "Capital One Bankruptcy Data Platform",

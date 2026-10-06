@@ -27,8 +27,20 @@ const PROJECTS: Project[] = [
       "Production-grade autonomous organization intelligence and deep-research engine. Resolves corporate and nonprofit entities, ingests IRS Form 990 XML tax filings, extracts multi-year audited financial statements, and synthesizes multi-format intelligence packages (PDF, XLSX, HTML, JSON) without requiring paid API keys or remote LLMs. Features cryptographic loopback WebUI, bounded network egress, and strict entity verification.",
     tech: ["Python 3.12", "Flask", "ReportLab PDF", "openpyxl", "ProPublica API", "IRS EO BMF"],
     metrics: ["Zero-API Runtime", "Multi-Format Export", "IRS 990 Ingestion", "Bounded Egress Engine"],
-    github: "https://github.com/akbknight/irs990-grant-dashboard",
-    live: "https://akbknight.github.io/irs990-grant-dashboard/",
+    github: "https://github.com/akbknight/deborah-research-assistant-audit",
+    live: "https://akbknight.github.io/deborah-research-assistant-audit/",
+    featured: true,
+  },
+  {
+    title: "Master Resume Engineer (ATS Hardening Engine)",
+    badge: "Deterministic AST Engine",
+    category: "Data Pipelines & AI",
+    description:
+      "Single-source-of-truth resume engineering system enforcing strict structural AST invariants, STAR-quantified bullet banks, and deterministic ATS compilation. Eliminates hallucinations, invisible characters, and corporate clichés via automated CI/CD validation.",
+    tech: ["Python", "AST Invariants", "STAR Framework", "ReportLab", "GitHub Pages"],
+    metrics: ["100% Invariant Pass", "59.2% Metric Density", "Zero Cliché Gate", "Cumulative GPA 3.17 / 4.0"],
+    github: "https://github.com/akbknight/master-resume-engineer",
+    live: "https://akbknight.github.io/master-resume-engineer/",
     featured: true,
   },
   {
@@ -127,7 +139,17 @@ const PROJECTS: Project[] = [
     tech: ["Python", "Streamlit", "DuckDB", "Plotly"],
     metrics: ["YoY Funnel Analysis", "Deposit Pacing Telemetry"],
     github: "https://github.com/akbknight/admissions_funnel_dashboard",
-    live: "https://admissionsfunneldashboard-8pbzttpynneixaywcls7rx.streamlit.app/",
+    live: "https://akbknight.github.io/admissions_funnel_dashboard/",
+  },
+  {
+    title: "Smart File Organizer Agent",
+    category: "Enterprise Systems",
+    description:
+      "Move-only autonomous document archival agent with deep OCR (poppler/Tesseract), entity resolution (patient > doctor, applicant > university), and deterministic audit logging (_Organize_Log.txt). Zero file deletions guaranteed.",
+    tech: ["Python", "Tesseract OCR", "poppler-utils", "AST Parsing", "GitHub Pages"],
+    metrics: ["Move-Only Invariant", "Entity Resolution", "Zero Deletions", "Full Audit Log"],
+    github: "https://github.com/akbknight/smart-file-organizer",
+    live: "https://akbknight.github.io/smart-file-organizer/",
   },
   {
     title: "Signals>Noise: AT&T Enterprise AI Strategy",
