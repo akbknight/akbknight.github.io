@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, BookOpen, Sun, Moon, FileText } from "lucide-react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useTheme } from "@/components/ThemeProvider";
+import { Mascot } from "@/components/Mascot";
 
 const NAV_SECTIONS = [
   { id: "hero", label: "00 · Overview" },
@@ -52,6 +54,7 @@ interface LeftPanelProps {
 export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
   const activeId = useScrollSpy(NAV_SECTIONS.map((s) => s.id));
   const { theme, toggle } = useTheme();
+  const [mascotChoice, setMascotChoice] = useState<"wolf" | "knight">("wolf");
 
   return (
     <div className="flex flex-col justify-between h-full">
@@ -62,12 +65,70 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Identity & Status */}
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-sky-600/20 dark:border-sky-500/20 bg-sky-500/10 dark:bg-sky-500/5 mb-4">
-            <span className="w-2 h-2 rounded-full bg-sky-600 dark:bg-sky-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
-            <span className="text-[11px] font-mono-code font-medium text-sky-700 dark:text-sky-400 uppercase tracking-wider">
-              Available for Strategic Roles
-            </span>
+          {/* Mascot & Availability Bar */}
+          <div className="flex items-center gap-3.5 mb-5">
+            <div className="relative group flex-shrink-0">
+              <div className="p-1 rounded-2xl bg-zinc-100/90 dark:bg-zinc-800/80 border border-zinc-200/80 dark:border-white/[0.08] shadow-sm hover:shadow-md transition-all">
+                <Mascot
+                  key={mascotChoice}
+                  directions={
+                    mascotChoice === "wolf"
+                      ? "/mascots/wolf-directions.webp"
+                      : "/mascots/knight-directions.webp"
+                  }
+                  reactions={
+                    mascotChoice === "wolf"
+                      ? "/mascots/wolf-reactions.webp"
+                      : "/mascots/knight-reactions.webp"
+                  }
+                  size={94}
+                  label={mascotChoice === "wolf" ? "Chibi Wolf Mascot" : "Knight Mascot"}
+                  className="transition-transform group-hover:scale-105"
+                />
+              </div>
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[9px] font-mono-code bg-zinc-900/90 text-zinc-100 dark:bg-white dark:text-zinc-900 px-1.5 py-0.5 rounded shadow pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
+                Click to boop!
+              </span>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-sky-600/20 dark:border-sky-500/20 bg-sky-500/10 dark:bg-sky-500/5 w-fit">
+                <span className="w-2 h-2 rounded-full bg-sky-600 dark:bg-sky-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
+                <span className="text-[11px] font-mono-code font-medium text-sky-700 dark:text-sky-400 uppercase tracking-wider">
+                  Available for Roles
+                </span>
+              </div>
+
+              {/* Mascot selector toggle */}
+              <div className="inline-flex items-center gap-1 text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">
+                <span className="text-zinc-400 dark:text-zinc-500">Mascot:</span>
+                <button
+                  type="button"
+                  onClick={() => setMascotChoice("wolf")}
+                  className={`px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
+                    mascotChoice === "wolf"
+                      ? "bg-sky-500/15 text-sky-700 dark:text-sky-300 font-semibold border border-sky-500/30"
+                      : "hover:text-zinc-700 dark:hover:text-zinc-200"
+                  }`}
+                  aria-label="Switch to Chibi Wolf mascot"
+                >
+                  🐺 Wolf
+                </button>
+                <span className="text-zinc-300 dark:text-zinc-700">/</span>
+                <button
+                  type="button"
+                  onClick={() => setMascotChoice("knight")}
+                  className={`px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
+                    mascotChoice === "knight"
+                      ? "bg-sky-500/15 text-sky-700 dark:text-sky-300 font-semibold border border-sky-500/30"
+                      : "hover:text-zinc-700 dark:hover:text-zinc-200"
+                  }`}
+                  aria-label="Switch to Knight mascot"
+                >
+                  🛡️ Knight
+                </button>
+              </div>
+            </div>
           </div>
 
           <h1
