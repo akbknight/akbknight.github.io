@@ -171,6 +171,46 @@ const PROJECTS: Project[] = [
     github: "https://github.com/akbknight/economic-scenario-analysis",
     live: "https://akbknight.github.io/economic-scenario-analysis/",
   },
+  {
+    title: "ITEC-617 Digital Transformation Simulation Coach",
+    category: "Enterprise Systems",
+    description:
+      "Autonomous C-suite simulation coach for MBA technology proposals. Engages 9 executive personas (CIO, CISO, CFO, COO, CHRO, CTO, CDO, Legal, Procurement) across 45 criteria and 9 weighted rubric dimensions grounded in 4 years of Kogod MBA competition judge feedback.",
+    tech: ["Claude Code Skills", "Copilot Agents", "SVG Architecture", "Interactive Rubrics"],
+    metrics: ["9 Executive Personas", "45 Criteria Evaluated", "100% Weighted Score", "4-Year Judge Feedback"],
+    github: "https://github.com/akbknight/ITEC-617-Digital-Transformation-Project",
+    live: "https://akbknight.github.io/ITEC-617-Digital-Transformation-Project/",
+  },
+  {
+    title: "Fulfilr Strategy & Operations Platform",
+    category: "Enterprise Systems",
+    description:
+      "Operator-led digital operating platform aligning product, operations, and scalable digital capabilities with execution-ready playbooks and metrics.",
+    tech: ["HTML5", "CSS3", "JavaScript", "Chart.js"],
+    metrics: ["Execution Roadmaps", "Operator Playbooks", "Modular Delivery"],
+    github: "https://github.com/akbknight/Fulfiler-project",
+    live: "https://akbknight.github.io/Fulfiler-project/",
+  },
+  {
+    title: "Tour & Travel Relational Management System",
+    category: "Enterprise Systems",
+    description:
+      "Relational database architecture and PyODBC booking engine built with Microsoft SQL Server Management Studio. Star-relational schema with 5 foreign key constraints and interactive web explorer.",
+    tech: ["Python", "MS SQL Server", "pyodbc", "SQL Schema", "Tkinter"],
+    metrics: ["3NF Schema", "5 Foreign Keys", "Relational Integrity", "Seed Datasets"],
+    github: "https://github.com/akbknight/System-for-Tour-and-Travel-Management",
+    live: "https://akbknight.github.io/System-for-Tour-and-Travel-Management/",
+  },
+  {
+    title: "Weathery Node.js CLI Weather Tool",
+    category: "Data Pipelines & AI",
+    description:
+      "Terminal weather application built in Node.js featuring ASCII Figlet typography, Inquirer prompts, animated loading spinners, and Boxen forecast summaries with live OpenWeatherMap API integration.",
+    tech: ["Node.js", "Inquirer", "Chalk", "Boxen", "Figlet"],
+    metrics: ["Interactive CLI", "OpenWeatherMap API", "Terminal Boxen UI"],
+    github: "https://github.com/akbknight/weather-cli-nodejs",
+    live: "https://akbknight.github.io/weather-cli-nodejs/",
+  },
 ];
 
 export const Projects = () => {
