@@ -55,7 +55,7 @@ Software Application Developer · July 2018 – November 2021
 EDUCATION
 American University, Kogod School of Business · Washington, DC
 Master of Business Administration (STEM-designated) · May 2027
-Concentration: Business Analytics & Artificial Intelligence | GPA: 3.8/4.0
+Concentration: Business Analytics & Artificial Intelligence | GPA: 3.17/4.0
 Leadership: Operations Leader, Analytics Club at AU
 Coursework: Predictive Analytics, Database & Big Data, AI for Business Strategy
 
@@ -396,7 +396,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                           Washington, DC · Master of Business Administration (STEM-designated)
                         </p>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">
-                          <strong>Concentration:</strong> Business Analytics &amp; Artificial Intelligence | <strong>GPA:</strong> 3.8/4.0
+                          <strong>Concentration:</strong> Business Analytics &amp; Artificial Intelligence | <strong>GPA:</strong> 3.17/4.0
                         </p>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                           <em>Leadership:</em> Operations Leader, Analytics Club at AU | <em>Coursework:</em> Predictive Analytics, Database &amp; Big Data, AI for Business Strategy
