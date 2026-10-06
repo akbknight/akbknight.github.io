@@ -63,14 +63,14 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-600/20 dark:border-sky-500/25 bg-sky-500/10 dark:bg-sky-950/20 backdrop-blur-sm mb-6"
+        className="inline-flex items-center gap-2.5 px-3 py-1 rounded-md border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.04] backdrop-blur-sm mb-6"
       >
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 dark:bg-sky-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-600 dark:bg-sky-400" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
         </span>
-        <span className="text-[11px] font-mono-code font-medium text-sky-700 dark:text-sky-300 uppercase tracking-wider">
-          Available for Strategic Roles · Washington, D.C. · Kogod MBA &apos;27
+        <span className="text-[11px] font-mono-code font-medium text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
+          Washington, DC · Kogod STEM MBA &apos;27 · Former U.S. State Dept
         </span>
       </motion.div>
 
@@ -81,16 +81,12 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         transition={{ duration: 0.3, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
         className="space-y-3"
       >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.1]">
-          Analytics Engineering,{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-sky-500 to-indigo-600 dark:from-sky-400 dark:via-sky-300 dark:to-indigo-300">
-            Forensic Audits
-          </span>{" "}
-          &amp; Strategic DataOps.
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.08] text-balance">
+          Architecting resilient data systems for federal diplomacy &amp; capital markets.
         </h1>
 
         <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl pt-1">
-          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod MBA candidate</span> (STEM, Business Analytics &amp; AI · GPA 3.8).
+          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod MBA candidate</span> (STEM, Business Analytics &amp; AI · GPA 3.8/4.0).
         </p>
       </motion.div>
 

@@ -28,11 +28,12 @@ export const ArchitectureDiagram = () => {
               </div>
               <h4 className="text-xs font-semibold text-zinc-900 dark:text-white">Multi-Source Ingestion</h4>
               <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                9.7M+ Form 990 XML records, FRED macro APIs, and State Dept scheduling pipelines.
+                9.7M+ Form 990 XML records, 12M federal bankruptcy filings, and FRED macroeconomic time series.
               </p>
             </div>
             <div className="mt-3 pt-2 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-wrap gap-1">
               <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">IRS XML</span>
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">PACER</span>
               <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">FRED</span>
             </div>
           </div>
@@ -44,14 +45,15 @@ export const ArchitectureDiagram = () => {
                 <ShieldCheck className="w-5 h-5" />
                 <span className="text-[10px] font-mono-code text-zinc-500 uppercase">Stage 02</span>
               </div>
-              <h4 className="text-xs font-semibold text-zinc-900 dark:text-white">Forensic &amp; AST Audit</h4>
+              <h4 className="text-xs font-semibold text-zinc-900 dark:text-white">Entity Resolution &amp; Audit</h4>
               <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                SHA-256 cryptographic verification, AST dependency analysis, and SSRF/permission checks.
+                Deterministic EIN matching, Schedule A/B/I reconciliation, and SHA-256 cryptographic verification.
               </p>
             </div>
             <div className="mt-3 pt-2 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-wrap gap-1">
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">EIN Match</span>
               <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">SHA-256</span>
-              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">AST Diff</span>
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Zero-API</span>
             </div>
           </div>
 
@@ -62,14 +64,15 @@ export const ArchitectureDiagram = () => {
                 <Cpu className="w-5 h-5" />
                 <span className="text-[10px] font-mono-code text-zinc-500 uppercase">Stage 03</span>
               </div>
-              <h4 className="text-xs font-semibold text-zinc-900 dark:text-white">Statistical Engine</h4>
+              <h4 className="text-xs font-semibold text-zinc-900 dark:text-white">Statistical &amp; OLAP Engine</h4>
               <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                Holt-Winters forecasting, CUSUM anomaly monitoring, and greedy constraint optimization.
+                Holt-Winters demand forecasting, CUSUM/Z-score anomaly monitors, and in-memory DuckDB OLAP queries.
               </p>
             </div>
             <div className="mt-3 pt-2 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-wrap gap-1">
               <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">DuckDB</span>
-              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Pandas</span>
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">statsmodels</span>
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">CUSUM</span>
             </div>
           </div>
 
@@ -80,14 +83,15 @@ export const ArchitectureDiagram = () => {
                 <BarChart3 className="w-5 h-5" />
                 <span className="text-[10px] font-mono-code text-zinc-500 uppercase">Stage 04</span>
               </div>
-              <h4 className="text-xs font-semibold text-zinc-900 dark:text-white">Executive Delivery</h4>
+              <h4 className="text-xs font-semibold text-zinc-900 dark:text-white">Multi-Format Delivery</h4>
               <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
-                Interactive dashboards, C-suite policy briefings, and automated CI/CD reports.
+                Interactive 3D WebGL spatial visualizers, executive PDF/Excel dossiers, and automated CI/CD reports.
               </p>
             </div>
             <div className="mt-3 pt-2 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-wrap gap-1">
-              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Streamlit</span>
-              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Next.js</span>
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">Three.js</span>
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">ReportLab</span>
+              <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">openpyxl</span>
             </div>
           </div>
         </div>
