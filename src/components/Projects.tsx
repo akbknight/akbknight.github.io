@@ -20,6 +20,18 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
+    title: "Deborah Autonomous Deep-Research Engine (v3.5)",
+    badge: "Enterprise Intelligence",
+    category: "Data Pipelines & AI",
+    description:
+      "Production-grade autonomous organization intelligence and deep-research engine. Resolves corporate and nonprofit entities, ingests IRS Form 990 XML tax filings, extracts multi-year audited financial statements, and synthesizes multi-format intelligence packages (PDF, XLSX, HTML, JSON) without requiring paid API keys or remote LLMs. Features cryptographic loopback WebUI, bounded network egress, and strict entity verification.",
+    tech: ["Python 3.12", "Flask", "ReportLab PDF", "openpyxl", "ProPublica API", "IRS EO BMF"],
+    metrics: ["Zero-API Runtime", "Multi-Format Export", "IRS 990 Ingestion", "Bounded Egress Engine"],
+    github: "https://github.com/akbknight/irs990-grant-dashboard",
+    live: "https://akbknight.github.io/irs990-grant-dashboard/",
+    featured: true,
+  },
+  {
     title: "IRS 990 Philanthropic Grant Miner & 3D Spatial Engine",
     badge: "$550B+ Capital Mapped",
     category: "Data Pipelines & AI",

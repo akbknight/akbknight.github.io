@@ -64,6 +64,9 @@ Bachelor of Technology, Computer Science and Engineering · August 2021
 First Class with Distinction
 
 PROJECTS
+Deborah Autonomous Deep-Research Engine (v3.5)
+• Built an autonomous organization intelligence engine resolving nonprofit identities and extracting multi-year IRS 990 financial statements with zero-API-key runtime extraction, bounded network egress, and multi-format reporting (PDF, Excel, HTML, JSON)
+
 IRS 990 Philanthropic Grant Miner & 3D Spatial Engine (https://github.com/akbknight/irs990-grant-dashboard)
 • Engineered end-to-end Python/ETL pipeline parsing 9.7M IRS Form 990 XML records ($550B+ charitable funding) with interactive 3D WebGL globe and real-time choropleth mapping
 
