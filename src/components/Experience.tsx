@@ -21,10 +21,10 @@ const EXPERIENCES = [
       "Supported a 30% increase in daily visa-request throughput by building a dashboard that exposed seasonal demand by visa type and guided consular staffing decisions.",
       "Replaced manual consular complaint tracking with Power Apps, Power Automate, and SharePoint workflows, consolidating service requests and cutting triage time by 65%.",
       "Streamlined American Citizen Services (ACS) reporting with automated workflows, reducing biweekly review cycles by 24%.",
-      "Managed $500K+ IT asset migration across 4 consular locations, achieving 99.4% tracking accuracy against official inventory registries.",
+      "Maintained consular IT technology assets and systems across 4 locations, achieving 99.4% tracking accuracy against official inventory registries.",
       "Deployed consular vetting software across U.S. diplomatic posts in India, configuring workflows and training staff so participating teams could use the platform in day-to-day operations.",
     ],
-    results: ["Ambassador Commendation", "+30% Visa Throughput", "-65% Triage Time", "-24% Review Cycle", "99.4% Asset Accuracy"],
+    results: ["Ambassador Commendation", "+30% Visa Throughput", "-65% Triage Time", "-24% Review Cycle", "99.4% Inventory Accuracy"],
   },
   {
     period: "Nov 2021 – Nov 2022",
@@ -48,11 +48,11 @@ const EXPERIENCES = [
     context:
       "Application development, system infrastructure, and digital migration across regional educational centers and enterprises.",
     actions: [
-      "Administered and maintained 350+ workstations and network infrastructure across 8 regional centers, ensuring 99.8% system uptime.",
+      "Administered and maintained 350+ workstations and network infrastructure across 8 regional centers, ensuring a 99.7% first-time compatibility rate.",
       "Moved classes online for 3 K-12 schools during COVID-19 by developing a centralized Flutter educational portal (98% adoption, 2,000+ daily student/faculty joins).",
       "Automated administrative reporting workflows using Python and VBA, saving 15+ staff hours weekly.",
     ],
-    results: ["350+ Workstations (99.8% Uptime)", "3 K-12 Schools (98% Adoption)", "2,000+ Daily Users", "15+ Hrs/Wk Automated"],
+    results: ["350+ Workstations", "99.7% Compatibility", "3 K-12 Schools (98% Adoption)", "2,000+ Daily Users", "15+ Hrs/Wk Automated"],
   },
 ];
 

@@ -38,7 +38,7 @@ const PROJECTS: Project[] = [
     description:
       "Single-source-of-truth resume engineering system enforcing strict structural AST invariants, STAR-quantified bullet banks, and deterministic ATS compilation. Eliminates hallucinations, invisible characters, and corporate clichés via automated CI/CD validation.",
     tech: ["Python", "AST Invariants", "STAR Framework", "ReportLab", "GitHub Pages"],
-    metrics: ["100% Invariant Pass", "59.2% Metric Density", "Zero Cliché Gate", "Cumulative GPA 3.17 / 4.0"],
+    metrics: ["100% Invariant Pass", "59.2% Metric Density", "Zero Cliché Gate", "Deterministic AST Compiler"],
     github: "https://github.com/akbknight/master-resume-engineer",
     live: "https://akbknight.github.io/master-resume-engineer/",
     featured: true,
@@ -72,9 +72,9 @@ const PROJECTS: Project[] = [
     badge: "Econometric Modeling",
     category: "Macroeconomics",
     description:
-      "18-month forward predictive demand model for U.S. Retail & Food Services Sales using Holt-Winters triple exponential smoothing on Federal Reserve (FRED) time-series data. Features Three.js constellation canvas, 80% & 95% predictive confidence intervals, and Real-Time Econometric Tuning Studio.",
+      "18-month forward predictive demand model for U.S. Retail & Food Services Sales (RSXFS) using Holt-Winters triple exponential smoothing on 26+ years of monthly Federal Reserve (FRED) time-series data. Features 80% & 95% predictive confidence intervals, walk-forward holdout validation (~2.0% MAPE), and Real-Time Econometric Tuning Studio.",
     tech: ["Three.js", "Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
-    metrics: ["135 Months FRED Data", "18-Month Horizon", "Interactive Hyperparameters", "Three.js Canvas"],
+    metrics: ["320 Months FRED Data", "~2.0% Backtest MAPE", "18-Month Horizon", "State-Space ETS(A,A,A)"],
     github: "https://github.com/akbknight/us-retail-sales-forecast",
     live: "https://akbknight.github.io/us-retail-sales-forecast/",
     featured: true,
@@ -223,7 +223,7 @@ export const Projects = () => {
   return (
     <section id="projects" className="pt-2">
       <div className="mb-6">
-        <span className="section-label">04 · Flagship Live Applications</span>
+        <span className="section-label">04 · Flagship Projects</span>
         <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
           Interactive Data Systems &amp; Visual Engines
         </h3>

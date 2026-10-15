@@ -2,106 +2,135 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, FileCode, BookMarked, ArrowUpRight } from "lucide-react";
 
 export const Writing = () => {
   return (
     <section id="writing">
-      <p className="section-label mb-6">04 · Writing</p>
+      <p className="section-label mb-6">05 · Publications &amp; Technical Notes</p>
 
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.45 }}
-        className="card-surface group flex gap-6 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] p-6 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
-      >
-        {/* Book cover */}
-        <a
-          href="https://www.amazon.com/dp/B0FCMZW2N1"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Dawn's Hunger on Amazon"
-          className="shrink-0 relative"
+      <div className="space-y-4">
+        {/* Technical Publication 1: Econometric Forecasting */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4 }}
+          className="card-surface group rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] p-5 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
         >
-          <div className="w-[52px] h-[76px] rounded-sm bg-gradient-to-b from-red-950 to-[#0d0000] border-l-[3px] border-l-red-900/60 flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-300">
-            <span
-              className="text-[6.5px] font-serif text-red-200/80 text-center uppercase tracking-[0.2em] leading-tight px-1"
-              style={{ writingMode: "vertical-rl", textOrientation: "mixed", transform: "rotate(180deg)" }}
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <div className="flex items-center gap-2">
+              <span className="p-1.5 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                <FileCode className="w-4 h-4" />
+              </span>
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                Econometric Demand Forecasting Methodology (FRED Time-Series)
+              </h3>
+            </div>
+            <a
+              href="https://github.com/akbknight/us-retail-sales-forecast/blob/main/docs/methodology.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Econometric Demand Forecasting Methodology"
+              className="text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors shrink-0"
             >
-              Dawn&apos;s Hunger
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </div>
+
+          <p className="text-[12px] text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
+            Mathematical specification of state-space ETS(A,A,A) models, joint parameter estimation via maximum likelihood (L-BFGS-B), analytical prediction interval derivation, and walk-forward holdout validation for U.S. macroeconomic indicators.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              statsmodels
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              State-Space ETS
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              FRED RSXFS
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              Walk-Forward Backtest
             </span>
           </div>
-          {/* Spine shadow */}
-          <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-r from-black/40 to-transparent rounded-l-sm pointer-events-none" />
-        </a>
+        </motion.div>
 
-        {/* Content */}
-        <div className="min-w-0">
-          <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200 mb-1">
-            Dawn&apos;s Hunger
-          </h3>
-          <p className="text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400 italic mb-3">
-            &ldquo;When desire crosses oceans, even touchless love burns.&rdquo;
-          </p>
-          <p className="text-[12px] text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
-            A narrative exploration of urban isolation and the unseen forces that drive us.
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <a
-              href="https://www.amazon.com/dp/B0FCMZW2N1"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-zinc-700 dark:text-zinc-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors duration-200"
-            >
-              Amazon Kindle
-              <ExternalLink className="w-3 h-3" aria-hidden="true" />
-            </a>
-            <a
-              href="https://books.apple.com/us/book/dawns-hunger/id6746973914"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-zinc-700 dark:text-zinc-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors duration-200"
-            >
-              Apple Books
-              <ExternalLink className="w-3 h-3" aria-hidden="true" />
-            </a>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Photography teaser */}
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-30px" }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="mt-4"
-      >
-        <Link
-          href="/life"
-          prefetch={false}
-          className="card-surface group flex items-center justify-between rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] px-6 py-4 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
+        {/* Technical Publication 2: IRS Form 990 Architecture */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4, delay: 0.08 }}
+          className="card-surface group rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] p-5 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
         >
-          <div>
-            <p className="text-[13px] font-medium text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200">
-              Photography &amp; more
-            </p>
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-              Pexels contributor · Beyond the terminal
-            </p>
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <div className="flex items-center gap-2">
+              <span className="p-1.5 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                <BookMarked className="w-4 h-4" />
+              </span>
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                IRS Form 990 Ingestion Architecture &amp; Data Governance Contract
+              </h3>
+            </div>
+            <a
+              href="https://github.com/akbknight/form990-grant-miner/blob/main/docs/architecture.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View IRS 990 Ingestion Architecture"
+              className="text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors shrink-0"
+            >
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
           </div>
-          <svg
-            className="w-4 h-4 text-zinc-400 dark:text-zinc-500 group-hover:text-sky-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all duration-200 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
+
+          <p className="text-[12px] text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
+            System architecture contract detailing in-memory streaming XML parsing of 9.7M+ filings, anti-double-counting invariants for DAF pass-through capital, and multi-year donor-recipient longitudinal relationship ledgers.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              DataOps Architecture
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              In-Memory XML Streaming
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              DAF Invariants
+            </span>
+            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
+              PostgreSQL / DuckDB
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Photography & Personal Essays Link */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-30px" }}
+          transition={{ duration: 0.4, delay: 0.14 }}
+          className="mt-2"
+        >
+          <Link
+            href="/life"
+            prefetch={false}
+            className="card-surface group flex items-center justify-between rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] px-5 py-3.5 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-          </svg>
-        </Link>
-      </motion.div>
+            <div>
+              <p className="text-[13px] font-medium text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200">
+                Creative Writing &amp; Photography
+              </p>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                Pexels Contributor · Personal Essays · Beyond the Terminal
+              </p>
+            </div>
+            <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+          </Link>
+        </motion.div>
+      </div>
     </section>
   );
 };

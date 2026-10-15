@@ -37,7 +37,7 @@ Business Analyst · November 2022 – September 2025
 • Supported a 30% increase in daily visa-request throughput by building a dashboard that exposed seasonal demand by visa type and guided consular staffing decisions
 • Replaced manual consular complaint tracking with Power Apps, Power Automate, and SharePoint workflows, consolidating service requests and cutting triage time by 65%
 • Streamlined American Citizen Services (ACS) reporting with automated workflows, reducing biweekly review cycles by 24%
-• Managed $500K+ IT asset migration across 4 consular locations, achieving 99.4% tracking accuracy against official inventory registries
+• Maintained consular IT technology assets and systems across 4 locations, achieving 99.4% tracking accuracy against official inventory registries
 • Deployed consular vetting software across U.S. diplomatic posts in India, configuring workflows and training staff so participating teams could use the platform in day-to-day operations
 
 AIS Info · Gurugram, India
@@ -48,14 +48,14 @@ Software Engineer (Capital One Delivery) · November 2021 – November 2022
 
 MS Star Computers · New Delhi, India
 Software Application Developer · July 2018 – November 2021
-• Administered and maintained 350+ workstations and network infrastructure across 8 regional centers, ensuring 99.8% system uptime
+• Administered and maintained 350+ workstations and network infrastructure across 8 regional centers, ensuring a 99.7% first-time compatibility rate
 • Moved classes online for 3 K-12 schools during COVID-19 by developing a centralized Flutter educational portal (98% adoption, 2,000+ daily student/faculty joins)
 • Automated administrative reporting workflows using Python and VBA, saving 15+ staff hours weekly
 
 EDUCATION
 American University, Kogod School of Business · Washington, DC
 Master of Business Administration (STEM-designated) · May 2027
-Concentration: Business Analytics & Artificial Intelligence | GPA: 3.17/4.0
+Concentration: Business Analytics & Artificial Intelligence
 Leadership: Operations Leader, Analytics Club at AU
 Coursework: Predictive Analytics, Database & Big Data, AI for Business Strategy
 
@@ -310,7 +310,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                             Streamlined American Citizen Services (ACS) reporting with automated workflows, reducing biweekly review cycles by 24%.
                           </li>
                           <li>
-                            Managed $500K+ IT asset migration across 4 consular locations, achieving 99.4% tracking accuracy against official inventory registries.
+                            Maintained consular IT technology assets and systems across 4 locations, achieving 99.4% tracking accuracy against official inventory registries.
                           </li>
                           <li>
                             Deployed consular vetting software across U.S. diplomatic posts in India, configuring workflows and training staff so participating teams could use the platform in day-to-day operations.
@@ -362,7 +362,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                         </p>
                         <ul className="space-y-2 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed list-disc list-inside">
                           <li>
-                            Administered and maintained 350+ workstations and network infrastructure across 8 regional centers, ensuring 99.8% system uptime.
+                            Administered and maintained 350+ workstations and network infrastructure across 8 regional centers, ensuring a 99.7% first-time compatibility rate.
                           </li>
                           <li>
                             Moved classes online for 3 K-12 schools during COVID-19 by developing a centralized Flutter educational portal (98% adoption, 2,000+ daily student/faculty joins).
@@ -396,7 +396,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                           Washington, DC · Master of Business Administration (STEM-designated)
                         </p>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">
-                          <strong>Concentration:</strong> Business Analytics &amp; Artificial Intelligence | <strong>GPA:</strong> 3.17/4.0
+                          <strong>Concentration:</strong> Business Analytics &amp; Artificial Intelligence
                         </p>
                         <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                           <em>Leadership:</em> Operations Leader, Analytics Club at AU | <em>Coursework:</em> Predictive Analytics, Database &amp; Big Data, AI for Business Strategy

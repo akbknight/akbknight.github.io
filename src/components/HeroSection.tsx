@@ -32,9 +32,9 @@ const METRICS = [
     icon: <Building2 className="w-4 h-4 text-sky-600 dark:text-sky-400" />,
   },
   {
-    value: "$550B+",
-    label: "Capital Mapped",
-    detail: "9.7M+ IRS 990 XML records analyzed with 3D WebGL capital flow arcs",
+    value: "9.7M+",
+    label: "IRS 990 Filings",
+    detail: "Form 990 Schedule I grant disbursements standardized into relational SQL warehouse",
     icon: <TrendingUp className="w-4 h-4 text-sky-600 dark:text-sky-400" />,
   },
   {
@@ -86,7 +86,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         </h1>
 
         <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl pt-1">
-          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod MBA candidate</span> (STEM, Business Analytics &amp; AI · GPA 3.17/4.0).
+          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod MBA candidate</span> (STEM, Business Analytics &amp; AI).
         </p>
       </motion.div>
 
