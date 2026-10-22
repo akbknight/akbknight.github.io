@@ -124,9 +124,8 @@ export const Writing = () => {
           transition={{ duration: 0.4, delay: 0.14 }}
           className="mt-2"
         >
-          <Link
+          <a
             href="/life"
-            prefetch={false}
             className="card-surface group flex items-center justify-between rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] px-5 py-3.5 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
           >
             <div>
@@ -138,7 +137,7 @@ export const Writing = () => {
               </p>
             </div>
             <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
-          </Link>
+          </a>
         </motion.div>
       </div>
     </section>
