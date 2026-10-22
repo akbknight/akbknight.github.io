@@ -251,6 +251,7 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
             <Link
               key={soc.label}
               href={soc.href}
+              prefetch={false}
               aria-label={soc.label}
               className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800/60 transition-colors border border-transparent hover:border-zinc-300 dark:hover:border-zinc-700/60"
             >
