@@ -138,7 +138,7 @@ export const ArchitectureDiagram = () => {
   return (
     <section id="architecture" className="pt-2">
       <div className="mb-6">
-        <span className="section-label">03 · Systems Architecture</span>
+        <span className="section-label">04 · Systems Architecture</span>
         <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
           Forensic DataOps &amp; Pipeline Architecture
         </h3>

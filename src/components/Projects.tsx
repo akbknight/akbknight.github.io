@@ -223,7 +223,7 @@ export const Projects = () => {
   return (
     <section id="projects" className="pt-2">
       <div className="mb-6">
-        <span className="section-label">04 · Flagship Projects</span>
+        <span className="section-label">05 · Flagship Projects</span>
         <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
           Interactive Data Systems &amp; Visual Engines
         </h3>

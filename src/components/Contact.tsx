@@ -11,7 +11,7 @@ interface ContactProps {
 export const Contact = ({ onOpenResume }: ContactProps) => {
   return (
     <section id="contact">
-      <p className="section-label mb-6">06 · Contact &amp; Connect</p>
+      <p className="section-label mb-6">07 · Contact &amp; Connect</p>
 
       <motion.div
         initial={{ opacity: 0, y: 18 }}
