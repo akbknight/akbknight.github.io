@@ -225,13 +225,17 @@ export const ArchitectureDiagram = () => {
                 key={stage.id}
                 type="button"
                 onClick={() => setActiveStageId(stage.id)}
-                className={`text-left flex flex-col justify-between p-4 rounded-xl transition-all duration-150 cursor-pointer border ${
+                className={`hairline-frame group text-left flex flex-col justify-between p-4 rounded-xl transition-all duration-150 cursor-pointer border relative overflow-hidden ${
                   isSelected
                     ? "bg-zinc-50 dark:bg-zinc-900/90 border-sky-500/50 dark:border-sky-400/50 shadow-sm"
                     : "bg-zinc-50/50 dark:bg-zinc-900/30 border-zinc-200/80 dark:border-white/[0.06] hover:border-zinc-300 dark:hover:border-white/[0.12] hover:bg-zinc-50 dark:hover:bg-zinc-900/50"
                 }`}
                 aria-pressed={isSelected}
               >
+                <span className="hairline-caliper caliper-tl" aria-hidden="true" />
+                <span className="hairline-caliper caliper-tr" aria-hidden="true" />
+                <span className="hairline-caliper caliper-bl" aria-hidden="true" />
+                <span className="hairline-caliper caliper-br" aria-hidden="true" />
                 <div>
                   <div className="flex items-center justify-between mb-2.5">
                     <div
@@ -283,8 +287,13 @@ export const ArchitectureDiagram = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-5 p-4 sm:p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/80 dark:bg-zinc-900/60"
+            className="mt-5 p-4 sm:p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50/80 dark:bg-zinc-900/60 hairline-frame relative group overflow-hidden"
           >
+            <span className="hairline-caliper caliper-tl" aria-hidden="true" />
+            <span className="hairline-caliper caliper-tr" aria-hidden="true" />
+            <span className="hairline-caliper caliper-bl" aria-hidden="true" />
+            <span className="hairline-caliper caliper-br" aria-hidden="true" />
+            <span className="hairline-caliper-tag" aria-hidden="true">CONTRACT VERIFIED</span>
             <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-zinc-200 dark:border-white/[0.06]">
               <div className="flex items-center gap-2">
                 <span className="text-[11px] font-mono-code uppercase font-semibold text-sky-600 dark:text-sky-400">

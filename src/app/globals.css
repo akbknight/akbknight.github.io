@@ -233,3 +233,92 @@ section { scroll-margin-top: 32px; }
 .spotlight-card:hover::after {
   opacity: 1;
 }
+
+/* ─── Forensic Hairline Viewfinder & Optical Caliper System ──────── */
+.hairline-frame {
+  position: relative;
+}
+
+.hairline-caliper {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 20;
+  transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.caliper-tl {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  transform: translate(-3px, -3px);
+}
+
+.caliper-tr {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  transform: translate(3px, -3px);
+}
+
+.caliper-bl {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  transform: translate(-3px, 3px);
+}
+
+.caliper-br {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  transform: translate(3px, 3px);
+}
+
+.hairline-frame:hover .hairline-caliper,
+.hairline-frame:focus-within .hairline-caliper {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.hairline-caliper-tag {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  font-family: var(--font-mono), monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  border: 1px solid var(--border-accent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+  transition: opacity 180ms ease, transform 180ms ease;
+  transform: translateY(-2px);
+}
+
+.hairline-frame:hover .hairline-caliper-tag,
+.hairline-frame:focus-within .hairline-caliper-tag {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hairline-caliper,
+  .hairline-caliper-tag {
+    transition: opacity 80ms linear !important;
+    transform: none !important;
+  }
+}
+

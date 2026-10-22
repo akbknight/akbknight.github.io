@@ -6,12 +6,16 @@ interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   spotlightColor?: string;
+  showCaliper?: boolean;
+  caliperLabel?: string;
 }
 
 export const SpotlightCard = ({
   children,
   className = "",
   spotlightColor,
+  showCaliper = true,
+  caliperLabel,
   ...props
 }: SpotlightCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -29,7 +33,7 @@ export const SpotlightCard = ({
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`spotlight-card card-surface rounded-2xl relative overflow-hidden transition-all duration-300 ${className}`}
+      className={`spotlight-card hairline-frame card-surface group relative overflow-hidden transition-all duration-200 ${className}`}
       style={
         spotlightColor
           ? ({ "--spotlight-color": spotlightColor, ...props.style } as React.CSSProperties)
@@ -37,6 +41,36 @@ export const SpotlightCard = ({
       }
       {...props}
     >
+      {/* Precision 4-Corner Viewfinder Calipers (Hairline Interaction) */}
+      {showCaliper && (
+        <>
+          <span
+            className="hairline-caliper caliper-tl"
+            aria-hidden="true"
+          />
+          <span
+            className="hairline-caliper caliper-tr"
+            aria-hidden="true"
+          />
+          <span
+            className="hairline-caliper caliper-bl"
+            aria-hidden="true"
+          />
+          <span
+            className="hairline-caliper caliper-br"
+            aria-hidden="true"
+          />
+          {caliperLabel && (
+            <span
+              className="hairline-caliper-tag"
+              aria-hidden="true"
+            >
+              {caliperLabel}
+            </span>
+          )}
+        </>
+      )}
+
       <div className="relative z-10">{children}</div>
     </div>
   );

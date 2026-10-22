@@ -237,6 +237,7 @@ export const Projects = () => {
         {featured.map((p) => (
           <SpotlightCard
             key={p.title}
+            caliperLabel={p.badge || "INSPECTION"}
             onClick={() => {
               if (p.live) window.open(p.live, "_blank", "noopener,noreferrer");
             }}
@@ -385,6 +386,7 @@ export const Projects = () => {
           {secondary.map((p) => (
             <SpotlightCard
               key={p.title}
+            caliperLabel={p.badge || "INSPECTION"}
               className="p-3.5 rounded-lg border border-zinc-200/80 dark:border-white/[0.06] bg-white dark:bg-[#0E0E14] shadow-xs dark:shadow-none flex flex-col sm:flex-row sm:items-center justify-between gap-3"
             >
               <div className="flex-1">

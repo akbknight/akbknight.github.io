@@ -3,9 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Dot + ring cursor with velocity-based deformation.
- * Ring stretches into an ellipse in the direction of movement.
- * All animation runs in rAF — zero React re-renders during motion.
+ * Precision Hairline Viewfinder Reticle Cursor.
+ * Features:
+ * - 0.5px / 1px precision hairline ring with 4 orthogonal optical reticle ticks.
+ * - Velocity-based fluid spring deformation.
+ * - Respects prefers-reduced-motion and touch device standards.
+ * - All animation executes in rAF with zero React re-renders.
  */
 export const ViewfinderCursor = () => {
   const ringRef = useRef<HTMLDivElement>(null);
@@ -21,7 +24,7 @@ export const ViewfinderCursor = () => {
   const vel  = useRef({ x: 0, y: 0 });
 
   // Lerped visual values managed entirely in rAF
-  const lRingSize    = useRef(28);
+  const lRingSize    = useRef(26);
   const lRingOpacity = useRef(0);
   const lDotSize     = useRef(3);
   const lDotOpacity  = useRef(0);
@@ -35,7 +38,10 @@ export const ViewfinderCursor = () => {
   const [isTouch, setIsTouch] = useState(true);
 
   useEffect(() => {
-    if (!window.matchMedia("(hover: hover)").matches) return;
+    // Disable on touch devices or if reduced motion is requested
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     setIsTouch(false);
 
     const onMove = (e: MouseEvent) => {
@@ -46,7 +52,7 @@ export const ViewfinderCursor = () => {
     const onUp   = () => { clickRef.current = false; };
 
     const attachHover = () => {
-      document.querySelectorAll("a, button, [role='button']").forEach((raw) => {
+      document.querySelectorAll("a, button, [role='button'], input, .spotlight-card").forEach((raw) => {
         const el = raw as HTMLElement;
         el.addEventListener("mouseenter", () => { hoverRef.current = true; });
         el.addEventListener("mouseleave", () => { hoverRef.current = false; });
@@ -67,34 +73,34 @@ export const ViewfinderCursor = () => {
       const isClick = clickRef.current;
 
       // Lerp ring position toward mouse
-      curr.current.x = lerp(curr.current.x, pos.current.x, 0.12);
-      curr.current.y = lerp(curr.current.y, pos.current.y, 0.12);
+      curr.current.x = lerp(curr.current.x, pos.current.x, 0.14);
+      curr.current.y = lerp(curr.current.y, pos.current.y, 0.14);
 
       // Smooth velocity
       const rawVX = curr.current.x - prev.current.x;
       const rawVY = curr.current.y - prev.current.y;
-      vel.current.x = lerp(vel.current.x, rawVX, 0.28);
-      vel.current.y = lerp(vel.current.y, rawVY, 0.28);
+      vel.current.x = lerp(vel.current.x, rawVX, 0.3);
+      vel.current.y = lerp(vel.current.y, rawVY, 0.3);
       prev.current  = { x: curr.current.x, y: curr.current.y };
 
-      // Velocity → stretch
+      // Velocity → subtle stretch
       const speed   = Math.sqrt(vel.current.x ** 2 + vel.current.y ** 2);
       const angle   = Math.atan2(vel.current.y, vel.current.x) * (180 / Math.PI);
-      const stretch = Math.min(speed * 0.09, 0.55);
+      const stretch = Math.min(speed * 0.07, 0.45);
       const sx      = 1 + stretch;
-      const sy      = Math.max(1 - stretch * 0.55, 0.58);
+      const sy      = Math.max(1 - stretch * 0.5, 0.65);
 
       // Lerp ring visual properties
-      const targetSize    = isClick ? 18  : isHover ? 42  : 28;
-      const targetOpacity = !seen   ? 0   : isClick ? 0.35 : isHover ? 0.8 : 0.45;
-      lRingSize.current    = lerp(lRingSize.current,    targetSize,    0.2);
-      lRingOpacity.current = lerp(lRingOpacity.current, targetOpacity, 0.15);
+      const targetSize    = isClick ? 18  : isHover ? 44  : 26;
+      const targetOpacity = !seen   ? 0   : isClick ? 0.35 : isHover ? 0.85 : 0.45;
+      lRingSize.current    = lerp(lRingSize.current,    targetSize,    0.22);
+      lRingOpacity.current = lerp(lRingOpacity.current, targetOpacity, 0.18);
 
       // Lerp dot visual properties
-      const targetDotSize    = isHover ? 5 : 2.5;
-      const targetDotOpacity = !seen   ? 0 : 1;
-      lDotSize.current    = lerp(lDotSize.current,    targetDotSize,    0.2);
-      lDotOpacity.current = lerp(lDotOpacity.current, targetDotOpacity, 0.18);
+      const targetDotSize    = isHover ? 4 : 2.5;
+      const targetDotOpacity = !seen   ? 0 : 0.95;
+      lDotSize.current    = lerp(lDotSize.current,    targetDotSize,    0.22);
+      lDotOpacity.current = lerp(lDotOpacity.current, targetDotOpacity, 0.2);
 
       // Apply ring transform
       if (ringRef.current) {
@@ -110,7 +116,7 @@ export const ViewfinderCursor = () => {
           `translate(${cx - half}px, ${cy - half}px) rotate(${angle}deg) scaleX(${sx}) scaleY(${sy})`;
       }
 
-      // Apply dot transform (precise, no lag)
+      // Apply dot transform (precise, immediate tracking)
       if (dotRef.current) {
         const d    = lDotSize.current;
         const half = d / 2;
@@ -141,25 +147,36 @@ export const ViewfinderCursor = () => {
     <>
       <div
         ref={ringRef}
+        aria-hidden="true"
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           borderRadius: "50%",
-          border: "1.5px solid var(--accent)",
+          border: "1px solid var(--accent)",
+          boxShadow: "0 0 6px var(--accent-subtle)",
           pointerEvents: "none",
           zIndex: 9998,
           willChange: "transform, width, height, opacity",
         }}
-      />
+      >
+        {/* Orthogonal Precision Optical Hairline Reticle Ticks */}
+        <span style={{ position: "absolute", top: "-5px", left: "50%", width: "1px", height: "4px", background: "var(--accent)", transform: "translateX(-50%)" }} />
+        <span style={{ position: "absolute", bottom: "-5px", left: "50%", width: "1px", height: "4px", background: "var(--accent)", transform: "translateX(-50%)" }} />
+        <span style={{ position: "absolute", left: "-5px", top: "50%", height: "1px", width: "4px", background: "var(--accent)", transform: "translateY(-50%)" }} />
+        <span style={{ position: "absolute", right: "-5px", top: "50%", height: "1px", width: "4px", background: "var(--accent)", transform: "translateY(-50%)" }} />
+      </div>
+
       <div
         ref={dotRef}
+        aria-hidden="true"
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           borderRadius: "50%",
           background: "var(--accent)",
+          boxShadow: "0 0 4px var(--accent)",
           pointerEvents: "none",
           zIndex: 9999,
           willChange: "transform, width, height, opacity",
