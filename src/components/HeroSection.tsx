@@ -63,14 +63,14 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="inline-flex items-center gap-2.5 px-3 py-1 rounded-md border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/[0.04] backdrop-blur-sm mb-6"
+        className="inline-flex items-center gap-2.5 px-3 py-1 rounded-md border border-emerald-500/30 dark:border-emerald-500/25 bg-emerald-50/70 dark:bg-emerald-500/10 backdrop-blur-sm mb-6"
       >
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
         </span>
-        <span className="text-[11px] font-mono-code font-medium text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
-          Washington, DC · Kogod STEM MBA &apos;27 · Former U.S. State Dept
+        <span className="text-[11px] font-mono-code font-medium text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">
+          Washington, DC · Kogod STEM MBA &apos;27 · Graduating May 2027 · Available June 1, 2027
         </span>
       </motion.div>
 
@@ -86,7 +86,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         </h1>
 
         <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl pt-1">
-          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod MBA candidate</span> (STEM, Business Analytics &amp; AI).
+          7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod STEM MBA candidate</span> (Business Analytics &amp; AI). Graduating May 2027; available full-time June 1, 2027 for Business Intelligence, Data Analytics, and Operations Analytics roles.
         </p>
       </motion.div>
 

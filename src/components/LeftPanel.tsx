@@ -93,10 +93,10 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
 
             <div className="flex flex-col gap-1.5 flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-sky-600/20 dark:border-sky-500/20 bg-sky-500/10 dark:bg-sky-500/5 w-fit">
-                  <span className="w-2 h-2 rounded-full bg-sky-600 dark:bg-sky-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
-                  <span className="text-[11px] font-mono-code font-medium text-sky-700 dark:text-sky-400 uppercase tracking-wider">
-                    Available for Roles
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-emerald-600/30 dark:border-emerald-500/25 bg-emerald-500/10 dark:bg-emerald-500/10 w-fit">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
+                  <span className="text-[11px] font-mono-code font-medium text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">
+                    Available June 1, 2027
                   </span>
                 </div>
 
@@ -166,12 +166,15 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
           </h1>
 
           <h2 className="text-base font-medium mt-2 text-zinc-700 dark:text-zinc-300 tracking-tight">
-            Analytics Engineer &amp; MBA Candidate
+            Analytics Engineer &amp; STEM MBA Candidate
           </h2>
+          <p className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400 mt-1">
+            Business Intelligence · Data Analytics · Operations
+          </p>
 
           {/* Metric-Driven Mission Statement */}
-          <p className="text-sm mt-4 text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm">
-            Former <span className="text-zinc-900 dark:text-zinc-200 font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) &amp; Kogod STEM MBA candidate. Engineering high-throughput data pipelines, forensic audits, and automated intelligence systems.
+          <p className="text-sm mt-3 text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm">
+            Former <span className="text-zinc-900 dark:text-zinc-200 font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) &amp; Kogod STEM MBA candidate (Graduating May 2027 · Available June 1, 2027). Engineering high-throughput data pipelines, forensic audits, and automated intelligence systems.
           </p>
 
           {/* Executive Badges */}

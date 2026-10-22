@@ -46,7 +46,7 @@ export const About = () => {
             <span className="text-zinc-900 dark:text-white font-semibold">
               American University&apos;s Kogod School of Business
             </span>{" "}
-            (Washington, DC · Expected May 2027), concentrating in Business Analytics &amp; Artificial Intelligence. I also serve as{" "}
+            (Washington, DC · Graduating May 2027 · Available Full-Time June 1, 2027), concentrating in Business Analytics &amp; Artificial Intelligence. Targeting Business Intelligence, Data Analytics, and Operations Analytics roles. I also serve as{" "}
             <span className="text-zinc-900 dark:text-white font-semibold">Operations Leader for the Analytics Club at AU</span>, bridging rigorous analytical modeling with high-impact operational delivery.
           </p>
           <p>

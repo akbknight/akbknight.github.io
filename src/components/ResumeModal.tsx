@@ -28,7 +28,7 @@ Washington, DC | (202) 415-4366 | ak8335a@american.edu
 linkedin.com/in/akshaykumardl | github.com/akbknight | akbknight.github.io
 
 SUMMARY
-MBA candidate at American University (May 2027) with 7+ years of software engineering experience in data integration and operational analytics. Built decision-support systems for the U.S. Department of State and banking-data products serving Capital One, connecting technical delivery to staffing capacity and customer verification.
+MBA candidate at American University (Graduating May 2027 · Available Full-Time June 1, 2027 for BI, Data Analytics & Operations roles) with 7+ years of software engineering experience in data integration and operational analytics. Built decision-support systems for the U.S. Department of State and banking-data products serving Capital One, connecting technical delivery to staffing capacity and customer verification.
 
 EXPERIENCE
 U.S. Department of State · New Delhi, India
@@ -54,7 +54,7 @@ Software Application Developer · July 2018 – November 2021
 
 EDUCATION
 American University, Kogod School of Business · Washington, DC
-Master of Business Administration (STEM-designated) · May 2027
+Master of Business Administration (STEM-designated) · May 2027 (Available June 1, 2027)
 Concentration: Business Analytics & Artificial Intelligence
 Leadership: Operations Leader, Analytics Club at AU
 Coursework: Predictive Analytics, Database & Big Data, AI for Business Strategy
@@ -71,7 +71,7 @@ IRS 990 Philanthropic Grant Miner & 3D Spatial Engine (https://github.com/akbkni
 • Engineered end-to-end Python/ETL pipeline parsing 9.7M IRS Form 990 XML records ($550B+ charitable funding) with interactive 3D WebGL globe and real-time choropleth mapping
 
 U.S. Retail Sales Forecast Engine (https://github.com/akbknight/us-retail-sales-forecast)
-• Developed time-series forecasting models using Holt-Winters exponential smoothing on 10+ years of FRED macroeconomic data, achieving 3.4% MAPE across 12-month holdout evaluated via MAE and RMSE
+• Developed time-series forecasting models using Holt-Winters exponential smoothing on 26+ years of monthly FRED macroeconomic data, achieving ~2.0% holdout backtest MAPE evaluated via MAE and RMSE
 
 SKILLS
 Programming & Data: Python, SQL, Java, R, C/C++, MySQL, REST APIs, DuckDB, Pandas, NumPy
@@ -162,7 +162,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                     </span>
                   </h2>
                   <p className="text-[11px] font-mono-code text-zinc-600 dark:text-zinc-400">
-                    Washington, DC · American University Kogod MBA (STEM) · Ex-U.S. State Dept
+                    Washington, DC · American University Kogod STEM MBA &apos;27 (Available June 1, 2027)
                   </p>
                 </div>
               </div>
@@ -389,7 +389,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                             American University, Kogod School of Business
                           </h4>
                           <span className="text-[10px] font-mono-code text-sky-700 dark:text-sky-400">
-                            Expected May 2027
+                            May 2027 · Available June 1, 2027
                           </span>
                         </div>
                         <p className="text-xs text-zinc-600 dark:text-zinc-300 mb-1 font-medium">
@@ -463,7 +463,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                           </a>
                         </div>
                         <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                          Developed time-series forecasting models using Holt-Winters exponential smoothing on 10+ years of FRED macroeconomic data, achieving 3.4% MAPE across 12-month holdout evaluated via MAE and RMSE.
+                          Developed time-series forecasting models using Holt-Winters exponential smoothing on 26+ years of monthly FRED macroeconomic data, achieving ~2.0% holdout backtest MAPE evaluated via MAE and RMSE.
                         </p>
                       </div>
                     </div>
