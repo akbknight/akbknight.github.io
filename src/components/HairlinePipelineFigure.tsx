@@ -209,6 +209,17 @@ export const HairlinePipelineFigure: React.FC<HairlinePipelineFigureProps> = ({
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [internalHover, setInternalHover] = useState<number | null>(null);
+  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
+
+  // Dynamic reduced-motion preference tracking
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setIsReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   // Effective highlight: hoveredStage takes precedence, fallback to activeStage
   const highlightedIndex = hoveredStageIndex !== null ? hoveredStageIndex : (internalHover !== null ? internalHover : activeStageIndex);
@@ -355,6 +366,22 @@ export const HairlinePipelineFigure: React.FC<HairlinePipelineFigureProps> = ({
     onHoverStage(null);
   }, [onHoverStage]);
 
+  const handlePointerDown = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const rect = svg.getBoundingClientRect();
+    const sx = ((e.clientX - rect.left) / rect.width) * 400;
+    const sy = ((e.clientY - rect.top) / rect.height) * 320;
+
+    const C = camRef.current;
+    const world = unproj(C, sx, sy, 0);
+    const normY = clamp((world[1] + D) / (2 * D), 0, 1);
+    const chosen = clamp(Math.floor(normY * 4), 0, 3);
+    setInternalHover(chosen);
+    onSelectStage(chosen);
+    springRef.current.t = 28;
+  }, [onSelectStage]);
+
   const handleClick = useCallback(() => {
     if (highlightedIndex !== null) {
       onSelectStage(highlightedIndex);
@@ -409,9 +436,11 @@ export const HairlinePipelineFigure: React.FC<HairlinePipelineFigureProps> = ({
           ref={svgRef}
           viewBox="0 0 400 320"
           className="w-full h-full object-contain"
+          onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
           onClick={handleClick}
+          style={{ touchAction: "none" }}
           aria-hidden="true"
         >
           {/* Base Plinth */}

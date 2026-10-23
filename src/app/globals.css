@@ -322,3 +322,57 @@ section { scroll-margin-top: 32px; }
   }
 }
 
+/* ─── Container Query for Responsive Portfolio Layout & Zoom Adaptability ── */
+.portfolio-layout-wrapper {
+  container-type: inline-size;
+  container-name: portfolio-layout;
+  width: 100%;
+}
+
+@container portfolio-layout (min-width: 1024px) {
+  .portfolio-grid-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+  }
+  .portfolio-sidebar-col {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    width: 34%;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    overscroll-behavior: contain;
+  }
+  .portfolio-content-col {
+    width: 66%;
+    padding-top: 5rem;
+    padding-bottom: 6rem;
+  }
+}
+
+@container portfolio-layout (max-width: 1023px) {
+  .portfolio-grid-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .portfolio-sidebar-col {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+  }
+  .portfolio-content-col {
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 6rem;
+  }
+}
+
+

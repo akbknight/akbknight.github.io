@@ -11,7 +11,7 @@ interface ContactProps {
 export const Contact = ({ onOpenResume }: ContactProps) => {
   return (
     <section id="contact">
-      <p className="section-label mb-6">06 · Contact &amp; Connect</p>
+      <p className="section-label mb-6">05 · Contact &amp; Hiring</p>
 
       <motion.div
         initial={{ opacity: 0, y: 18 }}
@@ -24,11 +24,11 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
           className="font-bold text-zinc-900 dark:text-white mb-3"
           style={{ fontSize: "clamp(1.4rem, 3vw, 1.85rem)", letterSpacing: "-0.02em", lineHeight: 1.2 }}
         >
-          Let&apos;s build something exceptional.
+          Let&apos;s connect.
         </h3>
 
         <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-lg mb-8">
-          Currently open to strategic roles, analytics engineering leadership, and high-impact advisory across government, fintech, and enterprise intelligence systems.
+          I am actively seeking full-time roles in Business Intelligence, Data Analytics, and Operations Analytics starting June 1, 2027, following graduation from American University&apos;s Kogod School of Business (STEM MBA). If you have an opportunity or would like to discuss my work, please reach out directly.
         </p>
 
         {/* Action Buttons */}
@@ -36,10 +36,10 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
           <MagneticWrapper>
             <a
               href="mailto:ak8335a@american.edu"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white dark:text-[#050507] bg-sky-600 hover:bg-sky-500 dark:bg-sky-400 dark:hover:bg-sky-300 px-5 py-3 rounded-xl shadow-md dark:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-150"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white dark:text-[#050507] bg-sky-600 hover:bg-sky-500 dark:bg-sky-400 dark:hover:bg-sky-300 px-5 py-3 rounded-xl shadow-sm transition-all duration-150"
             >
               <Mail className="w-4 h-4" aria-hidden="true" />
-              <span>Initiate Conversation</span>
+              <span>ak8335a@american.edu</span>
             </a>
           </MagneticWrapper>
 

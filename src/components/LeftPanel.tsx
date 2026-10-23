@@ -10,12 +10,11 @@ import { Mascot } from "@/components/Mascot";
 
 const NAV_SECTIONS = [
   { id: "hero", label: "00 · Overview" },
-  { id: "about", label: "01 · About & Focus" },
-  { id: "experience", label: "02 · Verified Track Record" },
-  { id: "architecture", label: "03 · Systems Architecture" },
-  { id: "projects", label: "04 · Flagship Projects" },
-  { id: "writing", label: "05 · Publications & Notes" },
-  { id: "contact", label: "06 · Contact & Connect" },
+  { id: "about", label: "01 · Background & Focus" },
+  { id: "experience", label: "02 · Track Record" },
+  { id: "projects", label: "03 · Featured Systems" },
+  { id: "writing", label: "04 · Technical Write-ups & Methodology" },
+  { id: "contact", label: "05 · Contact & Hiring" },
 ];
 
 const SOCIALS = [
@@ -57,7 +56,7 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
   const [mascotChoice, setMascotChoice] = useState<"wolf" | "knight">("wolf");
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="flex flex-col justify-between min-h-full gap-8">
       {/* Header Profile Block */}
       <div>
         <motion.div
@@ -68,7 +67,7 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
           {/* Mascot & Availability Bar */}
           <div className="flex items-center gap-3.5 mb-5">
             <div className="relative group flex-shrink-0">
-              <div className="p-1 rounded-2xl bg-zinc-100/90 dark:bg-zinc-800/80 border border-zinc-200/80 dark:border-white/[0.08] shadow-sm hover:shadow-md transition-all">
+              <div className="p-1 rounded-2xl bg-zinc-100/90 dark:bg-zinc-800/80 border border-zinc-200/80 dark:border-white/[0.08] shadow-sm transition-all">
                 <Mascot
                   key={mascotChoice}
                   directions={
@@ -81,31 +80,28 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
                       ? "/mascots/wolf-reactions.webp"
                       : "/mascots/knight-reactions.webp"
                   }
-                  size={94}
+                  size={84}
                   label={mascotChoice === "wolf" ? "Chibi Wolf Mascot" : "Knight Mascot"}
                   className="transition-transform group-hover:scale-105"
                 />
               </div>
-              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[9px] font-mono-code bg-zinc-900/90 text-zinc-100 dark:bg-white dark:text-zinc-900 px-1.5 py-0.5 rounded shadow pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
-                Click to boop!
-              </span>
             </div>
 
             <div className="flex flex-col gap-1.5 flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-emerald-600/30 dark:border-emerald-500/25 bg-emerald-500/10 dark:bg-emerald-500/10 w-fit">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]" />
-                  <span className="text-[11px] font-mono-code font-medium text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">
-                    Available June 1, 2027
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-zinc-100/70 dark:bg-white/[0.03] w-fit">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                  <span className="text-[11px] font-mono-code font-medium text-zinc-700 dark:text-zinc-300">
+                    Washington, DC
                   </span>
                 </div>
 
-                {/* Prominent Quick Theme Toggle */}
+                {/* Quick Theme Toggle */}
                 <button
                   type="button"
                   onClick={toggle}
                   aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                  className="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-mono-code border border-zinc-200 dark:border-white/[0.1] bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-all shadow-xs cursor-pointer"
+                  className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-mono-code border border-zinc-200 dark:border-white/[0.1] bg-zinc-100/80 dark:bg-zinc-800/80 text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-all shadow-xs cursor-pointer"
                   title="Toggle Dark / Light theme"
                 >
                   {theme === "dark" ? (
@@ -157,54 +153,35 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
           <h1
             className="font-bold tracking-tight text-zinc-900 dark:text-white"
             style={{
-              fontSize: "clamp(2rem, 4.5vw, 2.85rem)",
-              lineHeight: 1.05,
-              letterSpacing: "-0.04em",
+              fontSize: "clamp(2rem, 4vw, 2.75rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
             }}
           >
-            Akshay Kumar
+            <span className="inline-block whitespace-nowrap">Akshay</span>{" "}
+            <span className="inline-block whitespace-nowrap">Kumar</span>
           </h1>
 
-          <h2 className="text-base font-medium mt-2 text-zinc-700 dark:text-zinc-300 tracking-tight">
-            Analytics Engineer &amp; STEM MBA Candidate
+          <h2 className="text-sm font-medium mt-1.5 text-zinc-700 dark:text-zinc-300 tracking-tight">
+            Analytics Engineer &amp; Operations Analyst
           </h2>
-          <p className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400 mt-1">
+          <p className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400 mt-0.5">
             Business Intelligence · Data Analytics · Operations
           </p>
 
-          {/* Metric-Driven Mission Statement */}
-          <p className="text-sm mt-3 text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm">
-            Former <span className="text-zinc-900 dark:text-zinc-200 font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) &amp; Kogod STEM MBA candidate (Graduating May 2027 · Available June 1, 2027). Engineering high-throughput data pipelines, forensic audits, and automated intelligence systems.
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm mt-3">
+            Building reliable data pipelines, operational forecasting models, and decision-support dashboards that translate complex public and enterprise data into leadership decisions.
           </p>
 
-          {/* Executive Badges */}
-          <div className="flex flex-wrap gap-1.5 mt-5">
-            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-900/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800">
-              Ex-U.S. State Dept
-            </span>
-            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
-              Ambassador Commended
-            </span>
-            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-900/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800">
-              Kogod MBA &apos;27
-            </span>
-            <span className="text-[10px] font-mono-code uppercase px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-900/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800">
-              DataOps &amp; Audit
-            </span>
-          </div>
-
-          {/* Direct Sidebar Quick Resume Button */}
+          {/* Quick Resume Link */}
           {onOpenResume && (
-            <div className="mt-6">
+            <div className="mt-5">
               <button
                 onClick={onOpenResume}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-mono-code font-medium transition-all duration-150 group cursor-pointer"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-white/[0.05] dark:hover:bg-white/[0.1] text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-white/10 text-xs font-medium transition-all duration-150 group cursor-pointer"
               >
-                <FileText className="w-3.5 h-3.5" />
-                <span>Interactive Résumé</span>
-                <span className="text-[9px] uppercase px-1 rounded bg-sky-200/60 dark:bg-sky-500/20 text-sky-800 dark:text-sky-300 group-hover:bg-sky-200">
-                  PDF View
-                </span>
+                <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+                <span>Interactive résumé (PDF)</span>
               </button>
             </div>
           )}
@@ -212,29 +189,27 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
 
         {/* Semantic Navigation with Strict Spring Physics */}
         <nav className="mt-10 hidden lg:block" aria-label="Primary page navigation">
-          <ul className="space-y-1">
+          <ul className="space-y-1.5">
             {NAV_SECTIONS.map((sec) => {
               const isActive = activeId === sec.id;
               return (
                 <li key={sec.id}>
                   <a
                     href={`#${sec.id}`}
-                    className={`group flex items-center gap-3.5 py-1.5 transition-colors duration-150 ${
+                    className={`group flex items-center gap-3 px-3 py-1.5 rounded-lg transition-all duration-150 text-xs font-mono-code uppercase tracking-wider ${
                       isActive
-                        ? "text-sky-600 dark:text-sky-400 font-semibold"
-                        : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                        ? "bg-sky-500/10 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 font-semibold border border-sky-500/30 shadow-xs"
+                        : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-zinc-100/70 dark:hover:bg-white/[0.04] border border-transparent"
                     }`}
                   >
                     <span
-                      className={`h-[1px] transition-all duration-200 ${
+                      className={`h-[1.5px] rounded-full transition-all duration-200 ${
                         isActive
-                          ? "w-8 bg-sky-600 dark:bg-sky-400"
-                          : "w-3 bg-zinc-300 group-hover:w-5 group-hover:bg-zinc-500 dark:bg-zinc-600 dark:group-hover:w-5 dark:group-hover:bg-zinc-400"
+                          ? "w-5 bg-sky-600 dark:bg-sky-400"
+                          : "w-2 bg-zinc-300 group-hover:w-3.5 group-hover:bg-zinc-500 dark:bg-zinc-600 dark:group-hover:bg-zinc-400"
                       }`}
                     />
-                    <span className="text-xs font-mono-code uppercase tracking-widest">
-                      {sec.label}
-                    </span>
+                    <span>{sec.label}</span>
                   </a>
                 </li>
               );

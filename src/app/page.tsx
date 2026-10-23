@@ -5,7 +5,6 @@ import { LeftPanel } from "@/components/LeftPanel";
 import { HeroSection } from "@/components/HeroSection";
 import { About } from "@/components/About";
 import { Experience } from "@/components/Experience";
-import { ArchitectureDiagram } from "@/components/ArchitectureDiagram";
 import { Projects } from "@/components/Projects";
 import { Writing } from "@/components/Writing";
 import { PhotoLanes } from "@/components/PhotoLanes";
@@ -13,7 +12,6 @@ import { Contact } from "@/components/Contact";
 import { ResumeModal } from "@/components/ResumeModal";
 import { AmbientCanvas } from "@/components/AmbientCanvas";
 import { ScrollProgressBar } from "@/components/ScrollProgressBar";
-import { CustomCursor } from "@/components/CustomCursor";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -23,34 +21,27 @@ export default function Home() {
       className="min-h-[100dvh] relative"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
-      {/* ── Awwwards-Tier Micro-Interactive Layer ── */}
+      {/* Editorial Ambient Progress & Canvas Layers */}
       <ScrollProgressBar />
       <AmbientCanvas />
-      <CustomCursor />
 
-      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:px-12 lg:px-20">
-        <div className="lg:flex lg:gap-12 xl:gap-16">
+      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:px-12 lg:px-20 portfolio-layout-wrapper">
+        <div className="portfolio-grid-layout">
 
           {/* ── Left: sticky sidebar with executive profile ──── */}
           <aside
             aria-label="Executive profile and site navigation"
-            className="
-              lg:sticky lg:top-0 lg:max-h-screen lg:overflow-hidden
-              lg:w-[40%] xl:w-[38%]
-              flex flex-col
-              pt-16 pb-10 lg:py-24
-            "
+            className="portfolio-sidebar-col flex flex-col scrollbar-none"
           >
             <LeftPanel onOpenResume={() => setIsResumeOpen(true)} />
           </aside>
 
           {/* ── Right: scrollable narrative & technical portfolio ── */}
-          <div className="lg:w-[60%] xl:w-[62%] pt-6 lg:pt-20 pb-24 space-y-20">
+          <div className="portfolio-content-col space-y-20">
             {/* Commanding Hero Section with verified metrics & dual CTAs */}
             <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
             <About />
             <Experience onOpenResume={() => setIsResumeOpen(true)} />
-            <ArchitectureDiagram />
             <Projects />
             <Writing />
             <Contact onOpenResume={() => setIsResumeOpen(true)} />
