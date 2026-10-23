@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { Github, ExternalLink, Maximize2, X, BookOpen, Database, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { ProjectPipelineFigure } from "@/components/ProjectPipelineFigure";
@@ -147,6 +147,13 @@ export const Projects = () => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
+  const closeLightbox = useCallback(() => {
+    setLightboxImage(null);
+    setTimeout(() => {
+      triggerRef.current?.focus();
+    }, 50);
+  }, []);
+
   // Accessible Lightbox Dialog: Focus Trap, Escape Key, and Scroll Lock
   useEffect(() => {
     if (!lightboxImage) return;
@@ -162,6 +169,7 @@ export const Projects = () => {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        e.preventDefault();
         closeLightbox();
         return;
       }
@@ -189,18 +197,11 @@ export const Projects = () => {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [lightboxImage]);
+  }, [lightboxImage, closeLightbox]);
 
   const openLightbox = (img: { src: string; alt: string; title: string }, trigger: HTMLButtonElement) => {
     triggerRef.current = trigger;
     setLightboxImage(img);
-  };
-
-  const closeLightbox = () => {
-    setLightboxImage(null);
-    setTimeout(() => {
-      triggerRef.current?.focus();
-    }, 50);
   };
 
   return (
@@ -475,7 +476,12 @@ export const Projects = () => {
       {/* Accessible Full-Screen Lightbox Dialog */}
       <AnimatePresence>
         {lightboxImage && (
-          <div
+          <motion.div
+            key="lightbox-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
             className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-8 bg-black/80 backdrop-blur-md"
             onClick={closeLightbox}
           >
@@ -484,9 +490,9 @@ export const Projects = () => {
               role="dialog"
               aria-modal="true"
               aria-label={lightboxImage.title}
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-              animate={shouldReduceMotion ? { opacity: 1, transition: { duration: 0.1 } } : { opacity: 1, scale: 1, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
-              exit={shouldReduceMotion ? { opacity: 0, transition: { duration: 0.1 } } : { opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.96 }}
+              animate={shouldReduceMotion ? { opacity: 1, transition: { duration: 0 } } : { opacity: 1, scale: 1, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
+              exit={shouldReduceMotion ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
               className="relative max-w-5xl w-full rounded-2xl bg-zinc-950 border border-white/10 shadow-2xl overflow-hidden p-4 sm:p-6"
               onClick={(e) => e.stopPropagation()}
             >
@@ -523,7 +529,7 @@ export const Projects = () => {
                 <span>Press Esc to close</span>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>

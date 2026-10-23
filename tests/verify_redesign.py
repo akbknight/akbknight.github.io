@@ -111,6 +111,13 @@ def run_tests():
         else:
             record_fail("viewport_tests", "mobile_menu_accessible", "Mobile menu button not visible on 390px viewport")
 
+        # Clean up auxiliary viewport contexts and restore focus to primary page
+        context_1440.close()
+        context_1920.close()
+        context_tablet.close()
+        context_mobile.close()
+        page.bring_to_front()
+
         print("\n=== 2. MASCOT COMPANION & IDENTITY INTERACTION ===")
         # Test mascot companion dropdown
         mascot_btn = page.locator("button[aria-label*='Mascot companion']")
@@ -211,7 +218,7 @@ def run_tests():
 
                 # Test Escape key closes lightbox
                 page.keyboard.press("Escape")
-                time.sleep(0.3)
+                time.sleep(0.5)
                 if not lightbox.is_visible():
                     record_pass("accessibility", "lightbox_escape_dismiss", "Escape key dismissed the lightbox dialog")
                     
@@ -330,7 +337,7 @@ def run_tests():
             
             # Dismiss
             page_rm.keyboard.press("Escape")
-            time.sleep(0.15)
+            time.sleep(0.3)
             closed_check = page_rm.evaluate("() => document.querySelector(\"div[role='dialog'][aria-modal='true']\") === null")
             if closed_check:
                 record_pass("accessibility", "reduced_motion_clean_unmount", "Modal unmounted cleanly after Escape")

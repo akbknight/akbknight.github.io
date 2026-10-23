@@ -9,6 +9,7 @@ import { Writing } from "@/components/Writing";
 import { PersonalGallery } from "@/components/PersonalGallery";
 import { Contact } from "@/components/Contact";
 import { ResumeModal } from "@/components/ResumeModal";
+import { AmbientCanvas } from "@/components/AmbientCanvas";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -19,19 +20,17 @@ export default function Home() {
       className="min-h-[100dvh] flex flex-col relative overflow-x-hidden"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
-      {/* Apple-Grade Atmospheric Background Illumination & Tactile Texture */}
-      <div className="apple-ambient-glow" aria-hidden="true" />
+      {/* Living Atmospheric Canvas: Interactive Spotlight & Data Constellation */}
+      <AmbientCanvas />
+
+      {/* Apple-Grade Architectural Coordinate Grid & Tactile Micro-Matrix */}
+      <div className="apple-architectural-grid" aria-hidden="true" />
       <div className="apple-dot-matrix" aria-hidden="true" />
 
-      {/* Secondary Ambient Accent Glow for Content Depth */}
-      <div
-        className="absolute top-[800px] right-[-100px] w-[500px] h-[500px] rounded-full pointer-events-none opacity-40 dark:opacity-25"
-        style={{
-          background: "radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-        aria-hidden="true"
-      />
+      {/* Dynamic Multi-layered Aurora Blooms (Hero, Projects, Experience) */}
+      <div className="apple-aurora-top" aria-hidden="true" />
+      <div className="apple-aurora-mid" aria-hidden="true" />
+      <div className="apple-aurora-lower" aria-hidden="true" />
 
       {/* Compact Sticky Top Navigation Header with Integrated Mascot Companion */}
       <HeaderNav
