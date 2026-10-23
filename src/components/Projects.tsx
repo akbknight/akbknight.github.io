@@ -312,7 +312,7 @@ export const Projects = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Launch IRS 990 Philanthropic Grant Miner live system"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-xs"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-700 hover:bg-sky-600 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-xs"
                 >
                   <span>Launch Live System</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -373,7 +373,7 @@ export const Projects = () => {
                       href={p.sourceData.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-600 dark:text-sky-400 hover:underline"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-700 dark:text-sky-400 hover:underline"
                     >
                       <Database className="w-3 h-3" />
                       <span>{p.sourceData.label} ↗</span>
@@ -384,7 +384,7 @@ export const Projects = () => {
                       href={p.caseStudy.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-600 dark:text-sky-400 hover:underline"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-700 dark:text-sky-400 hover:underline"
                     >
                       <BookOpen className="w-3 h-3" />
                       <span>{p.caseStudy.label} ↗</span>
@@ -441,7 +441,7 @@ export const Projects = () => {
                   <button
                     type="button"
                     onClick={() => setEnlargedImage({ src: p.image, alt: p.imageAlt, title: p.title })}
-                    className="text-sky-600 dark:text-sky-400 hover:underline cursor-pointer flex items-center gap-1 font-medium"
+                    className="text-sky-700 dark:text-sky-400 hover:underline cursor-pointer flex items-center gap-1 font-medium"
                   >
                     <span>View Larger</span>
                     <Maximize2 className="w-3 h-3" />
@@ -500,7 +500,7 @@ export const Projects = () => {
                   <button
                     type="button"
                     onClick={() => setEnlargedImage({ src: p.image, alt: p.imageAlt, title: p.title })}
-                    className="text-sky-600 dark:text-sky-400 hover:underline cursor-pointer flex items-center gap-1 shrink-0 font-medium"
+                    className="text-sky-700 dark:text-sky-400 hover:underline cursor-pointer flex items-center gap-1 shrink-0 font-medium"
                   >
                     <span>View Larger</span>
                     <Maximize2 className="w-3 h-3" />
@@ -550,7 +550,7 @@ export const Projects = () => {
                         href={p.sourceData.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-600 dark:text-sky-400 hover:underline"
+                        className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-700 dark:text-sky-400 hover:underline"
                       >
                         <Database className="w-3 h-3" />
                         <span>{p.sourceData.label} ↗</span>
@@ -561,7 +561,7 @@ export const Projects = () => {
                         href={p.caseStudy.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-600 dark:text-sky-400 hover:underline"
+                        className="inline-flex items-center gap-1 text-[11px] font-mono-code text-sky-700 dark:text-sky-400 hover:underline"
                       >
                         <BookOpen className="w-3 h-3" />
                         <span>{p.caseStudy.label} ↗</span>
@@ -586,7 +586,7 @@ export const Projects = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Launch live system for ${p.title}`}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-xs"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-700 hover:bg-sky-600 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-xs"
                     >
                       <span>Launch Live System</span>
                       <ExternalLink className="w-3.5 h-3.5" />

@@ -151,14 +151,15 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
           </div>
 
           <h1
-            className="font-bold tracking-tight text-zinc-900 dark:text-white break-words"
+            className="font-bold tracking-tight text-zinc-900 dark:text-white"
             style={{
-              fontSize: "clamp(1.75rem, 3.8vw, 2.75rem)",
+              fontSize: "clamp(2rem, 4vw, 2.75rem)",
               lineHeight: 1.1,
               letterSpacing: "-0.03em",
             }}
           >
-            Akshay Kumar
+            <span className="inline-block whitespace-nowrap">Akshay</span>{" "}
+            <span className="inline-block whitespace-nowrap">Kumar</span>
           </h1>
 
           <h2 className="text-sm font-medium mt-1.5 text-zinc-700 dark:text-zinc-300 tracking-tight">

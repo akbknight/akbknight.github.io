@@ -25,26 +25,19 @@ export default function Home() {
       <ScrollProgressBar />
       <AmbientCanvas />
 
-      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:px-12 lg:px-20">
-        <div className="lg:flex lg:gap-12 xl:gap-16">
+      <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:px-12 lg:px-20 portfolio-layout-wrapper">
+        <div className="portfolio-grid-layout">
 
           {/* ── Left: sticky sidebar with executive profile ──── */}
           <aside
             aria-label="Executive profile and site navigation"
-            className="
-              lg:sticky lg:top-0 lg:h-screen lg:max-h-screen lg:overflow-y-auto
-              lg:w-[34%] xl:w-[32%]
-              flex flex-col
-              pt-12 pb-8 lg:py-16
-              overscroll-contain
-              scrollbar-none
-            "
+            className="portfolio-sidebar-col flex flex-col scrollbar-none"
           >
             <LeftPanel onOpenResume={() => setIsResumeOpen(true)} />
           </aside>
 
           {/* ── Right: scrollable narrative & technical portfolio ── */}
-          <div className="lg:w-[66%] xl:w-[68%] pt-6 lg:pt-20 pb-24 space-y-20">
+          <div className="portfolio-content-col space-y-20">
             {/* Commanding Hero Section with verified metrics & dual CTAs */}
             <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
             <About />
