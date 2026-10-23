@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { ArrowUpRight, Database, Layers, Cpu, ShieldCheck } from "lucide-react";
 
 interface ProjectPipelineFigureProps {
   className?: string;
@@ -9,43 +10,49 @@ interface ProjectPipelineFigureProps {
 }
 
 // ──────────────────────────────────────────────────────────
-// COMPACT ISOMETRIC ARCHITECTURE SCHEMATIC
-// For IRS 990 Grant Miner data engineering lifecycle
+// APPLE-INSPIRED INTERACTIVE PIPELINE ARCHITECTURE INSPECTOR
+// Compact isometric strata illustrating IRS 990 data engineering
 // ──────────────────────────────────────────────────────────
 
 const W = 46, D = 32, TK = 5.2, R = 6.5, B = 1.3;
 const Z_REST = [3, 12, 21, 30];
-const STAGE_LABELS = [
-  "01 · Ingestion (AWS S3)",
-  "02 · Deduplication & Audit",
-  "03 · Columnar Warehouse (DuckDB)",
-  "04 · Analytics & Spatial HUD",
-];
 
 const STAGE_DETAILS = [
   {
     step: "01",
     tab: "01 · Ingest",
-    full: "AWS S3 Streaming XML",
-    desc: "In-memory streaming SAX parser ingesting 9.7M+ IRS Form 990 XML tax filings without disk spill.",
+    full: "AWS S3 Streaming SAX Ingestion",
+    role: "Streaming Extraction",
+    desc: "In-memory streaming SAX parser processing 9.7M+ IRS Form 990 XML tax filings directly from AWS S3 without disk spill.",
+    specs: ["Python SAX Parser", "Zero Disk Spill", "9.7M+ Filings Ingested"],
+    icon: <Database className="w-3.5 h-3.5 text-sky-500" />,
   },
   {
     step: "02",
     tab: "02 · Audit",
-    full: "Entity Resolution & Audit",
-    desc: "Automated EIN deduplication, multi-year organization matching, and donor-recipient grant validation.",
+    full: "EIN Entity Resolution & Deduplication",
+    role: "Audit & Validation",
+    desc: "Automated EIN deduplication, multi-year organization mapping, and recipient grant discrepancy validation across 200,000+ entities.",
+    specs: ["Entity Resolution", "EIN Normalization", "Grant Verification"],
+    icon: <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />,
   },
   {
     step: "03",
     tab: "03 · Store",
-    full: "DuckDB Columnar Warehouse",
-    desc: "Standardized relational schemas enabling sub-second OLAP aggregations across $550B+ in charitable capital.",
+    full: "DuckDB Columnar Relational Warehouse",
+    role: "Columnar Storage",
+    desc: "Normalized star schema enabling sub-second analytical query execution across $550B+ in charitable capital with zero database hosting fees.",
+    specs: ["DuckDB Columnar", "Star Schema", "Sub-Second OLAP Queries"],
+    icon: <Layers className="w-3.5 h-3.5 text-sky-400" />,
   },
   {
     step: "04",
     tab: "04 · Deliver",
-    full: "Interactive Analytics HUD",
-    desc: "Hardware-accelerated 3D WebGL global capital flow arcs and state-level choropleth visualization.",
+    full: "Hardware-Accelerated WebGL Analytics HUD",
+    role: "Visual Intelligence",
+    desc: "Client-side 3D WebGL global capital flow arcs and D3 TopoJSON state-level choropleths running at 60 FPS in the browser.",
+    specs: ["WebGL 3D Flow Arcs", "D3 TopoJSON", "60 FPS Hardware HUD"],
+    icon: <Cpu className="w-3.5 h-3.5 text-amber-500" />,
   },
 ];
 
@@ -120,259 +127,159 @@ function rrect(x0: number, y0: number, x1: number, y1: number, r: number, nPerCo
   return out;
 }
 
-function rings(x0: number, y0: number, x1: number, y1: number, r: number, b: number): [RingSample[], RingSample[]] {
-  return [
-    rrect(x0, y0, x1, y1, r),
-    rrect(x0 + b, y0 + b, x1 - b, y1 - b, Math.max(0.3, r - b)),
-  ];
-}
+function buildRing(rSamples: RingSample[], bevelR: number, zBase: number, zTop: number, isBevelTop: boolean) {
+  const top: number[][] = [];
+  const mid: number[][] = [];
+  const bot: number[][] = [];
 
-function ringAt(P: (x: number, y: number, z: number) => [number, number], ring: RingSample[], z: number): [number, number][] {
-  return ring.map((q) => P(q.u, q.v, z));
-}
-
-function hull(input: [number, number][]): [number, number][] {
-  const pts = input.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-  const cross = (o: [number, number], a: [number, number], b: [number, number]) =>
-    (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
-  const lo: [number, number][] = [], up: [number, number][] = [];
-  for (const p of pts) {
-    while (lo.length > 1 && cross(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop();
-    lo.push(p);
-  }
-  for (let i = pts.length - 1; i >= 0; i--) {
-    const p = pts[i];
-    while (up.length > 1 && cross(up[up.length - 2], up[up.length - 1], p) <= 0) up.pop();
-    up.push(p);
-  }
-  lo.pop();
-  up.pop();
-  return lo.concat(up);
-}
-
-function run(ring: RingSample[], keep: (sample: RingSample) => boolean): RingSample[] {
-  const n = ring.length;
-  let s = -1;
-  for (let i = 0; i < n; i++) {
-    if (keep(ring[i]) && !keep(ring[(i + n - 1) % n])) {
-      s = i;
-      break;
+  for (const s of rSamples) {
+    bot.push([s.u, s.v, zBase]);
+    if (isBevelTop) {
+      mid.push([s.u, s.v, zTop - bevelR]);
+      top.push([s.u - s.nu * bevelR, s.v - s.nv * bevelR, zTop]);
+    } else {
+      mid.push([s.u, s.v, zTop]);
+      top.push([s.u, s.v, zTop]);
     }
   }
-  if (s < 0) return keep(ring[0]) ? ring.slice() : [];
-  const out: RingSample[] = [];
-  for (let k = 0; k < n && keep(ring[(s + k) % n]); k++) {
-    out.push(ring[(s + k) % n]);
-  }
-  return out;
+  return { bot, mid, top };
 }
 
-function prism(
-  P: (x: number, y: number, z: number) => [number, number],
-  front: (sample: RingSample) => boolean,
-  ring: RingSample[],
-  inner: RingSample[] | null,
-  z0: number,
-  z1: number
-) {
-  const top = ringAt(P, ring, z1);
-  const bot = ringAt(P, ring, z0);
+function prismPaths(ring: { bot: number[][]; mid: number[][]; top: number[][] }, C: Camera) {
+  const P = proj(C);
+  const c = Math.cos(C.az), s = Math.sin(C.az);
+  const zf = Math.sqrt(1 - C.k * C.k);
+  const N = ring.bot.length;
+
+  const topPts = ring.top.map((p) => P(p[0], p[1], p[2]));
+  const midPts = ring.mid.map((p) => P(p[0], p[1], p[2]));
+  const botPts = ring.bot.map((p) => P(p[0], p[1], p[2]));
+
+  const silPts: [number, number][] = [];
+  const creasePts: [number, number][] = [];
+
+  for (let i = 0; i < N; i++) {
+    const p = ring.mid[i];
+    const dx = p[0], dy = p[1];
+    const dot = (dx * s + dy * c) * zf;
+    if (dot <= 0) {
+      silPts.push(botPts[i]);
+      silPts.push(midPts[i]);
+    } else {
+      creasePts.push(midPts[i]);
+    }
+  }
+
   return {
-    sil: poly(hull(top.concat(bot))),
-    crease: inner ? openPath(ringAt(P, run(inner, front), z1)) : "",
+    sil: poly(topPts),
+    crease: openPath(creasePts),
   };
-}
-
-function extremes(P: (x: number, y: number, z: number) => [number, number], ring: RingSample[]): RingSample[] {
-  const pr = ring.map((q) => P(q.u, q.v, 0));
-  let a = 0, b = 0, c = 0;
-  pr.forEach((p, k) => {
-    if (p[0] < pr[a][0]) a = k;
-    if (p[0] > pr[b][0]) b = k;
-    if (p[1] > pr[c][1]) c = k;
-  });
-  return [ring[a], ring[b], ring[c]];
-}
-
-interface Spring {
-  x: number;
-  v: number;
-  t: number;
-  k: number;
-  c: number;
-  m: number;
-  eps: number;
-}
-
-function createSpring(x: number, k = 85, c = 16, m = 1, eps = 0.04): Spring {
-  return { x, v: 0, t: x, k, c, m, eps };
-}
-
-function stepSpring(sp: Spring, dt: number, isReducedMotion: boolean): boolean {
-  if (isReducedMotion) {
-    sp.x = sp.t;
-    sp.v = 0;
-    return false;
-  }
-  const n = Math.max(1, Math.ceil(dt * 240)), h = dt / n;
-  for (let i = 0; i < n; i++) {
-    const a = (-sp.k * (sp.x - sp.t) - sp.c * sp.v) / sp.m;
-    sp.v += a * h;
-    sp.x += sp.v * h;
-  }
-  if (Math.abs(sp.x - sp.t) < sp.eps && Math.abs(sp.v) < sp.eps * 10) {
-    sp.x = sp.t;
-    sp.v = 0;
-    return false;
-  }
-  return true;
 }
 
 export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
   className = "",
-  activeStage: propActiveStage,
+  activeStage,
   onSelectStage,
 }) => {
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const [internalSelected, setInternalSelected] = useState<number>(activeStage ?? 2);
   const [internalHover, setInternalHover] = useState<number | null>(null);
-  const [internalSelected, setInternalSelected] = useState<number>(2); // Default to stage 03 (Warehouse)
-  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
-
-  const selectedIndex = propActiveStage !== undefined ? propActiveStage : internalSelected;
+  const selectedIndex = activeStage !== undefined ? activeStage : internalSelected;
   const highlightedIndex = internalHover !== null ? internalHover : selectedIndex;
 
-  const camRef = useRef<Camera>(createCam(45, 0.5, 2.15));
-  const springRef = useRef<Spring>(createSpring(22)); // Clean resting separation
-  const platesGeomRef = useRef<Array<{ ring: RingSample[]; inner: RingSample[]; ox: number; oy: number }>>([]);
-  const baseRingsRef = useRef<[RingSample[], RingSample[]] | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Dynamic reduced-motion tracking
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setIsReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  // Camera definition
+  const camRef = useRef<Camera>(createCam(35, 0.58, 2.8));
+  const springRef = useRef<{ z: number[]; v: number[]; t: number }>({
+    z: [...Z_REST],
+    v: [0, 0, 0, 0],
+    t: 20,
+  });
 
-  // Initialize geometry
+  const [platesState, setPlatesState] = useState<
+    { sil: string; crease: string; guides: string }[]
+  >([]);
+  const [basePath, setBasePath] = useState<{ sil: string; crease: string }>({
+    sil: "",
+    crease: "",
+  });
+
+  // Fit camera once
   useEffect(() => {
     const C = camRef.current;
-    const maxZ = Z_REST[3] + 48;
-    fitCamera(
-      C,
-      [
-        [-W - 8, -D - 8, -5],
-        [W + 8, D + 8, -5],
-        [W + 8, -D - 8, -5],
-        [-W - 8, D + 8, -5],
-        [-W, -D, maxZ],
-        [W, D, maxZ],
-      ],
-      190,
-      155
-    );
-
-    baseRingsRef.current = rings(-W - 5, -D - 5, W + 5, D + 5, R + 2.5, B + 0.3);
-
-    const plates = [];
-    for (let i = 0; i < 4; i++) {
-      const ox = (i - 1.5) * 1.5;
-      const oy = (1.5 - i) * 1.2;
-      const [ring, inner] = rings(-W + ox, -D + oy, W + ox, D + oy, R, B);
-      plates.push({ ring, inner, ox, oy });
+    const allPts: number[][] = [];
+    const ringSamples = rrect(-W / 2, -D / 2, W / 2, D / 2, R);
+    for (const s of ringSamples) {
+      allPts.push([s.u, s.v, 0]);
+      allPts.push([s.u, s.v, 50]);
     }
-    platesGeomRef.current = plates;
+    fitCamera(C, allPts, 190, 140);
+
+    const bRing = rrect(-W / 2 - 4, -D / 2 - 4, W / 2 + 4, D / 2 + 4, R + 2);
+    const bMesh = buildRing(bRing, B, -3, 0, true);
+    setBasePath(prismPaths(bMesh, C));
   }, []);
 
-  // Update spring target
+  // Animation Loop (60 FPS springs)
   useEffect(() => {
-    springRef.current.t = 24;
-  }, [selectedIndex, internalHover]);
-
-  const [basePath, setBasePath] = useState<{ sil: string; crease: string }>({ sil: "", crease: "" });
-  const [platesState, setPlatesState] = useState<Array<{ sil: string; crease: string; guides: string }>>([
-    { sil: "", crease: "", guides: "" },
-    { sil: "", crease: "", guides: "" },
-    { sil: "", crease: "", guides: "" },
-    { sil: "", crease: "", guides: "" },
-  ]);
-
-  // Animation Loop
-  useEffect(() => {
-    let rafId: number;
-    let lastTime = performance.now();
     const C = camRef.current;
-    const P = proj(C);
-    const front = (sample: RingSample) => {
-      const s = Math.sin(C.az), c = Math.cos(C.az);
-      return sample.nu * s + sample.nv * c >= -1e-6;
-    };
+    const ringSamples = rrect(-W / 2, -D / 2, W / 2, D / 2, R);
 
-    if (baseRingsRef.current) {
-      const [bR, bI] = baseRingsRef.current;
-      setBasePath(prism(P, front, bR, bI, -5, 0));
-    }
+    const tick = () => {
+      const sp = springRef.current;
+      const k = 0.16, d = 0.82;
 
-    const animate = (now: number) => {
-      const dt = Math.min(0.05, Math.max(0, (now - lastTime) / 1000));
-      lastTime = now;
+      let changed = false;
+      const targetZ = [...Z_REST];
+      targetZ[highlightedIndex] += 10; // Lift active plate
 
-      const moving = stepSpring(springRef.current, dt, isReducedMotion);
-      const s = springRef.current.x;
-
-      const newPlates = [];
       for (let i = 0; i < 4; i++) {
-        const p = platesGeomRef.current[i];
-        if (!p) continue;
-        const z0 = Z_REST[i] + s * (i * 0.38 + 0.12);
-        const z1 = z0 + TK;
-        const pr = prism(P, front, p.ring, p.inner, z0, z1);
-
-        let guidesD = "";
-        if (s > 2) {
-          const ex = extremes(P, p.ring);
-          guidesD = [ex[0], ex[1], ex[2]]
-            .map((pt) => {
-              const pTop = P(pt.u, pt.v, z0);
-              const pBot = P(pt.u, pt.v, 0);
-              return `M${r2(pTop[0])},${r2(pTop[1])}L${r2(pBot[0])},${r2(pBot[1])}`;
-            })
-            .join("");
+        const diff = targetZ[i] - sp.z[i];
+        sp.v[i] = sp.v[i] * d + diff * k;
+        sp.z[i] += sp.v[i];
+        if (Math.abs(diff) > 0.05 || Math.abs(sp.v[i]) > 0.05) {
+          changed = true;
         }
-
-        newPlates.push({ sil: pr.sil, crease: pr.crease, guides: guidesD });
       }
 
-      setPlatesState(newPlates);
+      if (changed || platesState.length === 0) {
+        const P = proj(C);
+        const newPlates = [];
+        for (let i = 0; i < 4; i++) {
+          const zBase = sp.z[i];
+          const zTop = zBase + TK;
+          const pMesh = buildRing(ringSamples, B, zBase, zTop, true);
+          const paths = prismPaths(pMesh, C);
 
-      if (moving || Math.abs(springRef.current.x - springRef.current.t) > 0.05) {
-        rafId = requestAnimationFrame(animate);
+          // Guide drop line from active plate
+          let guideStr = "";
+          if (i === highlightedIndex) {
+            const pBot = P(0, 0, zBase);
+            const pFloor = P(0, 0, 0);
+            guideStr = `M${r2(pBot[0])} ${r2(pBot[1])} L${r2(pFloor[0])} ${r2(pFloor[1])}`;
+          }
+
+          newPlates.push({
+            sil: paths.sil,
+            crease: paths.crease,
+            guides: guideStr,
+          });
+        }
+        setPlatesState(newPlates);
       }
+
+      animFrameRef.current = requestAnimationFrame(tick);
     };
 
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [selectedIndex, internalHover, isReducedMotion]);
+    animFrameRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [highlightedIndex, platesState.length]);
 
-  const handlePointerDown = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    const rect = svg.getBoundingClientRect();
-    const sx = ((e.clientX - rect.left) / rect.width) * 380;
-    const sy = ((e.clientY - rect.top) / rect.height) * 280;
-
-    const C = camRef.current;
-    const world = unproj(C, sx, sy, 0);
-    const normY = clamp((world[1] + D) / (2 * D), 0, 1);
-    const chosen = clamp(Math.floor(normY * 4), 0, 3);
-    setInternalSelected(chosen);
-    if (onSelectStage) onSelectStage(chosen);
-    springRef.current.t = 28;
-  }, [onSelectStage]);
-
+  // Pointer Interaction
   const handlePointerMove = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
     const svg = svgRef.current;
     if (!svg) return;
@@ -382,18 +289,12 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
 
     const C = camRef.current;
     const world = unproj(C, sx, sy, 0);
-    const dist = Math.hypot(world[0], world[1]);
-    const reach = 26 * 3.4;
-    const factor = clamp(1 - dist / reach, 0, 1);
-    springRef.current.t = Math.max(18, factor * 32);
-
     const normY = clamp((world[1] + D) / (2 * D), 0, 1);
     const chosen = clamp(Math.floor(normY * 4), 0, 3);
     setInternalHover(chosen);
   }, []);
 
   const handlePointerLeave = useCallback(() => {
-    springRef.current.t = 20;
     setInternalHover(null);
   }, []);
 
@@ -401,7 +302,6 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
     (index: number) => {
       setInternalSelected(index);
       if (onSelectStage) onSelectStage(index);
-      springRef.current.t = 28;
     },
     [onSelectStage]
   );
@@ -431,162 +331,204 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
     [handleSelectTab]
   );
 
+  const cur = STAGE_DETAILS[selectedIndex];
+
   return (
     <figure
-      role="region"
-      aria-label="Schematic diagram: 4-stage pipeline for IRS Form 990 data engineering"
-      className={`relative flex flex-col rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/60 dark:bg-[#0B0C10] p-4 text-left ${className}`}
+      aria-label="Interactive 4-Stage Architecture Pipeline"
+      className={`w-full rounded-2xl border border-zinc-200/90 dark:border-white/[0.08] bg-white/70 dark:bg-[#0B0C14]/85 backdrop-blur-md p-4 sm:p-6 shadow-sm ${className}`}
     >
-      {/* Active layer readout */}
-      <div className="flex items-center justify-between pb-2 mb-2 border-b border-zinc-200/70 dark:border-zinc-800 text-xs font-mono-code">
-        <span className="text-zinc-600 dark:text-zinc-400 font-medium">Pipeline Architecture</span>
-        <span className="text-sky-700 dark:text-sky-300 font-semibold px-2.5 py-0.5 rounded bg-sky-500/10 dark:bg-sky-500/20 border border-sky-500/30 text-[11px]">
-          {STAGE_LABELS[highlightedIndex]}
-        </span>
-      </div>
-
-      {/* SVG Canvas Container — touch-action: pan-y preserves natural vertical scrolling */}
-      <div className="relative w-full aspect-[16/10] max-h-[220px] flex items-center justify-center overflow-hidden rounded-lg bg-white/60 dark:bg-[#07080B] border border-zinc-200/60 dark:border-zinc-800/80">
-        <svg
-          ref={svgRef}
-          viewBox="0 0 380 280"
-          className="w-full h-full object-contain cursor-pointer select-none"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerLeave={handlePointerLeave}
-          style={{ touchAction: "pan-y" }}
-          aria-hidden="true"
-        >
-          {/* Base Plinth */}
-          {basePath.sil && (
-            <g className="pipeline-base">
-              <path
-                d={basePath.sil}
-                className="fill-zinc-100 dark:fill-[#0d0e14] stroke-zinc-400 dark:stroke-zinc-600"
-                strokeWidth="1.2"
-              />
-              {basePath.crease && (
-                <path
-                  d={basePath.crease}
-                  fill="none"
-                  className="stroke-zinc-300 dark:stroke-zinc-700"
-                  strokeWidth="0.9"
-                />
-              )}
-            </g>
-          )}
-
-          {/* 4 Architectural Strata Plates with High-Contrast Rest-Pose Strokes */}
-          {platesState.map((plate, idx) => {
-            const isHighlighted = highlightedIndex === idx;
-            return (
-              <g
-                key={idx}
-                className="pipeline-plate transition-opacity duration-150"
-              >
-                {/* Vertical Drop Guides */}
-                {plate.guides && (
-                  <path
-                    d={plate.guides}
-                    fill="none"
-                    stroke={isHighlighted ? "#0284c7" : "currentColor"}
-                    strokeOpacity={isHighlighted ? 0.8 : 0.35}
-                    strokeWidth="0.8"
-                    strokeDasharray="2 2"
-                    className="text-zinc-400 dark:text-zinc-500"
-                  />
-                )}
-
-                {/* Solid Prism with Strong Dark-Mode Contrast */}
-                {plate.sil && (
-                  <path
-                    d={plate.sil}
-                    className={`transition-colors duration-150 ${
-                      isHighlighted
-                        ? "fill-sky-50 dark:fill-[#0c1424] stroke-sky-600 dark:stroke-sky-400 stroke-[2]"
-                        : "fill-white dark:fill-[#12131a] stroke-zinc-400 dark:stroke-zinc-400 stroke-[1.4]"
-                    }`}
-                  />
-                )}
-
-                {/* Inner Crease Line */}
-                {plate.crease && (
-                  <path
-                    d={plate.crease}
-                    fill="none"
-                    className={
-                      isHighlighted
-                        ? "stroke-sky-500 dark:stroke-sky-400 stroke-[1]"
-                        : "stroke-zinc-300 dark:stroke-zinc-500 stroke-[0.9]"
-                    }
-                  />
-                )}
-              </g>
-            );
-          })}
-        </svg>
-      </div>
-
-      {/* Accessible Interactive Tablist with Arrow/Home/End keyboard navigation in clean 2x2 grid */}
-      <div
-        role="tablist"
-        aria-label="IRS 990 Pipeline Stages"
-        className="grid grid-cols-2 gap-2 mt-3"
-      >
-        {STAGE_DETAILS.map((st, idx) => {
-          const isSelected = selectedIndex === idx;
-          return (
-            <button
-              key={idx}
-              ref={(el) => {
-                tabRefs.current[idx] = el;
+      {/* 2-Column Responsive Layout: Left 3D Strata Figure / Right Stage Explorer */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        
+        {/* ── Left Column (md:col-span-5): Compact 3D Isometric Strata ── */}
+        <div className="md:col-span-5 flex flex-col items-center">
+          <div className="relative w-full max-w-[280px] aspect-[4/3] flex items-center justify-center rounded-xl bg-zinc-100/70 dark:bg-black/50 border border-zinc-200/70 dark:border-white/[0.06] overflow-hidden group">
+            {/* Ambient Lighting Glow behind 3D plates */}
+            <div
+              className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+              style={{
+                background: "radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 70%)",
+                opacity: highlightedIndex !== null ? 0.45 : 0.2,
               }}
-              role="tab"
-              id={`stage-tab-${idx}`}
-              aria-selected={isSelected}
-              aria-controls={`stage-panel-${idx}`}
-              tabIndex={isSelected ? 0 : -1}
-              onClick={() => handleSelectTab(idx)}
-              onKeyDown={(e) => handleTabKeyDown(e, idx)}
-              onMouseEnter={() => setInternalHover(idx)}
-              onMouseLeave={() => setInternalHover(null)}
-              className={`text-center py-2 px-3 rounded-lg text-xs font-mono-code transition-all cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis ${
-                isSelected
-                  ? "bg-sky-500/15 text-sky-700 dark:text-sky-300 font-semibold border border-sky-500/40 shadow-xs"
-                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 border border-zinc-200/50 dark:border-white/5 hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
-              }`}
-            >
-              <span>{st.tab}</span>
-            </button>
-          );
-        })}
-      </div>
+              aria-hidden="true"
+            />
 
-      {/* Selected Stage Tabpanel Detail */}
-      <div
-        id={`stage-panel-${selectedIndex}`}
-        role="tabpanel"
-        aria-labelledby={`stage-tab-${selectedIndex}`}
-        tabIndex={0}
-        className="mt-2.5 p-3 rounded-lg bg-zinc-100/80 dark:bg-white/[0.03] border border-zinc-200/60 dark:border-white/[0.06] text-xs focus:outline-none focus:ring-1 focus:ring-sky-500"
-      >
-        <div className="flex items-center justify-between gap-2 mb-1">
-          <span className="font-semibold text-zinc-900 dark:text-zinc-100 font-mono-code text-xs">
-            {STAGE_DETAILS[selectedIndex].full}
-          </span>
-          <span className="text-[10px] uppercase tracking-wider text-sky-700 dark:text-sky-400 font-mono-code bg-sky-500/10 px-2 py-0.5 rounded font-medium">
-            Stage {STAGE_DETAILS[selectedIndex].step}/04
+            <svg
+              ref={svgRef}
+              data-testid="hairline-pipeline-svg"
+              viewBox="0 0 380 280"
+              className="w-full h-full object-contain cursor-pointer select-none"
+              onPointerMove={handlePointerMove}
+              onPointerLeave={handlePointerLeave}
+              style={{ touchAction: "pan-y" }}
+              aria-hidden="true"
+            >
+              {/* Base Plinth */}
+              {basePath.sil && (
+                <g className="pipeline-base">
+                  <path
+                    d={basePath.sil}
+                    className="fill-zinc-200/60 dark:fill-[#0d0e14] stroke-zinc-400/80 dark:stroke-zinc-600"
+                    strokeWidth="1.2"
+                  />
+                  {basePath.crease && (
+                    <path
+                      d={basePath.crease}
+                      fill="none"
+                      className="stroke-zinc-300 dark:stroke-zinc-700"
+                      strokeWidth="0.9"
+                    />
+                  )}
+                </g>
+              )}
+
+              {/* 4 Architectural Strata Plates */}
+              {platesState.map((plate, idx) => {
+                const isHighlighted = highlightedIndex === idx;
+                return (
+                  <g key={idx} className="pipeline-plate">
+                    {/* Vertical Drop Guides */}
+                    {plate.guides && (
+                      <path
+                        d={plate.guides}
+                        fill="none"
+                        stroke={isHighlighted ? "#0284c7" : "currentColor"}
+                        strokeOpacity={isHighlighted ? 0.9 : 0.3}
+                        strokeWidth="1"
+                        strokeDasharray="2 2"
+                        className="text-zinc-400 dark:text-zinc-500"
+                      />
+                    )}
+
+                    {/* Solid Prism with Specular Highlight */}
+                    {plate.sil && (
+                      <path
+                        d={plate.sil}
+                        className={`transition-colors duration-150 ${
+                          isHighlighted
+                            ? "fill-sky-100 dark:fill-[#0c1830] stroke-sky-600 dark:stroke-sky-400 stroke-[2]"
+                            : "fill-white dark:fill-[#12131c] stroke-zinc-400 dark:stroke-zinc-500 stroke-[1.2]"
+                        }`}
+                      />
+                    )}
+
+                    {/* Inner Crease Line */}
+                    {plate.crease && (
+                      <path
+                        d={plate.crease}
+                        fill="none"
+                        className={
+                          isHighlighted
+                            ? "stroke-sky-500 dark:stroke-sky-300 stroke-[1.1]"
+                            : "stroke-zinc-300 dark:stroke-zinc-600 stroke-[0.8]"
+                        }
+                      />
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          <span className="text-[10px] font-mono-code text-zinc-600 dark:text-zinc-400 mt-2 text-center">
+            Interactive 3D Strata · Hover or Drag
           </span>
         </div>
-        <p className="text-zinc-600 dark:text-zinc-300 text-xs leading-relaxed">
-          {STAGE_DETAILS[selectedIndex].desc}
-        </p>
-      </div>
 
-      {/* Accessible, descriptive caption */}
-      <figcaption className="mt-2 text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400 leading-normal">
-        4-stage data pipeline for IRS Form 990 data engineering. Select a stage to view its architectural details.
-      </figcaption>
+        {/* ── Right Column (md:col-span-7): Segmented Controller & Details ── */}
+        <div className="md:col-span-7 flex flex-col justify-between space-y-3">
+          
+          {/* Segmented Stage Control */}
+          <div
+            role="tablist"
+            aria-label="IRS 990 Pipeline Stages"
+            className="flex items-center gap-1 p-1 rounded-xl bg-zinc-100 dark:bg-black/40 border border-zinc-200 dark:border-white/[0.06]"
+          >
+            {STAGE_DETAILS.map((st, idx) => {
+              const isSelected = selectedIndex === idx;
+              return (
+                <button
+                  key={idx}
+                  ref={(el) => {
+                    tabRefs.current[idx] = el;
+                  }}
+                  role="tab"
+                  id={`stage-tab-${idx}`}
+                  aria-selected={isSelected}
+                  aria-controls={`stage-panel-${idx}`}
+                  tabIndex={isSelected ? 0 : -1}
+                  onClick={() => handleSelectTab(idx)}
+                  onKeyDown={(e) => handleTabKeyDown(e, idx)}
+                  onMouseEnter={() => setInternalHover(idx)}
+                  onMouseLeave={() => setInternalHover(null)}
+                  className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-mono-code transition-all cursor-pointer text-center truncate ${
+                    isSelected
+                      ? "bg-white dark:bg-zinc-800 text-sky-700 dark:text-sky-300 font-semibold shadow-xs border border-zinc-200 dark:border-white/[0.08]"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
+                  }`}
+                >
+                  {st.tab}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Stage Technical Breakdown */}
+          <div
+            id={`stage-panel-${selectedIndex}`}
+            role="tabpanel"
+            aria-labelledby={`stage-tab-${selectedIndex}`}
+            tabIndex={0}
+            className="p-4 rounded-xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/80 dark:border-white/[0.06] space-y-2.5 focus:outline-none focus:ring-1 focus:ring-sky-500"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="p-1 rounded bg-sky-500/10 dark:bg-sky-500/20">
+                  {cur.icon}
+                </span>
+                <span className="text-xs font-mono-code font-bold text-zinc-900 dark:text-white">
+                  {cur.full}
+                </span>
+              </div>
+              <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20 shrink-0">
+                Stage {cur.step}/04
+              </span>
+            </div>
+
+            <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
+              {cur.desc}
+            </p>
+
+            {/* Key Specs Chips */}
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+              {cur.specs.map((spec, sIdx) => (
+                <span
+                  key={sIdx}
+                  className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-white dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300 border border-zinc-200/80 dark:border-white/[0.06]"
+                >
+                  {spec}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Clean Case Study Link */}
+          <div className="flex items-center justify-between pt-1 text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400">
+            <span>Data lifecycle: Raw XML → Columnar Warehouse</span>
+            <a
+              href="https://github.com/akbknight/form990-grant-miner/blob/main/docs/architecture.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1"
+            >
+              <span>Architecture Docs</span>
+              <ArrowUpRight className="w-3 h-3" />
+            </a>
+          </div>
+
+        </div>
+      </div>
     </figure>
   );
 };
