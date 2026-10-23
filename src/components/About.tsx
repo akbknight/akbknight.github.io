@@ -42,27 +42,23 @@ export const About = () => {
 
         <div className="space-y-4 text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
           <p>
-            I&apos;m an analytics engineer and STEM MBA candidate at{" "}
+            I am a STEM MBA candidate at{" "}
             <span className="text-zinc-900 dark:text-white font-semibold">
               American University&apos;s Kogod School of Business
             </span>{" "}
-            (Washington, DC · Graduating May 2027 · Available Full-Time June 1, 2027), concentrating in Business Analytics &amp; Artificial Intelligence. Targeting Business Intelligence, Data Analytics, and Operations Analytics roles. I also serve as{" "}
-            <span className="text-zinc-900 dark:text-white font-semibold">Operations Leader for the Analytics Club at AU</span>, bridging rigorous analytical modeling with high-impact operational delivery.
+            in Washington, DC (graduating May 2027 · available full-time June 1, 2027), concentrating in Business Analytics &amp; Artificial Intelligence. I serve as{" "}
+            <span className="text-zinc-900 dark:text-white font-semibold">Operations Leader for the Analytics Club at AU</span>, and I am targeting full-time roles in Business Intelligence, Data Analytics, and Operations Analytics.
           </p>
           <p>
-            Prior to business school, I served nearly three years as a{" "}
-            <span className="text-zinc-900 dark:text-white font-semibold">Business Analyst</span> at the{" "}
+            My background combines 7+ years of software engineering discipline with operational analytics. Before graduate school, I developed decision-support dashboards and automated service workflows at the{" "}
             <span className="text-zinc-900 dark:text-white font-semibold">
-              U.S. Department of State / U.S. Embassy
+              U.S. Department of State
             </span>{" "}
-            in New Delhi — receiving a <span className="text-sky-600 dark:text-sky-400 font-medium">formal commendation from the U.S. Ambassador</span>. I supported a 30% increase in daily visa-request throughput via seasonal demand dashboards, cut consular complaint triage by 65% through automated Power Platform workflows, streamlined American Citizen Services (ACS) reporting to reduce review cycles by 24%, and maintained consular technology systems and hardware across 4 locations with 99.4% inventory tracking accuracy.
+            (earning a formal commendation from the U.S. Ambassador), engineered public record verification pipelines for{" "}
+            <span className="text-zinc-900 dark:text-white font-semibold">Capital One</span>, and deployed multi-site educational systems across regional organizations.
           </p>
           <p>
-            At AIS Info, I delivered mission-critical verification data to{" "}
-            <span className="text-zinc-900 dark:text-white font-semibold">Capital One</span> by engineering Java pipelines processing 12M court records across 94 federal districts (99.6% classification accuracy), and ingested 85M+ deceased-person records into high-throughput verification databases screening $350M+ in loans with zero discrepancies and sub-second retrieval.
-          </p>
-          <p>
-            Earlier at MS Star Computers, I administered 350+ workstations across 8 regional centers ensuring a 99.7% first-time compatibility rate, and moved classes online for 3 K-12 schools during COVID-19 by developing a centralized Flutter educational portal (98% adoption, 2,000+ daily joins). Outside of enterprise systems, I&apos;m a{" "}
+            I focus on practical data problems: streaming public records into queryable columnar engines, modeling demand with time-series statistics, and building clear interfaces that help operations teams act on data. Outside analytics, I am a{" "}
             <a
               href="/life"
               className="text-zinc-900 dark:text-white font-medium underline underline-offset-4 decoration-zinc-300 dark:decoration-white/20 hover:decoration-sky-500 hover:text-sky-600 dark:hover:text-sky-300 transition-all duration-150"

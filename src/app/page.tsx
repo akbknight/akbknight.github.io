@@ -33,7 +33,7 @@ export default function Home() {
             aria-label="Executive profile and site navigation"
             className="
               lg:sticky lg:top-0 lg:max-h-screen lg:overflow-hidden
-              lg:w-[40%] xl:w-[38%]
+              lg:w-[34%] xl:w-[32%]
               flex flex-col
               pt-16 pb-10 lg:py-24
             "
@@ -42,7 +42,7 @@ export default function Home() {
           </aside>
 
           {/* ── Right: scrollable narrative & technical portfolio ── */}
-          <div className="lg:w-[60%] xl:w-[62%] pt-6 lg:pt-20 pb-24 space-y-20">
+          <div className="lg:w-[66%] xl:w-[68%] pt-6 lg:pt-20 pb-24 space-y-20">
             {/* Commanding Hero Section with verified metrics & dual CTAs */}
             <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
             <About />

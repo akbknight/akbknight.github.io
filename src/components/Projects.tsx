@@ -9,6 +9,7 @@ import { ProjectPipelineFigure } from "@/components/ProjectPipelineFigure";
 interface FeaturedProject {
   title: string;
   badge: string;
+  projectType: string;
   tagline: string;
   overview: string;
   contribution: string;
@@ -23,6 +24,7 @@ interface FeaturedProject {
 
 interface ArchiveProject {
   title: string;
+  projectType: string;
   category: "Data Pipelines" | "Macroeconomics" | "Enterprise Systems";
   summary: string;
   contribution: string;
@@ -35,6 +37,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     title: "IRS 990 Philanthropic Grant Miner & Spatial Engine",
     badge: "$550B+ Capital Mapped",
+    projectType: "Independent Project · Public Data Engineering",
     tagline: "Large-Scale Public Data Engineering & 3D Spatial Intelligence",
     overview:
       "Ingests and normalizes 9.7M+ public IRS Form 990 tax records to track over $550 billion in charitable grants flowing between foundations and U.S. nonprofit organizations.",
@@ -57,6 +60,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     title: "U.S. Retail Demand Forecasting Engine",
     badge: "Econometric Modeling",
+    projectType: "Independent Project · Time-Series Forecasting",
     tagline: "18-Month Predictive Demand Forecasting on Federal Reserve Data",
     overview:
       "Generates 18-month forward predictive demand forecasts for U.S. Retail & Food Services Sales (RSXFS) to assist business inventory planning and macroeconomic scenario modeling.",
@@ -79,6 +83,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     title: "Diplomatic Resource & Scheduling Optimizer",
     badge: "Operational Analytics",
+    projectType: "Operational Project · Consular Operations Simulation",
     tagline: "Constraint-Satisfaction Engine for Diplomatic Facilities",
     overview:
       "Resolves complex multi-departmental conference room and security clearance scheduling conflicts for high-security diplomatic posts.",
@@ -103,6 +108,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
 const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "Deborah Organization Research Assistant",
+    projectType: "Independent Project",
     category: "Data Pipelines",
     summary:
       "Entity resolution and public filings research assistant ingesting IRS Form 990 data to generate multi-format financial reports (PDF, Excel, HTML, JSON) without requiring paid API keys.",
@@ -114,6 +120,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
   },
   {
     title: "Master Resume Engineer",
+    projectType: "Independent Tool",
     category: "Data Pipelines",
     summary:
       "Automated resume compilation tool enforcing structural invariants, STAR-quantified bullet formatting, and single-source-of-truth YAML editing.",
@@ -125,6 +132,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
   },
   {
     title: "Economic Anomaly Detection Monitor",
+    projectType: "Independent Project",
     category: "Macroeconomics",
     summary:
       "Three-algorithm statistical anomaly detection system (Z-Score, IQR, CUSUM) applied across 26 years of Federal Reserve macroeconomic indicators.",
@@ -136,6 +144,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
   },
   {
     title: "Macroeconomic Policy Scenario Simulator",
+    projectType: "Independent Project",
     category: "Macroeconomics",
     summary:
       "Interactive 'what-if' policy tool modeling how Federal Reserve interest rate, CPI, and unemployment adjustments impact GDP growth and recession probabilities.",
@@ -147,6 +156,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
   },
   {
     title: "ITEC-617 Digital Transformation Simulation Coach",
+    projectType: "Academic Project · MBA Coursework",
     category: "Enterprise Systems",
     summary:
       "Autonomous C-suite evaluation simulation for MBA technology proposals, scoring 9 executive personas across 45 criteria grounded in 4 years of competition judge feedback.",
@@ -158,6 +168,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
   },
   {
     title: "Data Pipeline Validation Framework",
+    projectType: "Independent Tool",
     category: "Enterprise Systems",
     summary:
       "Data integrity test harness executing 7 validation categories (completeness, referential integrity, schema drift) across enterprise sources.",
@@ -169,6 +180,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
   },
   {
     title: "Tour & Travel Relational Management System",
+    projectType: "Academic Project · B.Tech Coursework",
     category: "Enterprise Systems",
     summary:
       "Relational booking and customer itinerary management database engineered in Microsoft SQL Server Management Studio.",
@@ -180,6 +192,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
   },
   {
     title: "Weathery Node.js CLI Weather Tool",
+    projectType: "Independent Tool",
     category: "Data Pipelines",
     summary:
       "Terminal weather utility integrating live OpenWeatherMap API data with formatted ASCII summaries and forecast cards.",
@@ -224,7 +237,7 @@ export const Projects = () => {
                   {p.badge}
                 </span>
                 <span className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
-                  Flagship System 01
+                  {p.projectType}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -366,7 +379,7 @@ export const Projects = () => {
                       {p.badge}
                     </span>
                     <span className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
-                      Flagship System 0{idx + 2}
+                      {p.projectType}
                     </span>
                   </div>
 
@@ -484,7 +497,7 @@ export const Projects = () => {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <span className="text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400">
-                    {p.category}
+                    {p.projectType} · {p.category}
                   </span>
                   <div className="flex items-center gap-2">
                     {p.github && (

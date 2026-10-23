@@ -180,7 +180,7 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-white/[0.05] dark:hover:bg-white/[0.1] text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-white/10 text-xs font-medium transition-all duration-150 group cursor-pointer"
               >
                 <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-                <span>Interactive Résumé (PDF)</span>
+                <span>Interactive résumé (PDF)</span>
               </button>
             </div>
           )}

@@ -72,7 +72,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
           href="#projects"
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs sm:text-sm transition-colors shadow-sm"
         >
-          <span>Explore Featured Projects</span>
+          <span>View selected work</span>
           <span className="text-xs">↓</span>
         </a>
 
@@ -81,7 +81,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs sm:text-sm font-medium transition-colors cursor-pointer"
         >
           <FileText className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-          <span>View Interactive Résumé</span>
+          <span>Interactive résumé</span>
         </button>
 
         <a
