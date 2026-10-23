@@ -5,7 +5,6 @@ import { LeftPanel } from "@/components/LeftPanel";
 import { HeroSection } from "@/components/HeroSection";
 import { About } from "@/components/About";
 import { Experience } from "@/components/Experience";
-import { HairlineStrataSection } from "@/components/HairlineStrataSection";
 import { ArchitectureDiagram } from "@/components/ArchitectureDiagram";
 import { Projects } from "@/components/Projects";
 import { Writing } from "@/components/Writing";
@@ -51,7 +50,6 @@ export default function Home() {
             <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
             <About />
             <Experience onOpenResume={() => setIsResumeOpen(true)} />
-            <HairlineStrataSection />
             <ArchitectureDiagram />
             <Projects />
             <Writing />

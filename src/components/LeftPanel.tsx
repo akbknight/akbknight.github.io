@@ -12,11 +12,10 @@ const NAV_SECTIONS = [
   { id: "hero", label: "00 · Overview" },
   { id: "about", label: "01 · About & Focus" },
   { id: "experience", label: "02 · Verified Track Record" },
-  { id: "strata", label: "03 · Interactive Geometry" },
-  { id: "architecture", label: "04 · Systems Architecture" },
-  { id: "projects", label: "05 · Flagship Projects" },
-  { id: "writing", label: "06 · Publications & Notes" },
-  { id: "contact", label: "07 · Contact & Connect" },
+  { id: "architecture", label: "03 · Systems Architecture" },
+  { id: "projects", label: "04 · Flagship Projects" },
+  { id: "writing", label: "05 · Publications & Notes" },
+  { id: "contact", label: "06 · Contact & Connect" },
 ];
 
 const SOCIALS = [

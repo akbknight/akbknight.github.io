@@ -7,7 +7,7 @@ import { ExternalLink, FileCode, BookMarked, ArrowUpRight } from "lucide-react";
 export const Writing = () => {
   return (
     <section id="writing">
-      <p className="section-label mb-6">06 · Technical Write-ups &amp; Methodology Reports</p>
+      <p className="section-label mb-6">05 · Technical Write-ups &amp; Methodology Reports</p>
 
       <div className="space-y-4">
         {/* Technical Write-up 1: Econometric Forecasting */}

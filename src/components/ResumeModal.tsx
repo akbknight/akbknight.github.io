@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -83,21 +83,65 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
 
-  // Lock body scroll and register ESC key handler
+  const modalContainerRef = useRef<HTMLDivElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  const previousActiveElementRef = useRef<HTMLElement | null>(null);
+
+  // Lock body scroll, trap focus, and register ESC/Tab key handlers
   useEffect(() => {
     if (!isOpen) return;
+
+    // Save previous active element to restore upon close
+    previousActiveElementRef.current = document.activeElement as HTMLElement | null;
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    // Auto-focus the close button or first interactive element
+    const timer = setTimeout(() => {
+      closeBtnRef.current?.focus();
+    }, 50);
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (e.key === "Tab") {
+        if (!modalContainerRef.current) return;
+        const focusables = modalContainerRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+
+        const firstElement = focusables[0];
+        const lastElement = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
     };
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      clearTimeout(timer);
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
+      // Restore focus to trigger element
+      if (previousActiveElementRef.current && typeof previousActiveElementRef.current.focus === "function") {
+        previousActiveElementRef.current.focus();
+      }
     };
   }, [isOpen, onClose]);
 
@@ -142,6 +186,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
 
           {/* Modal Container */}
           <motion.div
+            ref={modalContainerRef}
             initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
@@ -209,6 +254,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                 </button>
 
                 <button
+                  ref={closeBtnRef}
                   onClick={onClose}
                   aria-label="Close résumé modal"
                   className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors ml-1 cursor-pointer"
