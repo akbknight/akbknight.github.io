@@ -449,6 +449,7 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
       <div className="relative w-full aspect-[16/10] max-h-[220px] flex items-center justify-center overflow-hidden rounded-lg bg-white/60 dark:bg-[#07080B] border border-zinc-200/60 dark:border-zinc-800/80">
         <svg
           ref={svgRef}
+          data-testid="hairline-pipeline-svg"
           viewBox="0 0 380 280"
           className="w-full h-full object-contain cursor-pointer select-none"
           onPointerDown={handlePointerDown}

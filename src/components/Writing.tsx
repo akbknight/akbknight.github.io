@@ -1,144 +1,97 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ExternalLink, FileCode, BookMarked, ArrowUpRight } from "lucide-react";
+import { FileCode, BookMarked, ArrowUpRight } from "lucide-react";
+
+const WRITEUPS = [
+  {
+    type: "Methodology Specification",
+    title: "Econometric Demand Forecasting Methodology (FRED Time-Series)",
+    description:
+      "Engineering write-up specifying state-space ETS(A,A,A) models, joint parameter estimation via maximum likelihood (L-BFGS-B), analytical prediction interval derivation, and walk-forward holdout validation (~2.0% MAPE) for U.S. macroeconomic indicators.",
+    url: "https://github.com/akbknight/us-retail-sales-forecast/blob/main/docs/methodology.md",
+    tags: ["statsmodels", "State-Space ETS", "FRED RSXFS", "Walk-Forward Validation"],
+    source: "us-retail-sales-forecast",
+  },
+  {
+    type: "Data Architecture Specification",
+    title: "IRS Form 990 In-Memory Streaming Parser & DuckDB Schema Design",
+    description:
+      "Detailed architectural specification covering event-driven SAX parsing of multi-gigabyte IRS 990 XML tax filings, memory footprint bounds, and relational star-schema modeling in DuckDB for sub-second OLAP aggregations.",
+    url: "https://github.com/akbknight/form990-grant-miner/blob/main/docs/architecture.md",
+    tags: ["Python SAX", "DuckDB Columnar", "Memory Bounds", "Star Schema"],
+    source: "form990-grant-miner",
+  },
+];
 
 export const Writing = () => {
   return (
-    <section id="writing">
-      <p className="section-label mb-6">04 · Technical Write-ups &amp; Methodology</p>
+    <section id="writing" className="py-16 sm:py-24 border-b border-zinc-200/80 dark:border-white/[0.08]">
+      <div className="mb-12">
+        <p className="section-label mb-3">03 · Technical Write-ups &amp; Methodology</p>
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
+          System Documentation &amp; Research Notes
+        </h2>
+        <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 max-w-xl">
+          Detailed engineering write-ups on algorithmic choices, statistical validation, and data pipeline design.
+        </p>
+      </div>
 
       <div className="space-y-4">
-        {/* Technical Write-up 1: Econometric Forecasting */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.4 }}
-          className="card-surface group rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] p-5 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
-        >
-          <div className="flex items-start justify-between gap-3 mb-2">
-            <div className="flex items-center gap-2">
-              <span className="p-1.5 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400">
-                <FileCode className="w-4 h-4" />
-              </span>
-              <div>
-                <span className="text-[10px] font-mono-code font-semibold px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20 mr-2">
-                  Project Technical Report
-                </span>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors inline">
-                  Econometric Demand Forecasting Methodology (FRED Time-Series)
-                </h3>
-              </div>
-            </div>
-            <a
-              href="https://github.com/akbknight/us-retail-sales-forecast/blob/main/docs/methodology.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View Econometric Demand Forecasting Methodology Write-up"
-              className="text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors shrink-0"
-            >
-              <ArrowUpRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          <p className="text-[12px] text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
-            Engineering write-up specifying state-space ETS(A,A,A) models, joint parameter estimation via maximum likelihood (L-BFGS-B), analytical prediction interval derivation, and walk-forward holdout validation (~2.0% MAPE) for U.S. macroeconomic indicators.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              statsmodels
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              State-Space ETS
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              FRED RSXFS
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              Walk-Forward Backtest
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Technical Write-up 2: IRS Form 990 Architecture */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.4, delay: 0.08 }}
-          className="card-surface group rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] p-5 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
-        >
-          <div className="flex items-start justify-between gap-3 mb-2">
-            <div className="flex items-center gap-2">
-              <span className="p-1.5 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400">
-                <BookMarked className="w-4 h-4" />
-              </span>
-              <div>
-                <span className="text-[10px] font-mono-code font-semibold px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20 mr-2">
-                  System Architecture Dossier
-                </span>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors inline">
-                  IRS Form 990 Ingestion Architecture &amp; Data Governance Contract
-                </h3>
-              </div>
-            </div>
-            <a
-              href="https://github.com/akbknight/form990-grant-miner/blob/main/docs/architecture.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View IRS 990 Ingestion Architecture Dossier"
-              className="text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors shrink-0"
-            >
-              <ArrowUpRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          <p className="text-[12px] text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
-            System engineering dossier detailing in-memory streaming XML parsing of 9.7M+ filings, anti-double-counting invariants for DAF pass-through capital, and multi-year donor-recipient longitudinal relationship ledgers.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              DataOps Architecture
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              In-Memory XML Streaming
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              DAF Invariants
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400">
-              PostgreSQL / DuckDB
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Photography & Personal Essays Link */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-30px" }}
-          transition={{ duration: 0.4, delay: 0.14 }}
-          className="mt-2"
-        >
-          <a
-            href="/life"
-            className="card-surface group flex items-center justify-between rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] px-5 py-3.5 shadow-xs dark:shadow-none transition-all duration-200 hover:border-sky-500/40 dark:hover:border-sky-500/30"
+        {WRITEUPS.map((item, idx) => (
+          <div
+            key={idx}
+            className="p-6 sm:p-7 rounded-2xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0F] shadow-xs hover:border-zinc-300 dark:hover:border-white/[0.16] transition-all group"
           >
-            <div>
-              <p className="text-[13px] font-medium text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-200">
-                Creative Writing &amp; Photography
-              </p>
-              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-                Pexels Contributor · Personal Essays · Beyond the Terminal
-              </p>
+            <div className="flex items-start justify-between gap-4 mb-2">
+              <div className="space-y-1">
+                <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
+                  {item.type}
+                </span>
+                <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors pt-1">
+                  {item.title}
+                </h3>
+              </div>
+
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Read ${item.title}`}
+                className="p-2 rounded-lg text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors shrink-0"
+              >
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
-          </a>
-        </motion.div>
+
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal mb-4">
+              {item.description}
+            </p>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-zinc-100 dark:border-white/[0.04]">
+              <div className="flex flex-wrap gap-1.5">
+                {item.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="text-[11px] font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/[0.04] text-zinc-600 dark:text-zinc-400"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-mono-code text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1"
+              >
+                <span>Read Full Specification</span>
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

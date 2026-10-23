@@ -234,145 +234,19 @@ section { scroll-margin-top: 32px; }
   opacity: 1;
 }
 
-/* ─── Forensic Hairline Viewfinder & Optical Caliper System ──────── */
-.hairline-frame {
-  position: relative;
+/* ─── Editorial Document Layout Foundation ────────────────────────── */
+html {
+  scroll-behavior: auto; /* Managed by Lenis smooth scroller */
+  touch-action: manipulation; /* Eliminate 300ms mobile tap delay */
+  -webkit-tap-highlight-color: transparent;
 }
 
-.hairline-caliper {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 20;
-  transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+/* Ensure clean link and focus behavior */
+a, button {
+  transition-property: color, background-color, border-color, transform, opacity;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-duration: 150ms;
 }
 
-.caliper-tl {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid var(--accent);
-  border-left: 2px solid var(--accent);
-  transform: translate(-3px, -3px);
-}
-
-.caliper-tr {
-  top: -1px;
-  right: -1px;
-  border-top: 2px solid var(--accent);
-  border-right: 2px solid var(--accent);
-  transform: translate(3px, -3px);
-}
-
-.caliper-bl {
-  bottom: -1px;
-  left: -1px;
-  border-bottom: 2px solid var(--accent);
-  border-left: 2px solid var(--accent);
-  transform: translate(-3px, 3px);
-}
-
-.caliper-br {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 2px solid var(--accent);
-  border-right: 2px solid var(--accent);
-  transform: translate(3px, 3px);
-}
-
-.hairline-frame:hover .hairline-caliper,
-.hairline-frame:focus-within .hairline-caliper {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
-.hairline-caliper-tag {
-  position: absolute;
-  top: 6px;
-  right: 12px;
-  font-family: var(--font-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-subtle);
-  border: 1px solid var(--border-accent);
-  padding: 1px 5px;
-  border-radius: 3px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 20;
-  transition: opacity 180ms ease, transform 180ms ease;
-  transform: translateY(-2px);
-}
-
-.hairline-frame:hover .hairline-caliper-tag,
-.hairline-frame:focus-within .hairline-caliper-tag {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hairline-caliper,
-  .hairline-caliper-tag {
-    transition: opacity 80ms linear !important;
-    transform: none !important;
-  }
-}
-
-/* ─── Container Query for Responsive Portfolio Layout & Zoom Adaptability ── */
-.portfolio-layout-wrapper {
-  container-type: inline-size;
-  container-name: portfolio-layout;
-  width: 100%;
-}
-
-@container portfolio-layout (min-width: 1024px) {
-  .portfolio-grid-layout {
-    display: flex;
-    flex-direction: row;
-    gap: 3rem;
-  }
-  .portfolio-sidebar-col {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    max-height: 100vh;
-    overflow-y: auto;
-    width: 34%;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-    overscroll-behavior: contain;
-  }
-  .portfolio-content-col {
-    width: 66%;
-    padding-top: 5rem;
-    padding-bottom: 6rem;
-  }
-}
-
-@container portfolio-layout (max-width: 1023px) {
-  .portfolio-grid-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .portfolio-sidebar-col {
-    position: relative;
-    width: 100%;
-    height: auto;
-    max-height: none;
-    overflow: visible;
-    padding-top: 3rem;
-    padding-bottom: 1.5rem;
-  }
-  .portfolio-content-col {
-    width: 100%;
-    padding-top: 1rem;
-    padding-bottom: 6rem;
-  }
-}
 
 
