@@ -138,7 +138,7 @@ export const PhotoLanes = () => {
         className="relative z-10 px-6 md:px-12 lg:px-20 mb-12"
         style={{ maxWidth: "min(1280px, 100%)", marginInline: "auto" }}
       >
-        <p className="section-label mb-4">04 · Photography</p>
+        <p className="section-label mb-4">Visual Breakout · Photography &amp; Life</p>
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <h2
             className="font-display font-bold"

@@ -38,7 +38,7 @@ export const About = () => {
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.4 }}
       >
-        <p className="section-label mb-5">01 · About &amp; Focus</p>
+        <p className="section-label mb-5">01 · Background &amp; Focus</p>
 
         <div className="space-y-4 text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
           <p>

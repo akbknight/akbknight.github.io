@@ -11,7 +11,7 @@ interface ContactProps {
 export const Contact = ({ onOpenResume }: ContactProps) => {
   return (
     <section id="contact">
-      <p className="section-label mb-6">06 · Contact &amp; Connect</p>
+      <p className="section-label mb-6">05 · Contact &amp; Hiring</p>
 
       <motion.div
         initial={{ opacity: 0, y: 18 }}
@@ -28,7 +28,7 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
         </h3>
 
         <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-lg mb-8">
-          Currently open to strategic roles, analytics engineering leadership, and high-impact advisory across government, fintech, and enterprise intelligence systems.
+          Graduating from American University&apos;s Kogod School of Business in May 2027 and available full-time June 1, 2027 for Business Intelligence, Data Analytics, and Operations Analytics roles. Open to high-stakes analytics engineering and operational analytics opportunities.
         </p>
 
         {/* Action Buttons */}

@@ -174,7 +174,7 @@ export const Experience = ({ onOpenResume }: ExperienceProps) => {
   return (
     <section id="experience">
       <div className="flex items-center justify-between mb-6">
-        <p className="section-label">02 · Verified Track Record</p>
+        <p className="section-label">02 · Track Record</p>
         {onOpenResume && (
           <button
             onClick={onOpenResume}

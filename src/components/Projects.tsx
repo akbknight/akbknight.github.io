@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Github, ExternalLink, ShieldAlert, Cpu, BarChart2, TrendingUp, Sparkles, Database, Layers } from "lucide-react";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { MagneticWrapper } from "@/components/MagneticWrapper";
+import { ProjectPipelineFigure } from "@/components/ProjectPipelineFigure";
 
 interface Project {
   title: string;
@@ -217,31 +218,115 @@ export const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   const categories = ["All", "Forensics & Security", "Data Pipelines & AI", "Macroeconomics", "Enterprise Systems"];
-  const featured = PROJECTS.filter((p) => p.featured);
+  const irs990Project = PROJECTS.find((p) => p.title.includes("IRS 990"));
+  const otherFeatured = PROJECTS.filter((p) => p.featured && !p.title.includes("IRS 990"));
   const secondary = PROJECTS.filter((p) => !p.featured && (selectedCategory === "All" || p.category === selectedCategory));
 
   return (
     <section id="projects" className="pt-2">
       <div className="mb-6">
-        <span className="section-label">04 · Flagship Projects</span>
+        <span className="section-label">03 · Featured Systems</span>
         <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
           Interactive Data Systems &amp; Visual Engines
         </h3>
         <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-          Click any card to launch the live deployed application in a new tab. Equipped with Three.js 3D WebGL, interactive econometric simulators, and real-time telemetry.
+          Production-grade analytics engineering, macroeconomic models, and automated intelligence systems. Equipped with interactive data architectures, 3D WebGL visualizations, and real-time telemetry.
         </p>
       </div>
 
-      {/* Flagship Bento Grid (Top 4 Visual Applications) */}
+      {/* Flagship Hero Showcase: IRS 990 Grant Miner with Embedded Architecture Figure */}
+      {irs990Project && (
+        <div className="mb-6">
+          <SpotlightCard
+            caliperLabel={irs990Project.badge || "DATA PIPELINE"}
+            className="p-6 rounded-2xl border border-zinc-200/90 dark:border-white/[0.1] bg-white dark:bg-[#0E0E14] shadow-md dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/40 transition-all duration-300"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Column: Context, Metrics & Explicit Action Links */}
+              <div className="lg:col-span-7 flex flex-col justify-between h-full">
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
+                      {irs990Project.badge}
+                    </span>
+                    <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">
+                      {irs990Project.category}
+                    </span>
+                  </div>
+
+                  <h4 className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white leading-snug">
+                    {irs990Project.title}
+                  </h4>
+
+                  <p className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-300 mt-2.5 leading-relaxed">
+                    {irs990Project.description}
+                  </p>
+
+                  {/* Impact Metrics Grid */}
+                  <div className="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-zinc-100 dark:border-white/[0.06]">
+                    {irs990Project.metrics.map((m) => (
+                      <div key={m} className="text-[11px] font-mono-code text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400 shrink-0" />
+                        <span>{m}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-1.5 mt-4">
+                    {irs990Project.tech.map((t) => (
+                      <span key={t} className="tech-pill">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Explicit, Accessible Launch Buttons */}
+                <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-white/[0.06] flex flex-wrap items-center gap-3">
+                  {irs990Project.live && (
+                    <a
+                      href={irs990Project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Launch IRS 990 Philanthropic Grant Miner live system"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                    >
+                      <span>Launch Live System</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                  {irs990Project.github && (
+                    <a
+                      href={irs990Project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="View IRS 990 Philanthropic Grant Miner source code on GitHub"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono-code transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                    >
+                      <Github className="w-3.5 h-3.5" />
+                      <span>Source Code</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column: Embedded Isometric Architecture Figure */}
+              <div className="lg:col-span-5 w-full">
+                <ProjectPipelineFigure />
+              </div>
+            </div>
+          </SpotlightCard>
+        </div>
+      )}
+
+      {/* Additional Flagship Systems Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-        {featured.map((p) => (
+        {otherFeatured.map((p) => (
           <SpotlightCard
             key={p.title}
             caliperLabel={p.badge || "INSPECTION"}
-            onClick={() => {
-              if (p.live) window.open(p.live, "_blank", "noopener,noreferrer");
-            }}
-            className="p-5 flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/40 cursor-pointer transition-all duration-300 hover:scale-[1.012] hover:shadow-xl hover:shadow-sky-500/10"
+            className="p-5 flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/40 transition-all duration-200"
           >
             <div>
               {/* Badge & Category Header */}
@@ -254,10 +339,9 @@ export const Projects = () => {
                 </span>
               </div>
 
-              {/* Title with hover color */}
-              <h4 className="text-base font-bold text-zinc-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors flex items-center justify-between gap-2">
-                <span>{p.title}</span>
-                <ExternalLink className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all text-sky-600 dark:text-sky-400 shrink-0" />
+              {/* Title */}
+              <h4 className="text-base font-bold text-zinc-900 dark:text-white leading-snug">
+                {p.title}
               </h4>
 
               {/* Description */}
@@ -277,7 +361,7 @@ export const Projects = () => {
             </div>
 
             {/* Bottom Tech Stack & Action Links */}
-            <div className="mt-5 pt-3 border-t border-zinc-100 dark:border-white/[0.06] flex items-center justify-between">
+            <div className="mt-5 pt-3 border-t border-zinc-100 dark:border-white/[0.06] flex items-center justify-between gap-2 flex-wrap">
               <div className="flex flex-wrap gap-1">
                 {p.tech.slice(0, 3).map((t) => (
                   <span key={t} className="tech-pill">
@@ -288,23 +372,28 @@ export const Projects = () => {
 
               <div className="flex items-center gap-2">
                 {p.github && (
-                  <MagneticWrapper strength={0.25}>
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label={`View ${p.title} source code on GitHub`}
-                      className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors inline-flex"
-                    >
-                      <Github className="w-4 h-4" />
-                    </a>
-                  </MagneticWrapper>
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${p.title} source code on GitHub`}
+                    className="p-1.5 rounded-md border border-zinc-200 dark:border-white/10 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors inline-flex items-center gap-1 text-[11px] font-mono-code focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Code</span>
+                  </a>
                 )}
                 {p.live && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-300 bg-sky-500/10 border border-sky-500/20 px-2 py-0.5 rounded-full group-hover:bg-sky-600 group-hover:text-white dark:group-hover:bg-sky-400 dark:group-hover:text-zinc-950 transition-colors">
-                    Live Demo ↗
-                  </span>
+                  <a
+                    href={p.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Launch live system for ${p.title}`}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono-code font-semibold px-2.5 py-1 rounded-md bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 transition-colors shadow-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  >
+                    <span>Launch</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 )}
               </div>
             </div>

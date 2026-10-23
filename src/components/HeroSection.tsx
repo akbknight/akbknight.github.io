@@ -81,9 +81,9 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         transition={{ duration: 0.3, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
         className="space-y-3"
       >
-        <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-bold tracking-[-0.03em] text-zinc-900 dark:text-white leading-[1.12] text-balance">
+        <h2 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-bold tracking-[-0.03em] text-zinc-900 dark:text-white leading-[1.12] text-balance">
           Architecting resilient data systems for federal diplomacy &amp; capital markets.
-        </h1>
+        </h2>
 
         <p className="text-sm sm:text-[15px] text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl pt-1 font-normal">
           7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod STEM MBA candidate</span> (Business Analytics &amp; AI). Graduating May 2027; available full-time June 1, 2027 for Business Intelligence, Data Analytics, and Operations Analytics roles.

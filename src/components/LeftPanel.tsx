@@ -10,12 +10,11 @@ import { Mascot } from "@/components/Mascot";
 
 const NAV_SECTIONS = [
   { id: "hero", label: "00 · Overview" },
-  { id: "about", label: "01 · About & Focus" },
-  { id: "experience", label: "02 · Verified Track Record" },
-  { id: "architecture", label: "03 · Systems Architecture" },
-  { id: "projects", label: "04 · Flagship Projects" },
-  { id: "writing", label: "05 · Publications & Notes" },
-  { id: "contact", label: "06 · Contact & Connect" },
+  { id: "about", label: "01 · Background & Focus" },
+  { id: "experience", label: "02 · Track Record" },
+  { id: "projects", label: "03 · Featured Systems" },
+  { id: "writing", label: "04 · Technical Write-ups & Methodology" },
+  { id: "contact", label: "05 · Contact & Hiring" },
 ];
 
 const SOCIALS = [

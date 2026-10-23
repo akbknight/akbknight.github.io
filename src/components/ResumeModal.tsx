@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   X,
   Download,
@@ -79,6 +79,7 @@ Analytics & Modeling: Power BI, Excel, Streamlit, statsmodels, Time-Series Forec
 Applications & Cloud: Flutter, Power Apps, Power Automate, SharePoint, AWS S3, Three.js / WebGL, Git / GitHub CI/CD`;
 
 export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
+  const shouldReduceMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState<"highlights" | "pdf" | "ats">("pdf");
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
@@ -179,7 +180,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: shouldReduceMotion ? 0.05 : 0.2 }}
             onClick={onClose}
             className="absolute inset-0 bg-black/85 backdrop-blur-md"
           />
@@ -187,10 +188,10 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
           {/* Modal Container */}
           <motion.div
             ref={modalContainerRef}
-            initial={{ opacity: 0, scale: 0.96, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 12 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 12 }}
+            animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 12 }}
+            transition={{ duration: shouldReduceMotion ? 0.05 : 0.22, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-10 w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl bg-white dark:bg-[#0B0B10] border border-zinc-200 dark:border-white/[0.12] shadow-2xl shadow-black/20 dark:shadow-sky-950/30 overflow-hidden text-zinc-900 dark:text-zinc-100"
           >
             {/* Top Bar Header */}

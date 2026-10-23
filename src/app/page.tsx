@@ -5,7 +5,6 @@ import { LeftPanel } from "@/components/LeftPanel";
 import { HeroSection } from "@/components/HeroSection";
 import { About } from "@/components/About";
 import { Experience } from "@/components/Experience";
-import { ArchitectureDiagram } from "@/components/ArchitectureDiagram";
 import { Projects } from "@/components/Projects";
 import { Writing } from "@/components/Writing";
 import { PhotoLanes } from "@/components/PhotoLanes";
@@ -13,7 +12,6 @@ import { Contact } from "@/components/Contact";
 import { ResumeModal } from "@/components/ResumeModal";
 import { AmbientCanvas } from "@/components/AmbientCanvas";
 import { ScrollProgressBar } from "@/components/ScrollProgressBar";
-import { CustomCursor } from "@/components/CustomCursor";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -23,10 +21,9 @@ export default function Home() {
       className="min-h-[100dvh] relative"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
-      {/* ── Awwwards-Tier Micro-Interactive Layer ── */}
+      {/* Editorial Ambient Progress & Canvas Layers */}
       <ScrollProgressBar />
       <AmbientCanvas />
-      <CustomCursor />
 
       <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:px-12 lg:px-20">
         <div className="lg:flex lg:gap-12 xl:gap-16">
@@ -50,7 +47,6 @@ export default function Home() {
             <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
             <About />
             <Experience onOpenResume={() => setIsResumeOpen(true)} />
-            <ArchitectureDiagram />
             <Projects />
             <Writing />
             <Contact onOpenResume={() => setIsResumeOpen(true)} />
