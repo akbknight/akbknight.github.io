@@ -16,36 +16,36 @@ interface ProjectPipelineFigureProps {
 const W = 46, D = 32, TK = 5.2, R = 6.5, B = 1.3;
 const Z_REST = [3, 12, 21, 30];
 const STAGE_LABELS = [
-  "01 · AWS S3 XML Stream",
-  "02 · Entity Audit & EIN Resolution",
-  "03 · DuckDB Columnar Warehouse",
-  "04 · Interactive Intelligence HUD",
+  "01 · Ingestion (AWS S3)",
+  "02 · Deduplication & Audit",
+  "03 · Columnar Warehouse (DuckDB)",
+  "04 · Analytics & Spatial HUD",
 ];
 
 const STAGE_DETAILS = [
   {
-    name: "01 · Ingestion",
-    short: "S3 XML",
+    step: "01",
+    tab: "01 · Ingest",
     full: "AWS S3 Streaming XML",
     desc: "In-memory streaming SAX parser ingesting 9.7M+ IRS Form 990 XML tax filings without disk spill.",
   },
   {
-    name: "02 · Audit",
-    short: "Entity Audit",
+    step: "02",
+    tab: "02 · Audit",
     full: "Entity Resolution & Audit",
-    desc: "EIN deduplication, donor-recipient relationship matching, and DAF pass-through validation.",
+    desc: "Automated EIN deduplication, multi-year organization matching, and donor-recipient grant validation.",
   },
   {
-    name: "03 · Warehouse",
-    short: "DuckDB",
-    full: "DuckDB Columnar Store",
-    desc: "Standardized relational schemas with sub-second OLAP aggregations across $550B+ charitable capital.",
+    step: "03",
+    tab: "03 · Store",
+    full: "DuckDB Columnar Warehouse",
+    desc: "Standardized relational schemas enabling sub-second OLAP aggregations across $550B+ in charitable capital.",
   },
   {
-    name: "04 · Interface",
-    short: "Live HUD",
-    full: "Live Intelligence HUD",
-    desc: "3D WebGL global capital flow arcs, TopoJSON choropleths, and log-log outlier matrices.",
+    step: "04",
+    tab: "04 · Deliver",
+    full: "Interactive Analytics HUD",
+    desc: "Hardware-accelerated 3D WebGL global capital flow arcs and state-level choropleth visualization.",
   },
 ];
 
@@ -435,18 +435,18 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
     <figure
       role="region"
       aria-label="Schematic diagram: 4-stage pipeline for IRS Form 990 data engineering"
-      className={`relative flex flex-col rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-[#0B0C10] p-3 text-left ${className}`}
+      className={`relative flex flex-col rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/60 dark:bg-[#0B0C10] p-4 text-left ${className}`}
     >
       {/* Active layer readout */}
-      <div className="flex items-center justify-between pb-2 mb-2 border-b border-zinc-200/70 dark:border-zinc-800 text-[11px] font-mono-code">
-        <span className="text-zinc-500 dark:text-zinc-400 font-medium">Architecture Schematic</span>
-        <span className="text-sky-700 dark:text-sky-300 font-semibold px-2 py-0.5 rounded bg-sky-500/10 dark:bg-sky-500/20 border border-sky-500/30">
+      <div className="flex items-center justify-between pb-2 mb-2 border-b border-zinc-200/70 dark:border-zinc-800 text-xs font-mono-code">
+        <span className="text-zinc-600 dark:text-zinc-400 font-medium">Pipeline Architecture</span>
+        <span className="text-sky-700 dark:text-sky-300 font-semibold px-2.5 py-0.5 rounded bg-sky-500/10 dark:bg-sky-500/20 border border-sky-500/30 text-[11px]">
           {STAGE_LABELS[highlightedIndex]}
         </span>
       </div>
 
       {/* SVG Canvas Container — touch-action: pan-y preserves natural vertical scrolling */}
-      <div className="relative w-full aspect-[4/3] max-h-[200px] flex items-center justify-center overflow-hidden rounded-lg bg-white/70 dark:bg-[#07080B] border border-zinc-200/60 dark:border-zinc-800/80">
+      <div className="relative w-full aspect-[16/10] max-h-[220px] flex items-center justify-center overflow-hidden rounded-lg bg-white/60 dark:bg-[#07080B] border border-zinc-200/60 dark:border-zinc-800/80">
         <svg
           ref={svgRef}
           viewBox="0 0 380 280"
@@ -531,7 +531,7 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
       <div
         role="tablist"
         aria-label="IRS 990 Pipeline Stages"
-        className="grid grid-cols-4 gap-1 mt-2.5"
+        className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mt-3"
       >
         {STAGE_DETAILS.map((st, idx) => {
           const isSelected = selectedIndex === idx;
@@ -550,13 +550,13 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
               onKeyDown={(e) => handleTabKeyDown(e, idx)}
               onMouseEnter={() => setInternalHover(idx)}
               onMouseLeave={() => setInternalHover(null)}
-              className={`text-center py-1 px-1 rounded text-[10px] font-mono-code transition-all cursor-pointer ${
+              className={`text-center py-1.5 px-2 rounded-lg text-xs font-mono-code transition-all cursor-pointer whitespace-nowrap ${
                 isSelected
                   ? "bg-sky-500/15 text-sky-700 dark:text-sky-300 font-semibold border border-sky-500/40 shadow-xs"
-                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 border border-transparent hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 border border-zinc-200/50 dark:border-white/5 hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
               }`}
             >
-              <span className="block truncate">{st.short}</span>
+              <span>{st.tab}</span>
             </button>
           );
         })}
@@ -568,24 +568,24 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
         role="tabpanel"
         aria-labelledby={`stage-tab-${selectedIndex}`}
         tabIndex={0}
-        className="mt-2 p-2 rounded-lg bg-zinc-100/70 dark:bg-white/[0.03] border border-zinc-200/60 dark:border-white/[0.05] text-[11px] focus:outline-none focus:ring-1 focus:ring-sky-500"
+        className="mt-2.5 p-3 rounded-lg bg-zinc-100/80 dark:bg-white/[0.03] border border-zinc-200/60 dark:border-white/[0.06] text-xs focus:outline-none focus:ring-1 focus:ring-sky-500"
       >
-        <div className="flex items-center justify-between gap-2 mb-0.5">
-          <span className="font-semibold text-zinc-900 dark:text-zinc-100 font-mono-code">
+        <div className="flex items-center justify-between gap-2 mb-1">
+          <span className="font-semibold text-zinc-900 dark:text-zinc-100 font-mono-code text-xs">
             {STAGE_DETAILS[selectedIndex].full}
           </span>
-          <span className="text-[9px] uppercase tracking-wider text-sky-700 dark:text-sky-400 font-mono-code bg-sky-500/10 px-1.5 py-0.5 rounded">
-            Stage 0{selectedIndex + 1}/04
+          <span className="text-[10px] uppercase tracking-wider text-sky-700 dark:text-sky-400 font-mono-code bg-sky-500/10 px-2 py-0.5 rounded font-medium">
+            Stage {STAGE_DETAILS[selectedIndex].step}/04
           </span>
         </div>
-        <p className="text-zinc-600 dark:text-zinc-400 text-[11px] leading-relaxed">
+        <p className="text-zinc-600 dark:text-zinc-300 text-xs leading-relaxed">
           {STAGE_DETAILS[selectedIndex].desc}
         </p>
       </div>
 
       {/* Accessible, descriptive caption */}
-      <figcaption className="mt-2 text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400 leading-normal">
-        Figure: Interactive 4-stage data pipeline for IRS Form 990 data engineering. Use arrow keys or click tabs to inspect each stage.
+      <figcaption className="mt-2 text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400 leading-normal">
+        4-stage data pipeline for IRS Form 990 data engineering. Select a stage to view its architectural details.
       </figcaption>
     </figure>
   );

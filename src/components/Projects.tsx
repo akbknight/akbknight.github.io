@@ -1,214 +1,191 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Github, ExternalLink, ShieldAlert, Cpu, BarChart2, TrendingUp, Sparkles, Database, Layers } from "lucide-react";
+import Image from "next/image";
+import { Github, ExternalLink } from "lucide-react";
 import { SpotlightCard } from "@/components/SpotlightCard";
-import { MagneticWrapper } from "@/components/MagneticWrapper";
 import { ProjectPipelineFigure } from "@/components/ProjectPipelineFigure";
 
-interface Project {
+interface FeaturedProject {
   title: string;
-  badge?: string;
-  category: "Forensics & Security" | "Data Pipelines & AI" | "Macroeconomics" | "Enterprise Systems";
-  description: string;
-  tech: string[];
+  badge: string;
+  tagline: string;
+  overview: string;
+  contribution: string;
+  evidence: string;
   metrics: string[];
-  github: string | null;
-  live: string | null;
-  featured?: boolean;
+  tech: string[];
+  image: string;
+  imageAlt: string;
+  github: string;
+  live: string;
 }
 
-const PROJECTS: Project[] = [
+interface ArchiveProject {
+  title: string;
+  category: "Data Pipelines" | "Macroeconomics" | "Enterprise Systems";
+  summary: string;
+  contribution: string;
+  tech: string[];
+  github: string | null;
+  live: string | null;
+}
+
+const FEATURED_PROJECTS: FeaturedProject[] = [
   {
-    title: "Deborah Autonomous Deep-Research Engine (v3.5)",
-    badge: "Enterprise Intelligence",
-    category: "Data Pipelines & AI",
-    description:
-      "Production-grade autonomous organization intelligence and deep-research engine. Resolves corporate and nonprofit entities, ingests IRS Form 990 XML tax filings, extracts multi-year audited financial statements, and synthesizes multi-format intelligence packages (PDF, XLSX, HTML, JSON) without requiring paid API keys or remote LLMs. Features cryptographic loopback WebUI, bounded network egress, and strict entity verification.",
-    tech: ["Python 3.12", "Flask", "ReportLab PDF", "openpyxl", "ProPublica API", "IRS EO BMF"],
-    metrics: ["Zero-API Runtime", "Multi-Format Export", "IRS 990 Ingestion", "Bounded Egress Engine"],
-    github: "https://github.com/akbknight/deborah-research-assistant-audit",
-    live: "https://akbknight.github.io/deborah-research-assistant-audit/",
-    featured: true,
-  },
-  {
-    title: "Master Resume Engineer (ATS Hardening Engine)",
-    badge: "Deterministic AST Engine",
-    category: "Data Pipelines & AI",
-    description:
-      "Single-source-of-truth resume engineering system enforcing strict structural AST invariants, STAR-quantified bullet banks, and deterministic ATS compilation. Eliminates hallucinations, invisible characters, and corporate clichés via automated CI/CD validation.",
-    tech: ["Python", "AST Invariants", "STAR Framework", "ReportLab", "GitHub Pages"],
-    metrics: ["100% Invariant Pass", "59.2% Metric Density", "Zero Cliché Gate", "Deterministic AST Compiler"],
-    github: "https://github.com/akbknight/master-resume-engineer",
-    live: "https://akbknight.github.io/master-resume-engineer/",
-    featured: true,
-  },
-  {
-    title: "IRS 990 Philanthropic Grant Miner & 3D Spatial Engine",
+    title: "IRS 990 Philanthropic Grant Miner & Spatial Engine",
     badge: "$550B+ Capital Mapped",
-    category: "Data Pipelines & AI",
-    description:
-      "Enterprise data engineering and visual intelligence system mapping $550.2B across 9.7M+ IRS Form 990 records. Features hardware-accelerated 3D WebGL global capital flow arcs (Globe.gl/Three.js), econometric log-log outlier detection matrices (Plotly.js), and D3 TopoJSON national choropleths with zero-API latency.",
-    tech: ["Python", "Globe.gl (Three.js)", "Plotly.js", "D3 TopoJSON", "DuckDB"],
-    metrics: ["9.7M+ XML Records", "$550B+ Capital Mapped", "3D WebGL Capital Arcs", "Log-Log Outlier Matrix"],
+    tagline: "Large-Scale Public Data Engineering & 3D Spatial Intelligence",
+    overview:
+      "Ingests and normalizes 9.7M+ public IRS Form 990 tax records to track over $550 billion in charitable grants flowing between foundations and U.S. nonprofit organizations.",
+    contribution:
+      "Engineered an in-memory streaming SAX parser in Python to process multi-gigabyte XML dumps without disk spill. Modeled relational schemas into a DuckDB columnar warehouse and built an interactive dashboard with 3D WebGL capital arcs and state-level choropleths.",
+    evidence:
+      "Successfully processed 9.7M+ tax filings; achieves sub-second query latency across 500,000+ standardized grant records with zero external API dependencies.",
+    metrics: [
+      "9.7M+ XML Filings Processed",
+      "$550B+ Charitable Funding",
+      "Sub-Second DuckDB Queries",
+      "Zero-API Client Runtime",
+    ],
+    tech: ["Python", "DuckDB", "Three.js / Globe.gl", "D3 TopoJSON", "Plotly.js"],
+    image: "/projects/irs990.png",
+    imageAlt: "IRS 990 Grant Miner live dashboard showing 3D WebGL capital flow arcs and U.S. choropleth",
     github: "https://github.com/akbknight/irs990-grant-dashboard",
     live: "https://akbknight.github.io/irs990-grant-dashboard/",
-    featured: true,
   },
   {
-    title: "AI Strategic Briefing Generator",
-    badge: "Autonomous Intelligence",
-    category: "Data Pipelines & AI",
-    description:
-      "Autonomous 6-stage analytics pipeline with Three.js particle wave canvas: Raw CSV ingestion → schema inference → statistical profiling → anomaly detection (Z-score & CUSUM) → Holt-Winters forecasting → Claude AI narrative synthesis into executive-ready briefs.",
-    tech: ["Three.js", "Python", "Claude API", "statsmodels", "Chart.js"],
-    metrics: ["6-Stage Pipeline", "Zero Configuration", "Interactive Z-Score Slider", "Three.js 3D Canvas"],
-    github: "https://github.com/akbknight/ai-strategic-briefing",
-    live: "https://akbknight.github.io/ai-strategic-briefing/",
-    featured: true,
-  },
-  {
-    title: "US Retail Demand Forecast Engine",
+    title: "U.S. Retail Demand Forecasting Engine",
     badge: "Econometric Modeling",
-    category: "Macroeconomics",
-    description:
-      "18-month forward predictive demand model for U.S. Retail & Food Services Sales (RSXFS) using Holt-Winters triple exponential smoothing on 26+ years of monthly Federal Reserve (FRED) time-series data. Features 80% & 95% predictive confidence intervals, walk-forward holdout validation (~2.0% MAPE), and Real-Time Econometric Tuning Studio.",
-    tech: ["Three.js", "Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
-    metrics: ["320 Months FRED Data", "~2.0% Backtest MAPE", "18-Month Horizon", "State-Space ETS(A,A,A)"],
+    tagline: "18-Month Predictive Demand Forecasting on Federal Reserve Data",
+    overview:
+      "Generates 18-month forward predictive demand forecasts for U.S. Retail & Food Services Sales (RSXFS) to assist business inventory planning and macroeconomic scenario modeling.",
+    contribution:
+      "Developed Holt-Winters exponential smoothing and state-space ETS(A,A,A) models in Python and statsmodels using 26+ years (320 months) of monthly Federal Reserve (FRED) time-series data. Built an interactive browser-based tuning studio with walk-forward holdout backtesting.",
+    evidence:
+      "Achieved ~2.0% Mean Absolute Percentage Error (MAPE) across 24-month walk-forward backtesting against actual Federal Reserve historical data, evaluated alongside MAE and RMSE baselines.",
+    metrics: [
+      "320 Months FRED Data",
+      "~2.0% Walk-Forward MAPE",
+      "18-Month Forecast Horizon",
+      "80% & 95% Confidence Bounds",
+    ],
+    tech: ["Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
+    image: "/projects/retail-forecast.png",
+    imageAlt: "U.S. Retail Demand Forecasting Engine showing 18-month projected sales and confidence intervals",
     github: "https://github.com/akbknight/us-retail-sales-forecast",
     live: "https://akbknight.github.io/us-retail-sales-forecast/",
-    featured: true,
   },
   {
     title: "Diplomatic Resource & Scheduling Optimizer",
-    badge: "Diplomatic Systems",
-    category: "Enterprise Systems",
-    description:
-      "Greedy constraint-satisfaction scheduling engine built to resolve complex multi-departmental constraints: 180 high-priority meeting requests across 20 secure rooms and 150 cleared personnel. Features Three.js 3D kinetic lattice and interactive stress test simulation.",
-    tech: ["Three.js", "JavaScript", "Greedy Algorithm", "Chart.js"],
-    metrics: ["180 Meeting Matrix", "150 Personnel Cleared", "Three.js 3D Lattice", "Stress Test Simulation"],
+    badge: "Operational Analytics",
+    tagline: "Constraint-Satisfaction Engine for Diplomatic Facilities",
+    overview:
+      "Resolves complex multi-departmental conference room and security clearance scheduling conflicts for high-security diplomatic posts.",
+    contribution:
+      "Designed and implemented a greedy priority constraint-satisfaction scheduling engine allocating 180 high-priority meeting requests across 20 secure conference rooms and 150 cleared personnel. Included an interactive stress test simulating crisis surge loads.",
+    evidence:
+      "Directly addresses consular operational scheduling bottlenecks identified during U.S. Embassy service; allocates 180 constraint sets with zero room or security clearance conflicts in under 2 seconds.",
+    metrics: [
+      "180 Meeting Requests",
+      "150 Cleared Personnel",
+      "20 Secure Rooms",
+      "Zero Double-Bookings",
+    ],
+    tech: ["JavaScript", "Greedy Algorithm", "Three.js", "Chart.js"],
+    image: "/projects/scheduling-optimizer.png",
+    imageAlt: "Diplomatic Resource and Scheduling Optimizer showing 3D room occupancy matrix",
     github: "https://github.com/akbknight/scheduling-optimizer",
     live: "https://akbknight.github.io/scheduling-optimizer/",
-    featured: true,
+  },
+];
+
+const ARCHIVE_PROJECTS: ArchiveProject[] = [
+  {
+    title: "Deborah Organization Research Assistant",
+    category: "Data Pipelines",
+    summary:
+      "Entity resolution and public filings research assistant ingesting IRS Form 990 data to generate multi-format financial reports (PDF, Excel, HTML, JSON) without requiring paid API keys.",
+    contribution:
+      "Conducted a complete security audit across 62 legacy versions, eliminating SSRF DNS-rebinding vulnerabilities and adding automated CI/CD validation.",
+    tech: ["Python", "Flask", "ReportLab", "openpyxl", "ProPublica API"],
+    github: "https://github.com/akbknight/deborah-research-assistant-audit",
+    live: "https://akbknight.github.io/deborah-research-assistant-audit/",
+  },
+  {
+    title: "Master Resume Engineer",
+    category: "Data Pipelines",
+    summary:
+      "Automated resume compilation tool enforcing structural invariants, STAR-quantified bullet formatting, and single-source-of-truth YAML editing.",
+    contribution:
+      "Built AST parsing and automated schema validation tests to ensure deterministic output compilation.",
+    tech: ["Python", "AST Parsing", "YAML", "ReportLab"],
+    github: "https://github.com/akbknight/master-resume-engineer",
+    live: "https://akbknight.github.io/master-resume-engineer/",
   },
   {
     title: "Economic Anomaly Detection Monitor",
     category: "Macroeconomics",
-    description:
-      "Three-algorithm statistical anomaly monitoring system (Z-Score, IQR, CUSUM) applied across 26 years of Federal Reserve macroeconomic indicators. Pinpoints shock regimes including the 2008 GFC, 2020 COVID deflation, and 2021–22 inflation spikes.",
+    summary:
+      "Three-algorithm statistical anomaly detection system (Z-Score, IQR, CUSUM) applied across 26 years of Federal Reserve macroeconomic indicators.",
+    contribution:
+      "Programmed statistical detection baselines in Python to identify historic shock periods including the 2008 GFC and 2020 pandemic downturn.",
     tech: ["Python", "scipy", "Pandas", "Chart.js"],
-    metrics: ["26 Years FRED Data", "3 Detection Algorithms"],
     github: "https://github.com/akbknight/anomaly-detection-monitor",
     live: "https://akbknight.github.io/anomaly-detection-monitor/",
   },
   {
-    title: "Data Pipeline Validation Framework",
-    category: "Enterprise Systems",
-    description:
-      "Automated integrity verification framework executing 7 discrete check categories (completeness, referential integrity, schema drift, distribution boundaries) across 15 enterprise sources and 12,000+ financial records.",
-    tech: ["Python", "Pandas", "HTML", "Chart.js"],
-    metrics: ["7 Check Categories", "12K+ Records Validated", "Automated Health Scoring"],
-    github: "https://github.com/akbknight/data-pipeline-validator",
-    live: "https://akbknight.github.io/data-pipeline-validator/",
-  },
-  {
-    title: "Crisis to Care Triage Platform",
-    category: "Data Pipelines & AI",
-    description:
-      "Digital intervention platform connecting first-generation university students in acute distress with campus resources. Uses Gemini AI for multi-dimensional triage across mental health, emergency housing, and food insecurity.",
-    tech: ["React", "TypeScript", "Vite", "Gemini API"],
-    metrics: ["Automated Triage", "Campus Resource Routing"],
-    github: "https://github.com/akbknight/crisis-to-care",
-    live: "https://akbknight.github.io/crisis-to-care/",
-  },
-  {
-    title: "SaltPepper for Windows: AI Cost Optimizer",
-    category: "Data Pipelines & AI",
-    description:
-      "Local intelligence router: leverages local Gemma2 / Ollama models for routine tasks and conditionally routes high-complexity operations to Claude Code API. Delivers 40–70% token cost reduction.",
-    tech: ["Python", "Ollama", "Claude API", "CLI"],
-    metrics: ["40–70% Cost Reduction", "Local LLM Fallback"],
-    github: "https://github.com/akbknight/saltpepper-win",
-    live: "https://akbknight.github.io/saltpepper-win/",
-  },
-  {
-    title: "Kogod MBA Admissions Funnel Analytics",
-    category: "Enterprise Systems",
-    description:
-      "Interactive admissions analytics portal for Kogod MBA leadership: YoY conversion funnel tracking across domestic and international applicant pools. Powered by DuckDB and Plotly.",
-    tech: ["Python", "Streamlit", "DuckDB", "Plotly"],
-    metrics: ["YoY Funnel Analysis", "Deposit Pacing Telemetry"],
-    github: "https://github.com/akbknight/admissions_funnel_dashboard",
-    live: "https://akbknight.github.io/admissions_funnel_dashboard/",
-  },
-  {
-    title: "Smart File Organizer Agent",
-    category: "Enterprise Systems",
-    description:
-      "Move-only autonomous document archival agent with deep OCR (poppler/Tesseract), entity resolution (patient > doctor, applicant > university), and deterministic audit logging (_Organize_Log.txt). Zero file deletions guaranteed.",
-    tech: ["Python", "Tesseract OCR", "poppler-utils", "AST Parsing", "GitHub Pages"],
-    metrics: ["Move-Only Invariant", "Entity Resolution", "Zero Deletions", "Full Audit Log"],
-    github: "https://github.com/akbknight/smart-file-organizer",
-    live: "https://akbknight.github.io/smart-file-organizer/",
-  },
-  {
-    title: "Signals>Noise: AT&T Enterprise AI Strategy",
-    category: "Enterprise Systems",
-    description:
-      "MBA team capstone project proposing 'Shape Your Solution' — an AI diagnostic pre-RFP tool for AT&T's $18.8B B2B segment. Covers financial modeling, architectural integration, and change management.",
-    tech: ["JavaScript", "Chart.js", "Lucide", "Vite"],
-    metrics: ["$18.8B Segment Analysis", "Pre-RFP Architecture"],
-    github: "https://github.com/akbknight/Team--Signals-Noise-Project-",
-    live: "https://akbknight.github.io/Team--Signals-Noise-Project-/",
-  },
-  {
-    title: "Macroeconomic Scenario Simulator",
+    title: "Macroeconomic Policy Scenario Simulator",
     category: "Macroeconomics",
-    description:
-      "Interactive 'what-if' econometric simulation: manipulate Federal Reserve discount rates, CPI inflation, and unemployment metrics to model GDP growth and recession probabilities using embedded FRED data.",
+    summary:
+      "Interactive 'what-if' policy tool modeling how Federal Reserve interest rate, CPI, and unemployment adjustments impact GDP growth and recession probabilities.",
+    contribution:
+      "Implemented client-side econometric formulas and responsive chart visualizations tied to historical FRED series.",
     tech: ["JavaScript", "Chart.js", "HTML5"],
-    metrics: ["3 Preset Scenarios", "Real-Time Probability Estimation"],
     github: "https://github.com/akbknight/economic-scenario-analysis",
     live: "https://akbknight.github.io/economic-scenario-analysis/",
   },
   {
     title: "ITEC-617 Digital Transformation Simulation Coach",
     category: "Enterprise Systems",
-    description:
-      "Autonomous C-suite simulation coach for MBA technology proposals. Engages 9 executive personas (CIO, CISO, CFO, COO, CHRO, CTO, CDO, Legal, Procurement) across 45 criteria and 9 weighted rubric dimensions grounded in 4 years of Kogod MBA competition judge feedback.",
-    tech: ["Claude Code Skills", "Copilot Agents", "SVG Architecture", "Interactive Rubrics"],
-    metrics: ["9 Executive Personas", "45 Criteria Evaluated", "100% Weighted Score", "4-Year Judge Feedback"],
+    summary:
+      "Autonomous C-suite evaluation simulation for MBA technology proposals, scoring 9 executive personas across 45 criteria grounded in 4 years of competition judge feedback.",
+    contribution:
+      "Structured evaluation scoring logic, weighted rubrics, and interactive web dashboard for student teams.",
+    tech: ["JavaScript", "SVG", "Interactive Rubrics"],
     github: "https://github.com/akbknight/ITEC-617-Digital-Transformation-Project",
     live: "https://akbknight.github.io/ITEC-617-Digital-Transformation-Project/",
   },
   {
-    title: "Fulfilr Strategy & Operations Platform",
+    title: "Data Pipeline Validation Framework",
     category: "Enterprise Systems",
-    description:
-      "Operator-led digital operating platform aligning product, operations, and scalable digital capabilities with execution-ready playbooks and metrics.",
-    tech: ["HTML5", "CSS3", "JavaScript", "Chart.js"],
-    metrics: ["Execution Roadmaps", "Operator Playbooks", "Modular Delivery"],
-    github: "https://github.com/akbknight/Fulfiler-project",
-    live: "https://akbknight.github.io/Fulfiler-project/",
+    summary:
+      "Data integrity test harness executing 7 validation categories (completeness, referential integrity, schema drift) across enterprise sources.",
+    contribution:
+      "Built automated dataset health scoring and summary visualization in Python.",
+    tech: ["Python", "Pandas", "HTML", "Chart.js"],
+    github: "https://github.com/akbknight/data-pipeline-validator",
+    live: "https://akbknight.github.io/data-pipeline-validator/",
   },
   {
     title: "Tour & Travel Relational Management System",
     category: "Enterprise Systems",
-    description:
-      "Relational database architecture and PyODBC booking engine built with Microsoft SQL Server Management Studio. Star-relational schema with 5 foreign key constraints and interactive web explorer.",
-    tech: ["Python", "MS SQL Server", "pyodbc", "SQL Schema", "Tkinter"],
-    metrics: ["3NF Schema", "5 Foreign Keys", "Relational Integrity", "Seed Datasets"],
+    summary:
+      "Relational booking and customer itinerary management database engineered in Microsoft SQL Server Management Studio.",
+    contribution:
+      "Designed a 3NF normalized schema with 5 foreign key constraints and built a Python database explorer interface.",
+    tech: ["Python", "MS SQL Server", "pyodbc", "Tkinter"],
     github: "https://github.com/akbknight/System-for-Tour-and-Travel-Management",
     live: "https://akbknight.github.io/System-for-Tour-and-Travel-Management/",
   },
   {
     title: "Weathery Node.js CLI Weather Tool",
-    category: "Data Pipelines & AI",
-    description:
-      "Terminal weather application built in Node.js featuring ASCII Figlet typography, Inquirer prompts, animated loading spinners, and Boxen forecast summaries with live OpenWeatherMap API integration.",
-    tech: ["Node.js", "Inquirer", "Chalk", "Boxen", "Figlet"],
-    metrics: ["Interactive CLI", "OpenWeatherMap API", "Terminal Boxen UI"],
+    category: "Data Pipelines",
+    summary:
+      "Terminal weather utility integrating live OpenWeatherMap API data with formatted ASCII summaries and forecast cards.",
+    contribution:
+      "Developed CLI interface using Inquirer prompts and Chalk formatting.",
+    tech: ["Node.js", "Inquirer", "Chalk", "Boxen"],
     github: "https://github.com/akbknight/weather-cli-nodejs",
     live: "https://akbknight.github.io/weather-cli-nodejs/",
   },
@@ -217,240 +194,267 @@ const PROJECTS: Project[] = [
 export const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  const categories = ["All", "Forensics & Security", "Data Pipelines & AI", "Macroeconomics", "Enterprise Systems"];
-  const irs990Project = PROJECTS.find((p) => p.title.includes("IRS 990"));
-  const otherFeatured = PROJECTS.filter((p) => p.featured && !p.title.includes("IRS 990"));
-  const secondary = PROJECTS.filter((p) => !p.featured && (selectedCategory === "All" || p.category === selectedCategory));
+  const categories = ["All", "Data Pipelines", "Macroeconomics", "Enterprise Systems"];
+  const filteredArchive = ARCHIVE_PROJECTS.filter(
+    (p) => selectedCategory === "All" || p.category === selectedCategory
+  );
 
   return (
     <section id="projects" className="pt-2">
-      <div className="mb-6">
-        <span className="section-label">03 · Featured Systems</span>
-        <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
-          Interactive Data Systems &amp; Visual Engines
+      {/* Section Header */}
+      <div className="mb-8">
+        <span className="section-label">03 · Featured Projects</span>
+        <h3 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mt-1">
+          Three flagship data systems built for decision support.
         </h3>
-        <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-          Production-grade analytics engineering, macroeconomic models, and automated intelligence systems. Equipped with interactive data architectures, 3D WebGL visualizations, and real-time telemetry.
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
+          Each system addresses a real-world data engineering, forecasting, or resource allocation challenge with verifiable results and working live interfaces.
         </p>
       </div>
 
-      {/* Flagship Hero Showcase: IRS 990 Grant Miner with Embedded Architecture Figure */}
-      {irs990Project && (
-        <div className="mb-6">
-          <SpotlightCard
-            caliperLabel={irs990Project.badge || "DATA PIPELINE"}
-            className="p-6 rounded-2xl border border-zinc-200/90 dark:border-white/[0.1] bg-white dark:bg-[#0E0E14] shadow-md dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/40 transition-all duration-300"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              {/* Left Column: Context, Metrics & Explicit Action Links */}
-              <div className="lg:col-span-7 flex flex-col justify-between h-full">
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
-                      {irs990Project.badge}
-                    </span>
-                    <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">
-                      {irs990Project.category}
-                    </span>
-                  </div>
-
-                  <h4 className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white leading-snug">
-                    {irs990Project.title}
-                  </h4>
-
-                  <p className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-300 mt-2.5 leading-relaxed">
-                    {irs990Project.description}
-                  </p>
-
-                  {/* Impact Metrics Grid */}
-                  <div className="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-zinc-100 dark:border-white/[0.06]">
-                    {irs990Project.metrics.map((m) => (
-                      <div key={m} className="text-[11px] font-mono-code text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400 shrink-0" />
-                        <span>{m}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-1.5 mt-4">
-                    {irs990Project.tech.map((t) => (
-                      <span key={t} className="tech-pill">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Explicit, Accessible Launch Buttons */}
-                <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-white/[0.06] flex flex-wrap items-center gap-3">
-                  {irs990Project.live && (
-                    <a
-                      href={irs990Project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Launch IRS 990 Philanthropic Grant Miner live system"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-                    >
-                      <span>Launch Live System</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
-                  {irs990Project.github && (
-                    <a
-                      href={irs990Project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="View IRS 990 Philanthropic Grant Miner source code on GitHub"
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono-code transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-                    >
-                      <Github className="w-3.5 h-3.5" />
-                      <span>Source Code</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              {/* Right Column: Embedded Isometric Architecture Figure */}
-              <div className="lg:col-span-5 w-full">
-                <ProjectPipelineFigure />
-              </div>
-            </div>
-          </SpotlightCard>
-        </div>
-      )}
-
-      {/* Additional Flagship Systems Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-        {otherFeatured.map((p) => (
-          <SpotlightCard
-            key={p.title}
-            caliperLabel={p.badge || "INSPECTION"}
-            className="p-5 flex flex-col justify-between group relative border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/40 transition-all duration-200"
-          >
-            <div>
-              {/* Badge & Category Header */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+      {/* ── Flagship Project 1: IRS 990 Grant Miner (Full-Width Showcase) ── */}
+      {(() => {
+        const p = FEATURED_PROJECTS[0];
+        return (
+          <SpotlightCard className="p-6 sm:p-8 rounded-2xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#0D0D13] shadow-sm mb-10">
+            {/* Header & Badges */}
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono-code font-semibold px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
                   {p.badge}
                 </span>
-                <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">
-                  {p.category}
+                <span className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
+                  Flagship System 01
                 </span>
               </div>
-
-              {/* Title */}
-              <h4 className="text-base font-bold text-zinc-900 dark:text-white leading-snug">
-                {p.title}
-              </h4>
-
-              {/* Description */}
-              <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-2.5 leading-relaxed">
-                {p.description}
-              </p>
-
-              {/* Impact Metrics Grid */}
-              <div className="grid grid-cols-2 gap-1.5 mt-4 pt-3 border-t border-zinc-100 dark:border-white/[0.06]">
-                {p.metrics.map((m) => (
-                  <div key={m} className="text-[10px] font-mono-code text-zinc-700 dark:text-zinc-300 flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400" />
-                    <span>{m}</span>
-                  </div>
-                ))}
+              <div className="flex items-center gap-2">
+                <a
+                  href={p.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Launch IRS 990 Philanthropic Grant Miner live system"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-xs"
+                >
+                  <span>Launch Live System</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href={p.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View IRS 990 source code on GitHub"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono-code transition-colors"
+                >
+                  <Github className="w-3.5 h-3.5" />
+                  <span>Source Code</span>
+                </a>
               </div>
             </div>
 
-            {/* Bottom Tech Stack & Action Links */}
-            <div className="mt-5 pt-3 border-t border-zinc-100 dark:border-white/[0.06] flex items-center justify-between gap-2 flex-wrap">
+            <h4 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white leading-snug">
+              {p.title}
+            </h4>
+            <p className="text-xs font-mono-code text-sky-700 dark:text-sky-400 mt-1 mb-4">
+              {p.tagline}
+            </p>
+
+            {/* Structured Project Explanation (Plain English) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 rounded-xl bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/5 text-xs">
+              <div>
+                <p className="font-semibold text-zinc-900 dark:text-zinc-200 font-mono-code uppercase text-[11px] mb-1">
+                  What It Does
+                </p>
+                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {p.overview}
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-zinc-900 dark:text-zinc-200 font-mono-code uppercase text-[11px] mb-1">
+                  My Contribution
+                </p>
+                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {p.contribution}
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-zinc-900 dark:text-zinc-200 font-mono-code uppercase text-[11px] mb-1">
+                  Verified Evidence
+                </p>
+                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {p.evidence}
+                </p>
+              </div>
+            </div>
+
+            {/* Metrics & Tech Stack */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pt-3 border-t border-zinc-100 dark:border-white/5">
+              <div className="flex flex-wrap gap-2">
+                {p.metrics.map((m) => (
+                  <span
+                    key={m}
+                    className="text-xs font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/60"
+                  >
+                    ✓ {m}
+                  </span>
+                ))}
+              </div>
               <div className="flex flex-wrap gap-1">
-                {p.tech.slice(0, 3).map((t) => (
+                {p.tech.map((t) => (
                   <span key={t} className="tech-pill">
                     {t}
                   </span>
                 ))}
               </div>
+            </div>
 
-              <div className="flex items-center gap-2">
-                {p.github && (
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`View ${p.title} source code on GitHub`}
-                    className="p-1.5 rounded-md border border-zinc-200 dark:border-white/10 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors inline-flex items-center gap-1 text-[11px] font-mono-code focus:outline-none focus:ring-2 focus:ring-sky-500"
-                  >
-                    <Github className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Code</span>
-                  </a>
-                )}
-                {p.live && (
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Launch live system for ${p.title}`}
-                    className="inline-flex items-center gap-1 text-[11px] font-mono-code font-semibold px-2.5 py-1 rounded-md bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 transition-colors shadow-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
-                  >
-                    <span>Launch</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                )}
+            {/* Dual Visual Evidence Area: Live Output Screenshot + Architecture Pipeline Schematic */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2">
+              {/* Output Preview */}
+              <div className="rounded-xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden bg-zinc-100 dark:bg-[#07080B] flex flex-col justify-between">
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <Image
+                    src={p.image}
+                    alt={p.imageAlt}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+                <div className="p-3 border-t border-zinc-200/80 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 leading-normal font-mono-code">
+                  Live System Interface: 3D WebGL capital arcs, state choropleth, and recipient ledger.
+                </div>
+              </div>
+
+              {/* Reworked, Generous Pipeline Architecture Schematic */}
+              <div className="w-full">
+                <ProjectPipelineFigure />
+              </div>
+            </div>
+          </SpotlightCard>
+        );
+      })()}
+
+      {/* ── Flagship Projects 2 & 3: Retail Demand Forecast & Scheduling Optimizer ── */}
+      <div className="space-y-8 mb-12">
+        {FEATURED_PROJECTS.slice(1).map((p, idx) => (
+          <SpotlightCard
+            key={p.title}
+            className="p-6 sm:p-8 rounded-2xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#0D0D13] shadow-sm"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Column: Visual Screenshot Preview */}
+              <div className="lg:col-span-5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden bg-zinc-100 dark:bg-[#07080B] flex flex-col justify-between">
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <Image
+                    src={p.image}
+                    alt={p.imageAlt}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                </div>
+                <div className="p-3 border-t border-zinc-200/80 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 leading-normal font-mono-code">
+                  Rendered output: {p.tagline}
+                </div>
+              </div>
+
+              {/* Right Column: Project Context, Contribution & Verified Results */}
+              <div className="lg:col-span-7 flex flex-col justify-between h-full">
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-xs font-mono-code font-semibold px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
+                      {p.badge}
+                    </span>
+                    <span className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
+                      Flagship System 0{idx + 2}
+                    </span>
+                  </div>
+
+                  <h4 className="text-xl font-bold text-zinc-900 dark:text-white leading-snug">
+                    {p.title}
+                  </h4>
+                  <p className="text-xs font-mono-code text-sky-700 dark:text-sky-400 mt-1 mb-3">
+                    {p.tagline}
+                  </p>
+
+                  <div className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
+                    <p>
+                      <strong className="text-zinc-900 dark:text-zinc-100 font-semibold font-mono-code">What it does: </strong>
+                      {p.overview}
+                    </p>
+                    <p>
+                      <strong className="text-zinc-900 dark:text-zinc-100 font-semibold font-mono-code">My contribution: </strong>
+                      {p.contribution}
+                    </p>
+                    <p>
+                      <strong className="text-zinc-900 dark:text-zinc-100 font-semibold font-mono-code">Evidence &amp; results: </strong>
+                      {p.evidence}
+                    </p>
+                  </div>
+
+                  {/* Metrics */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {p.metrics.map((m) => (
+                      <span
+                        key={m}
+                        className="text-xs font-mono-code px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/60"
+                      >
+                        ✓ {m}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom Actions & Tech */}
+                <div className="pt-4 border-t border-zinc-100 dark:border-white/5 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap gap-1">
+                    {p.tech.map((t) => (
+                      <span key={t} className="tech-pill">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Launch live system for ${p.title}`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-zinc-950 text-xs font-semibold tracking-tight transition-colors shadow-xs"
+                    >
+                      <span>Launch Live System</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View ${p.title} source code on GitHub`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono-code transition-colors"
+                    >
+                      <Github className="w-3.5 h-3.5" />
+                      <span>Code</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </SpotlightCard>
         ))}
       </div>
 
-      {/* DEDICATED SECTION: FORENSIC AUDITS & COMMAND-LINE SYSTEMS (DEMOTED DEBORAH) */}
-      <div className="mb-10 p-5 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-50/70 dark:bg-[#0A0A10]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-          <div className="flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <h4 className="text-xs font-mono-code font-bold uppercase tracking-wider text-zinc-900 dark:text-white">
-              Forensic &amp; Cryptographic Systems Audits · Command-Line Tool
+      {/* ── Project Archive & Specialized Tooling ── */}
+      <div className="pt-6 border-t border-zinc-200 dark:border-white/[0.08]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+          <div>
+            <h4 className="text-base font-bold text-zinc-900 dark:text-white">
+              Project Archive &amp; Specialized Tools
             </h4>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              Filterable directory of audited utilities, macroeconomic models, and forensic tools.
+            </p>
           </div>
-          <a
-            href="https://github.com/akbknight/deborah-research-assistant-audit"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-mono-code text-sky-600 dark:text-sky-400 hover:underline font-medium"
-          >
-            <span>GitHub Repository</span>
-            <Github className="w-3.5 h-3.5" />
-          </a>
-        </div>
-
-        <div className="space-y-2">
-          <h5 className="text-sm font-bold text-zinc-900 dark:text-white">
-            Deborah Research Assistant: Complete Forensic Audit &amp; Reconstruction
-          </h5>
-          <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
-            Cryptographic post-mortem and forensic reconstruction across 62 legacy archives (43 unique SHA-256 digests) and 4,426 test cases. Uncovered critical time-of-check to time-of-use DNS-rebinding SSRF vulnerabilities, cross-platform NTFS file-lock collisions, and upstream Cloudflare 403 blocks. Built automated Continuous DataOps via GitHub Actions.
-          </p>
-          <div className="flex flex-wrap gap-2 pt-2">
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
-              62 Archives Audited
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
-              4,426 Tests Verified
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
-              SHA-256 Digest Verification
-            </span>
-            <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-white/[0.05] text-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-white/10">
-              Automated CI/CD Workflows
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Secondary Project Directory Header & Filter */}
-      <div className="pt-4 border-t border-zinc-200 dark:border-white/[0.08]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-          <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 uppercase font-mono-code tracking-wider">
-            Engineering Archive &amp; Tooling
-          </h4>
 
           {/* Category Filter Pills */}
           <div className="flex flex-wrap gap-1">
@@ -458,9 +462,9 @@ export const Projects = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`text-[10px] font-mono-code px-2 py-1 rounded transition-colors cursor-pointer ${
+                className={`text-xs font-mono-code px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                   selectedCategory === cat
-                    ? "bg-sky-50 text-sky-700 border border-sky-300 dark:bg-sky-500/20 dark:text-sky-400 dark:border-sky-500/30"
+                    ? "bg-sky-100 text-sky-800 border border-sky-300 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/40 font-semibold"
                     : "bg-zinc-100 dark:bg-zinc-900/60 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 border border-zinc-200 dark:border-zinc-800"
                 }`}
               >
@@ -470,63 +474,68 @@ export const Projects = () => {
           </div>
         </div>
 
-        {/* Dense Archive List */}
-        <div className="space-y-3">
-          {secondary.map((p) => (
-            <SpotlightCard
+        {/* Clean Archive Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          {filteredArchive.map((p) => (
+            <div
               key={p.title}
-            caliperLabel={p.badge || "INSPECTION"}
-              className="p-3.5 rounded-lg border border-zinc-200/80 dark:border-white/[0.06] bg-white dark:bg-[#0E0E14] shadow-xs dark:shadow-none flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              className="p-4 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-[#0D0D13] shadow-xs flex flex-col justify-between"
             >
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400">{p.category}</span>
-                  <span className="text-zinc-400 dark:text-zinc-600">·</span>
-                  <h5 className="text-xs font-semibold text-zinc-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                    {p.title}
-                  </h5>
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400">
+                    {p.category}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {p.github && (
+                      <a
+                        href={p.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`View source code for ${p.title} on GitHub`}
+                        className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
+                      >
+                        <Github className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {p.live && (
+                      <a
+                        href={p.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Launch live demo of ${p.title}`}
+                        className="text-zinc-500 hover:text-sky-600 dark:text-zinc-400 dark:hover:text-sky-400 transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
-                  {p.description}
+
+                <h5 className="text-sm font-semibold text-zinc-900 dark:text-white">
+                  {p.title}
+                </h5>
+
+                <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-2 leading-relaxed">
+                  {p.summary}
                 </p>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {p.tech.map((t) => (
-                    <span key={t} className="text-[9px] font-mono-code text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800">
-                      {t}
-                    </span>
-                  ))}
-                </div>
+
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed italic">
+                  Contribution: {p.contribution}
+                </p>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                {p.github && (
-                  <MagneticWrapper strength={0.25}>
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`GitHub repo for ${p.title}`}
-                      className="p-1.5 rounded text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors inline-flex"
-                    >
-                      <Github className="w-3.5 h-3.5" />
-                    </a>
-                  </MagneticWrapper>
-                )}
-                {p.live && (
-                  <MagneticWrapper strength={0.25}>
-                    <a
-                      href={p.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Live site for ${p.title}`}
-                      className="p-1.5 rounded text-zinc-500 hover:text-sky-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-sky-400 dark:hover:bg-zinc-800 transition-colors inline-flex"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  </MagneticWrapper>
-                )}
+              <div className="flex flex-wrap gap-1 mt-3 pt-3 border-t border-zinc-100 dark:border-white/5">
+                {p.tech.map((t) => (
+                  <span
+                    key={t}
+                    className="text-[10px] font-mono-code text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800/60 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800"
+                  >
+                    {t}
+                  </span>
+                ))}
               </div>
-            </SpotlightCard>
+            </div>
           ))}
         </div>
       </div>
