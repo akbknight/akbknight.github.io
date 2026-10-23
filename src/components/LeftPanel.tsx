@@ -89,10 +89,10 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
 
             <div className="flex flex-col gap-1.5 flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-emerald-600/30 dark:border-emerald-500/25 bg-emerald-500/10 dark:bg-emerald-500/10 w-fit">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400" />
-                  <span className="text-[11px] font-mono-code font-medium text-emerald-800 dark:text-emerald-300">
-                    Available June 1, 2027
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-zinc-200 dark:border-white/[0.08] bg-zinc-100/70 dark:bg-white/[0.03] w-fit">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                  <span className="text-[11px] font-mono-code font-medium text-zinc-700 dark:text-zinc-300">
+                    Washington, DC
                   </span>
                 </div>
 

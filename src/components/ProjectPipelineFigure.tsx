@@ -527,11 +527,11 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
         </svg>
       </div>
 
-      {/* Accessible Interactive Tablist with Arrow/Home/End keyboard navigation */}
+      {/* Accessible Interactive Tablist with Arrow/Home/End keyboard navigation in clean 2x2 grid */}
       <div
         role="tablist"
         aria-label="IRS 990 Pipeline Stages"
-        className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mt-3"
+        className="grid grid-cols-2 gap-2 mt-3"
       >
         {STAGE_DETAILS.map((st, idx) => {
           const isSelected = selectedIndex === idx;
@@ -550,7 +550,7 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
               onKeyDown={(e) => handleTabKeyDown(e, idx)}
               onMouseEnter={() => setInternalHover(idx)}
               onMouseLeave={() => setInternalHover(null)}
-              className={`text-center py-1.5 px-2 rounded-lg text-xs font-mono-code transition-all cursor-pointer whitespace-nowrap ${
+              className={`text-center py-2 px-3 rounded-lg text-xs font-mono-code transition-all cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis ${
                 isSelected
                   ? "bg-sky-500/15 text-sky-700 dark:text-sky-300 font-semibold border border-sky-500/40 shadow-xs"
                   : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 border border-zinc-200/50 dark:border-white/5 hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
