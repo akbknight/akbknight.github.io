@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Github, ExternalLink, Maximize2, X, BookOpen, Database } from "lucide-react";
 import { SpotlightCard } from "@/components/SpotlightCard";
 import { ProjectPipelineFigure } from "@/components/ProjectPipelineFigure";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 interface FeaturedProject {
   title: string;
@@ -14,6 +14,7 @@ interface FeaturedProject {
   explanation: string;
   contribution: string;
   results: string;
+  sourceProvenance: string;
   sourceData?: { label: string; url: string };
   caseStudy?: { label: string; url: string };
   tech: string[];
@@ -44,7 +45,9 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     contribution:
       "Engineered an in-memory streaming SAX parser in Python to process multi-gigabyte XML dumps without disk spill. Designed normalized schemas in DuckDB and built an interactive dashboard with 3D WebGL capital flow arcs and state choropleths.",
     results:
-      "Standardized relational schemas in DuckDB enable sub-second OLAP query execution across 500,000+ standardized grant records. Ingested 9.7M+ tax filings mapping $550.2B in charitable funding across 200,000+ nonprofit organizations with zero external runtime API costs.",
+      "Standardized relational schemas in DuckDB enable sub-second OLAP query execution across 500,000+ standardized grant records with zero external runtime API costs or database hosting fees.",
+    sourceProvenance:
+      "Public IRS Form 990 e-file datasets on AWS S3 Open Data Registry (containing 9.7M+ filings representing $550.2B in charitable funding across 200,000+ nonprofits).",
     sourceData: {
       label: "AWS Open Data IRS 990 Registry",
       url: "https://registry.opendata.aws/irs990/",
@@ -66,9 +69,11 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     explanation:
       "Retail inventory planners and operations teams need reliable medium-term demand forecasts that account for macroeconomic trends, seasonality, and historical shocks rather than static linear extrapolations.",
     contribution:
-      "Formulated state-space ETS(A,A,A) and Holt-Winters exponential smoothing models in Python using statsmodels. Ingested 26+ years (320 months) of monthly retail sales data from the Federal Reserve Economic Data (FRED) API and built an interactive browser studio for walk-forward backtesting.",
+      "Formulated state-space ETS(A,A,A) and Holt-Winters exponential smoothing models in Python using statsmodels. Integrated walk-forward holdout validation and built an interactive browser studio for backtesting.",
     results:
-      "Achieved ~2.0% Mean Absolute Percentage Error (MAPE) across 24-month walk-forward backtesting against actual Federal Reserve historical data, with analytical 80% and 95% prediction intervals evaluated alongside MAE and RMSE baselines.",
+      "Achieved ~2.0% Mean Absolute Percentage Error (MAPE) across 24-month walk-forward holdout backtesting, with analytical 80% and 95% prediction intervals evaluated against MAE ($10.8B) and RMSE ($13.2B) benchmark baselines.",
+    sourceProvenance:
+      "Federal Reserve Economic Data (FRED) monthly retail series RSXFS (Retail and Food Services, ex. Food Services), covering 320 monthly observations (1992–2024).",
     sourceData: {
       label: "Federal Reserve FRED RSXFS Series",
       url: "https://fred.stlouisfed.org/series/RSXFS",
@@ -90,9 +95,11 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     explanation:
       "An independent algorithmic simulation evaluating multi-departmental conference room and security clearance scheduling for high-security diplomatic facilities. (Independent simulation inspired by operational challenges observed during consular service; not an official government deployment).",
     contribution:
-      "Designed and implemented a priority-based greedy constraint-satisfaction scheduling engine in JavaScript allocating 180 synthetic meeting requests across 20 secure conference rooms and 150 personnel with tiered security clearances.",
+      "Designed and implemented a priority-based greedy constraint-satisfaction scheduling engine in JavaScript allocating synthetic meeting requests across 20 secure conference rooms and 150 personnel with tiered security clearances.",
     results:
-      "Allocates 180 synthetic constraint sets with zero room double-bookings or security clearance violations in under 2 seconds during client-side benchmark execution.",
+      "Allocates all 180 synthetic constraint sets with zero room double-bookings or security clearance violations in under 2 seconds during client-side benchmark execution.",
+    sourceProvenance:
+      "Synthetic 180-meeting workload generator modeling multi-tier diplomatic security clearances and room capacity constraints (no classified or proprietary government data).",
     caseStudy: {
       label: "Simulation Benchmarks & README",
       url: "https://github.com/akbknight/scheduling-optimizer#benchmark-results",
@@ -205,17 +212,70 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
 ];
 
 export const Projects = () => {
+  const shouldReduceMotion = useReducedMotion();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [enlargedImage, setEnlargedImage] = useState<{ src: string; alt: string; title: string } | null>(null);
 
+  const lightboxContainerRef = useRef<HTMLDivElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  const previousActiveElementRef = useRef<HTMLElement | null>(null);
+
+  // Focus trap, exact trigger restoration, body overflow lock, and ESC handling
   useEffect(() => {
+    if (!enlargedImage) return;
+
+    // Save previous active element for exact restoration upon close
+    previousActiveElementRef.current = document.activeElement as HTMLElement | null;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Auto-focus the close button inside modal
+    const timer = setTimeout(() => {
+      closeBtnRef.current?.focus();
+    }, 50);
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && enlargedImage) {
+      if (e.key === "Escape") {
+        e.preventDefault();
         setEnlargedImage(null);
+        return;
+      }
+
+      if (e.key === "Tab") {
+        if (!lightboxContainerRef.current) return;
+        const focusables = lightboxContainerRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+
+        const firstElement = focusables[0];
+        const lastElement = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+      if (previousActiveElementRef.current && typeof previousActiveElementRef.current.focus === "function") {
+        previousActiveElementRef.current.focus();
+      }
+    };
   }, [enlargedImage]);
 
   const categories = ["All", "Data Pipelines", "Macroeconomics", "Enterprise Systems"];
@@ -297,10 +357,14 @@ export const Projects = () => {
               </div>
               <div>
                 <p className="font-semibold text-zinc-900 dark:text-zinc-200 font-mono-code uppercase text-[11px] mb-1">
-                  Results
+                  Supported Results
                 </p>
                 <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-2">
                   {p.results}
+                </p>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-2 pt-1 border-t border-zinc-200/60 dark:border-white/5">
+                  <strong className="font-mono-code text-zinc-700 dark:text-zinc-300 font-semibold">Source provenance: </strong>
+                  {p.sourceProvenance}
                 </p>
                 {/* Method / Source Links */}
                 <div className="flex flex-col gap-1 pt-1.5 border-t border-zinc-200/60 dark:border-white/5">
@@ -470,8 +534,12 @@ export const Projects = () => {
                       {p.contribution}
                     </p>
                     <p>
-                      <strong className="text-zinc-900 dark:text-zinc-100 font-semibold font-mono-code">Results: </strong>
+                      <strong className="text-zinc-900 dark:text-zinc-100 font-semibold font-mono-code">Supported results: </strong>
                       {p.results}
+                    </p>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400 pt-1">
+                      <strong className="text-zinc-700 dark:text-zinc-300 font-semibold font-mono-code">Source provenance: </strong>
+                      {p.sourceProvenance}
                     </p>
                   </div>
 
@@ -650,20 +718,22 @@ export const Projects = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: shouldReduceMotion ? 0.05 : 0.15 }}
               className="absolute inset-0 bg-black/85 backdrop-blur-md"
               onClick={() => setEnlargedImage(null)}
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: 0.18 }}
+              ref={lightboxContainerRef}
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98, y: 8 }}
+              animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98, y: 8 }}
+              transition={{ duration: shouldReduceMotion ? 0.05 : 0.18, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-10 max-w-5xl w-full max-h-[92vh] flex flex-col rounded-2xl bg-zinc-950 border border-zinc-800 shadow-2xl overflow-hidden"
             >
               <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/90 text-xs font-mono-code text-zinc-300">
                 <span className="font-semibold text-white">{enlargedImage.title} · Live Interface Preview</span>
                 <button
+                  ref={closeBtnRef}
                   onClick={() => setEnlargedImage(null)}
                   className="p-1.5 rounded-lg hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
                   aria-label="Close enlarged preview"

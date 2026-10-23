@@ -32,10 +32,12 @@ export default function Home() {
           <aside
             aria-label="Executive profile and site navigation"
             className="
-              lg:sticky lg:top-0 lg:max-h-screen lg:overflow-hidden
+              lg:sticky lg:top-0 lg:h-screen lg:max-h-screen lg:overflow-y-auto
               lg:w-[34%] xl:w-[32%]
               flex flex-col
-              pt-16 pb-10 lg:py-24
+              pt-12 pb-8 lg:py-16
+              overscroll-contain
+              scrollbar-none
             "
           >
             <LeftPanel onOpenResume={() => setIsResumeOpen(true)} />

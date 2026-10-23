@@ -56,7 +56,7 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
   const [mascotChoice, setMascotChoice] = useState<"wolf" | "knight">("wolf");
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="flex flex-col justify-between min-h-full gap-8">
       {/* Header Profile Block */}
       <div>
         <motion.div
@@ -80,7 +80,7 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
                       ? "/mascots/wolf-reactions.webp"
                       : "/mascots/knight-reactions.webp"
                   }
-                  size={90}
+                  size={84}
                   label={mascotChoice === "wolf" ? "Chibi Wolf Mascot" : "Knight Mascot"}
                   className="transition-transform group-hover:scale-105"
                 />
@@ -151,11 +151,11 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
           </div>
 
           <h1
-            className="font-bold tracking-tight text-zinc-900 dark:text-white"
+            className="font-bold tracking-tight text-zinc-900 dark:text-white break-words"
             style={{
-              fontSize: "clamp(2rem, 4.5vw, 2.85rem)",
-              lineHeight: 1.05,
-              letterSpacing: "-0.04em",
+              fontSize: "clamp(1.75rem, 3.8vw, 2.75rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
             }}
           >
             Akshay Kumar
