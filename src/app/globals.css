@@ -3,49 +3,49 @@
 @variant dark (&:where(.dark, .dark *));
 @variant light (&:where(.light, .light *));
 
-/* ─── Linear / OLED Dark Mode Tokens (Default Root) ─────────────── */
+/* ─── Apple-Grade Living Dark Mode Tokens (Default Root) ─────────── */
 :root,
 html.dark,
 html[data-theme="dark"],
 .dark:not(.light),
 [data-theme="dark"]:not([data-theme="light"]) {
-  --bg:             #050507;  /* Deep OLED obsidian */
-  --bg-surface:     #0B0B0F;  /* Elevated obsidian */
-  --bg-card:        #0E0E14;  /* Glassmorphic card surface */
-  --bg-card-hover:  #14141D;  /* Responsive card hover */
+  --bg:             #07080D;  /* Rich midnight obsidian */
+  --bg-surface:     #0D0F18;  /* Elevated titanium obsidian */
+  --bg-card:        rgba(14, 16, 26, 0.72); /* Translucent frosted glass */
+  --bg-card-hover:  rgba(20, 24, 38, 0.85);
   --border:         rgba(255, 255, 255, 0.08); /* 1px hairline rim lighting */
   --border-subtle:  rgba(255, 255, 255, 0.04);
-  --border-accent:  rgba(56, 189, 248, 0.35);
+  --border-accent:  rgba(56, 189, 248, 0.45);
 
   /* WCAG 2.2 AAA Contrast Tokens for Dark Mode */
-  --text:           #F8FAFC;  /* Crisp luminous white (16:1 contrast against #050507) */
+  --text:           #F8FAFC;  /* Crisp luminous white (16:1 contrast against #07080D) */
   --text-2:         #E2E8F0;  /* Light slate body copy (13.5:1 contrast) */
   --text-muted:     #94A3B8;  /* Silver slate metadata (7.2:1 contrast - WCAG AAA) */
   --text-dim:       #64748B;
 
-  /* Bioluminescent Cyan Accent */
+  /* Radiant Sapphire / Cyan Accent */
   --accent:         #38BDF8;
-  --accent-glow:    rgba(56, 189, 248, 0.18);
-  --accent-subtle:  rgba(56, 189, 248, 0.08);
+  --accent-glow:    rgba(56, 189, 248, 0.22);
+  --accent-subtle:  rgba(56, 189, 248, 0.09);
   --accent-hover:   #7DD3FC;
 
-  /* Linear-Style Glow & Ambient Elevation */
-  --card-shadow:       0 2px 8px rgba(0, 0, 0, 0.4);
-  --card-shadow-hover: 0 16px 36px -4px rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(56, 189, 248, 0.15);
+  /* Apple Vision-Grade Specular Glass & Ambient Elevation */
+  --card-shadow:       0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --card-shadow-hover: 0 16px 40px -8px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(56, 189, 248, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
-/* ─── Apple-Grade Semantic Tokens: Light Mode ────────────────────── */
+/* ─── Apple-Grade Luminous Light Mode: Studio Ceramic & Glass ─────── */
 html.light,
 html[data-theme="light"],
 .light:not(.dark),
 [data-theme="light"]:not([data-theme="dark"]) {
-  --bg:             #FBFBFD;  /* Apple signature luminous off-white */
-  --bg-surface:     #F4F4F6;  /* Subtle elevated neutral */
-  --bg-card:        #FFFFFF;  /* Pure crisp card surface */
-  --bg-card-hover:  #F8F9FA;  /* Subtle responsive hover */
-  --border:         rgba(0, 0, 0, 0.08); /* 1px precision hairline border */
-  --border-subtle:  rgba(0, 0, 0, 0.04);
-  --border-accent:  rgba(2, 132, 199, 0.35);
+  --bg:             #F7F8FA;  /* Apple signature luminous off-white */
+  --bg-surface:     #EFF1F6;  /* Soft elevated ceramic neutral */
+  --bg-card:        rgba(255, 255, 255, 0.82); /* Crisp frosted glass */
+  --bg-card-hover:  rgba(255, 255, 255, 0.95);
+  --border:         rgba(0, 0, 0, 0.07); /* Precision hairline border */
+  --border-subtle:  rgba(0, 0, 0, 0.035);
+  --border-accent:  rgba(2, 132, 199, 0.45);
 
   /* WCAG 2.2 AAA Contrast Tokens for Light Mode */
   --text:           #09090B;  /* Deep charcoal pitch black (18:1 contrast) */
@@ -55,12 +55,12 @@ html[data-theme="light"],
 
   /* Electric Sapphire / Cyan Accent */
   --accent:         #0284C7;
-  --accent-glow:    rgba(2, 132, 199, 0.12);
-  --accent-subtle:  rgba(2, 132, 199, 0.06);
+  --accent-glow:    rgba(2, 132, 199, 0.16);
+  --accent-subtle:  rgba(2, 132, 199, 0.07);
   --accent-hover:   #0369A1;
 
-  --card-shadow:       0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px -2px rgba(0, 0, 0, 0.03);
-  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 32px -4px rgba(0, 0, 0, 0.08);
+  --card-shadow:       0 2px 8px -1px rgba(0, 0, 0, 0.04), 0 12px 32px -4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+  --card-shadow-hover: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 20px 48px -6px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 /* ─── Global Reset & Typography Enforcements ─────────────────────── */
@@ -247,6 +247,57 @@ a, button {
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   transition-duration: 150ms;
 }
+
+/* ─── Apple-Grade Ambient Atmosphere & Specular Glass ───────────── */
+.apple-ambient-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 600px;
+  background: radial-gradient(ellipse 800px 420px at 50% -40px, var(--accent-glow), transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.apple-dot-matrix {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 40%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 40%, transparent 90%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.apple-glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 180ms ease;
+}
+
+.apple-glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.apple-pill-tab {
+  transition: all 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.apple-pill-tab:active {
+  transform: scale(0.97);
+}
+
 
 
 

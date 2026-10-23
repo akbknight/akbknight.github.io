@@ -127,7 +127,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         {EVIDENCE.map((item, idx) => (
           <div
             key={idx}
-            className="p-5 rounded-2xl border border-zinc-200/90 dark:border-white/[0.08] bg-zinc-50/70 dark:bg-[#0B0B0F]/90 shadow-xs flex flex-col justify-between"
+            className="apple-glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">

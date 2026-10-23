@@ -16,9 +16,23 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-[100dvh] flex flex-col relative"
+      className="min-h-[100dvh] flex flex-col relative overflow-x-hidden"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
+      {/* Apple-Grade Atmospheric Background Illumination & Tactile Texture */}
+      <div className="apple-ambient-glow" aria-hidden="true" />
+      <div className="apple-dot-matrix" aria-hidden="true" />
+
+      {/* Secondary Ambient Accent Glow for Content Depth */}
+      <div
+        className="absolute top-[800px] right-[-100px] w-[500px] h-[500px] rounded-full pointer-events-none opacity-40 dark:opacity-25"
+        style={{
+          background: "radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+        aria-hidden="true"
+      />
+
       {/* Compact Sticky Top Navigation Header with Integrated Mascot Companion */}
       <HeaderNav
         onOpenResume={() => setIsResumeOpen(true)}
@@ -27,7 +41,7 @@ export default function Home() {
       />
 
       {/* Main Spacious Editorial Content Container */}
-      <main id="content" className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main id="content" className="relative z-10 flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 00 · Hero Overview & Evidence */}
         <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
 

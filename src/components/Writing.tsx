@@ -41,7 +41,7 @@ export const Writing = () => {
         {WRITEUPS.map((item, idx) => (
           <div
             key={idx}
-            className="p-6 sm:p-7 rounded-2xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0F] shadow-xs hover:border-zinc-300 dark:hover:border-white/[0.16] transition-all group"
+            className="apple-glass-card p-6 sm:p-7 rounded-2xl transition-all group"
           >
             <div className="flex items-start justify-between gap-4 mb-2">
               <div className="space-y-1">

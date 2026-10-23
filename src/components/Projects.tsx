@@ -222,7 +222,7 @@ export const Projects = () => {
           <article
             key={proj.id}
             id={`project-${proj.id}`}
-            className="rounded-3xl border border-zinc-200/90 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0F] shadow-sm p-6 sm:p-10 lg:p-12 space-y-8"
+            className="apple-glass-card rounded-3xl p-6 sm:p-10 lg:p-12 space-y-8"
           >
             {/* Project Header & Category */}
             <div className="space-y-2">
@@ -276,7 +276,7 @@ export const Projects = () => {
 
             {/* Dedicated Visual Presentation: Hairline Figure for Project 1; High-Res Diagrams for Projects 2 & 3 */}
             {proj.hasHairlineFigure ? (
-              <div className="space-y-4 pt-2">
+              <div className="space-y-3 pt-2">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
                     System Architecture &amp; Data Pipeline Stages
@@ -298,10 +298,8 @@ export const Projects = () => {
                   )}
                 </div>
 
-                {/* Spacious Hairline Pipeline Figure */}
-                <div className="rounded-2xl border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-50/50 dark:bg-[#070709] p-4 sm:p-6">
-                  <ProjectPipelineFigure />
-                </div>
+                {/* Compact Apple-style Horizontal Pipeline Inspector */}
+                <ProjectPipelineFigure />
               </div>
             ) : proj.image ? (
               <div className="space-y-3 pt-2">

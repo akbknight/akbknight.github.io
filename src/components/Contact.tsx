@@ -12,7 +12,7 @@ export const Contact = ({ onOpenResume }: ContactProps) => {
     <section id="contact" className="py-16 sm:py-24">
       <p className="section-label mb-3">05 · Contact &amp; Availability</p>
 
-      <div className="p-8 sm:p-12 rounded-3xl border border-zinc-200/90 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0F] shadow-sm space-y-6">
+      <div className="apple-glass-card p-8 sm:p-12 rounded-3xl space-y-6">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
           Let&apos;s build together.
         </h2>
