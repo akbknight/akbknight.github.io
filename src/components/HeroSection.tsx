@@ -81,11 +81,11 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         transition={{ duration: 0.3, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
         className="space-y-3"
       >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.08] text-balance">
+        <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-bold tracking-[-0.03em] text-zinc-900 dark:text-white leading-[1.12] text-balance">
           Architecting resilient data systems for federal diplomacy &amp; capital markets.
         </h1>
 
-        <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl pt-1">
+        <p className="text-sm sm:text-[15px] text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-2xl pt-1 font-normal">
           7+ years turning mission-critical government, financial-services, and enterprise data into high-stakes leadership decisions. Former <span className="text-zinc-900 dark:text-white font-medium">U.S. Department of State</span> business analyst (Ambassador Commended) and current <span className="text-zinc-900 dark:text-white font-medium">American University Kogod STEM MBA candidate</span> (Business Analytics &amp; AI). Graduating May 2027; available full-time June 1, 2027 for Business Intelligence, Data Analytics, and Operations Analytics roles.
         </p>
       </motion.div>
@@ -147,18 +147,20 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         {METRICS.map((m, idx) => (
           <SpotlightCard
             key={idx}
-            className="p-3.5 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-white dark:bg-[#0E0E14] shadow-sm dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/30 transition-all duration-150"
+            className="p-4 rounded-xl border border-zinc-200/90 dark:border-white/[0.08] bg-white dark:bg-[#0D0D13] shadow-xs dark:shadow-none hover:border-sky-500/40 dark:hover:border-sky-500/35 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ring-1 ring-black/[0.03] dark:ring-white/[0.04]"
           >
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono-code font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
                 {m.label}
               </span>
-              {m.icon}
+              <div className="p-1 rounded-md bg-sky-500/10 border border-sky-500/15">
+                {m.icon}
+              </div>
             </div>
             <div className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-1">
               {m.value}
             </div>
-            <p className="text-[11px] text-zinc-600 dark:text-zinc-400 leading-tight">
+            <p className="text-[11px] text-zinc-600 dark:text-zinc-400 leading-snug">
               {m.detail}
             </p>
           </SpotlightCard>

@@ -212,29 +212,27 @@ export const LeftPanel = ({ onOpenResume }: LeftPanelProps) => {
 
         {/* Semantic Navigation with Strict Spring Physics */}
         <nav className="mt-10 hidden lg:block" aria-label="Primary page navigation">
-          <ul className="space-y-1">
+          <ul className="space-y-1.5">
             {NAV_SECTIONS.map((sec) => {
               const isActive = activeId === sec.id;
               return (
                 <li key={sec.id}>
                   <a
                     href={`#${sec.id}`}
-                    className={`group flex items-center gap-3.5 py-1.5 transition-colors duration-150 ${
+                    className={`group flex items-center gap-3 px-3 py-1.5 rounded-lg transition-all duration-150 text-xs font-mono-code uppercase tracking-wider ${
                       isActive
-                        ? "text-sky-600 dark:text-sky-400 font-semibold"
-                        : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                        ? "bg-sky-500/10 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 font-semibold border border-sky-500/30 shadow-xs"
+                        : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-zinc-100/70 dark:hover:bg-white/[0.04] border border-transparent"
                     }`}
                   >
                     <span
-                      className={`h-[1px] transition-all duration-200 ${
+                      className={`h-[1.5px] rounded-full transition-all duration-200 ${
                         isActive
-                          ? "w-8 bg-sky-600 dark:bg-sky-400"
-                          : "w-3 bg-zinc-300 group-hover:w-5 group-hover:bg-zinc-500 dark:bg-zinc-600 dark:group-hover:w-5 dark:group-hover:bg-zinc-400"
+                          ? "w-5 bg-sky-600 dark:bg-sky-400"
+                          : "w-2 bg-zinc-300 group-hover:w-3.5 group-hover:bg-zinc-500 dark:bg-zinc-600 dark:group-hover:bg-zinc-400"
                       }`}
                     />
-                    <span className="text-xs font-mono-code uppercase tracking-widest">
-                      {sec.label}
-                    </span>
+                    <span>{sec.label}</span>
                   </a>
                 </li>
               );
