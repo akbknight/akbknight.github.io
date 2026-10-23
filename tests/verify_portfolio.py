@@ -551,7 +551,7 @@ async def run_audit():
         }""")
         ordinary_motion_detected = norm_transform and norm_transform != "none"
 
-        # 5B. Reduced-motion verification (verify transform scaling NEVER occurs)
+        # 5B. Reduced-motion verification (verify transform scaling NEVER occurs during opening or exit)
         rm_page = await (await motion_browser.new_context(
             reduced_motion="reduce",
             viewport={"width": 1440, "height": 900}
@@ -560,29 +560,71 @@ async def run_audit():
         matches_rm = await rm_page.evaluate("() => window.matchMedia('(prefers-reduced-motion: reduce)').matches")
         
         await rm_page.locator("button:has-text('View Larger')").first.click()
-        rm_samples = []
-        for ms in [10, 25, 50, 100]:
-            await rm_page.wait_for_timeout(ms)
-            s = await rm_page.evaluate("""() => {
-                const modal = document.querySelector("div[role='dialog'][aria-label*='preview'] > div:nth-child(2)");
-                return modal ? window.getComputedStyle(modal).transform : null;
-            }""")
-            rm_samples.append((ms, s))
         
-        scale_eliminated_throughout = all(s[1] == "none" or s[1] is None for s in rm_samples)
-        reduced_motion_comparative_passed = ordinary_motion_detected and matches_rm and scale_eliminated_throughout
+        # Opening samples: require element to strictly exist AND be visible; assert transform === 'none'. Reject None/null!
+        opening_samples = []
+        for ms in [25, 50, 100]:
+            await rm_page.wait_for_timeout(ms)
+            sample = await rm_page.evaluate("""() => {
+                const dialog = document.querySelector("div[role='dialog'][aria-label*='preview']");
+                const modalContent = dialog ? dialog.querySelector("div:nth-child(2)") : null;
+                if (!dialog || !modalContent) return { exists: false, visible: false, transform: null };
+                const cs = window.getComputedStyle(modalContent);
+                const rect = modalContent.getBoundingClientRect();
+                const visible = rect.width > 0 && rect.height > 0 && cs.visibility !== 'hidden';
+                return { exists: true, visible: visible, transform: cs.transform };
+            }""")
+            opening_samples.append((ms, sample))
+
+        # Check: Every opening sample MUST have exists=True, visible=True, and transform='none'
+        all_opening_valid = all(
+            s[1]["exists"] is True and s[1]["visible"] is True and s[1]["transform"] == "none"
+            for s in opening_samples
+        )
+        
+        # Test Exit: trigger Escape to close dialog
+        await rm_page.keyboard.press("Escape")
+        await rm_page.wait_for_timeout(350)
+        
+        # Distinguish a properly unmounted dialog from a failed selector:
+        exit_audit = await rm_page.evaluate("""() => {
+            const dialogInDom = document.querySelector("div[role='dialog'][aria-label*='preview']");
+            const buttons = Array.from(document.querySelectorAll("button"));
+            const triggerInDom = buttons.find(b => b.innerText.includes('View Larger'));
+            const activeElementIsTrigger = document.activeElement && document.activeElement.innerText.includes('View Larger');
+            return {
+                dialog_unmounted: dialogInDom === null,
+                trigger_element_exists: Boolean(triggerInDom),
+                active_element_is_trigger: Boolean(activeElementIsTrigger)
+            };
+        }""")
+        
+        exit_properly_unmounted = (
+            exit_audit["dialog_unmounted"] is True and
+            exit_audit["trigger_element_exists"] is True and
+            exit_audit["active_element_is_trigger"] is True
+        )
+        
+        reduced_motion_comparative_passed = (
+            ordinary_motion_detected and
+            matches_rm and
+            all_opening_valid and
+            exit_properly_unmounted
+        )
         
         results["reduced_motion_comparative_audit"] = {
             "ordinary_motion_has_transform": ordinary_motion_detected,
             "ordinary_sample_at_25ms": norm_transform,
             "reduced_motion_media_match": matches_rm,
-            "reduced_motion_lifecycle_samples": rm_samples,
-            "scale_eliminated_throughout": scale_eliminated_throughout,
+            "opening_samples": opening_samples,
+            "all_opening_valid": all_opening_valid,
+            "exit_audit": exit_audit,
+            "exit_properly_unmounted": exit_properly_unmounted,
             "passed": reduced_motion_comparative_passed
         }
-        print(f"[CHECK 14] Strengthened Motion Comparison: OrdinaryTransformDetected={ordinary_motion_detected} ('{norm_transform}'), ReducedMotionSamplesAllNone={scale_eliminated_throughout} -> Passed: {reduced_motion_comparative_passed}")
+        print(f"[CHECK 14] Strengthened Motion Comparison: OrdinaryTransformDetected={ordinary_motion_detected} ('{norm_transform}'), OpeningSamplesAllNone={all_opening_valid}, ExitUnmounted={exit_properly_unmounted} -> Passed: {reduced_motion_comparative_passed}")
         if not reduced_motion_comparative_passed:
-            failures.append("Reduced-motion comparative audit failed")
+            failures.append("Reduced-motion comparative audit failed: opening transform not none or exit not unmounted")
             
         await motion_browser.close()
 
