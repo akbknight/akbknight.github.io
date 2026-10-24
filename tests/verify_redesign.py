@@ -310,14 +310,36 @@ def run_tests():
             else:
                 record_fail("contrast", "light_theme_activated", f"Theme attribute is '{theme_val}'")
 
-            # Check heading and body text contrast in light theme against background
-            h1_color = page.evaluate("() => window.getComputedStyle(document.querySelector('h1')).color")
-            p_color = page.evaluate("() => window.getComputedStyle(document.querySelector('main p')).color")
-            bg_color = page.evaluate("() => window.getComputedStyle(document.body).backgroundColor")
+            # Check heading, body, and secondary text contrast in light theme against background
+            colors = page.evaluate("""() => {
+                function getResolvedRgb(el, prop) {
+                    if (!el) return null;
+                    const raw = window.getComputedStyle(el)[prop];
+                    if (raw && raw.startsWith('rgb')) return raw;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 1; canvas.height = 1;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = raw;
+                    ctx.fillRect(0, 0, 1, 1);
+                    const d = ctx.getImageData(0, 0, 1, 1).data;
+                    return `rgb(${d[0]}, ${d[1]}, ${d[2]})`;
+                }
+                return {
+                    bg: getResolvedRgb(document.body, 'backgroundColor'),
+                    h1: getResolvedRgb(document.querySelector('h1'), 'color'),
+                    zinc900: getResolvedRgb(document.querySelector('.text-zinc-900'), 'color'),
+                    zinc600: getResolvedRgb(document.querySelector('.text-zinc-600'), 'color'),
+                    p_body: getResolvedRgb(document.querySelector('main p'), 'color')
+                };
+            }""")
 
             def parse_rgb(s):
-                m = re.search(r"rgba?\((\d+),\s*(\d+),\s*(\d+)", s)
-                return [int(m.group(1)), int(m.group(2)), int(m.group(3))] if m else [0, 0, 0]
+                if not s or not isinstance(s, str):
+                    raise ValueError(f"Invalid color value: {s!r}")
+                m = re.match(r"^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)", s.strip())
+                if not m:
+                    raise ValueError(f"Unsupported color format '{s}'. Expected standard rgb(...) or rgba(...).")
+                return [int(m.group(1)), int(m.group(2)), int(m.group(3))]
 
             def lum(rgb):
                 def ch(c):
@@ -326,19 +348,30 @@ def run_tests():
                 return 0.2126 * ch(rgb[0]) + 0.7152 * ch(rgb[1]) + 0.0722 * ch(rgb[2])
 
             def calc_contrast(c1, c2):
-                l1 = lum(parse_rgb(c1))
-                l2 = lum(parse_rgb(c2))
+                l1 = lum(c1)
+                l2 = lum(c2)
                 return (max(l1, l2) + 0.05) / (min(l1, l2) + 0.05)
 
-            h1_ratio = calc_contrast(h1_color, bg_color)
-            p_ratio = calc_contrast(p_color, bg_color)
+            try:
+                bg_rgb = parse_rgb(colors["bg"])
+                h1_rgb = parse_rgb(colors["h1"])
+                z900_rgb = parse_rgb(colors["zinc900"])
+                z600_rgb = parse_rgb(colors["zinc600"])
+                p_rgb = parse_rgb(colors["p_body"])
 
-            if h1_ratio >= 4.5 and p_ratio >= 4.5:
-                record_pass("contrast", "light_theme_calculated_contrast", f"Calculated WCAG AA/AAA contrast: h1={h1_ratio:.2f}:1, body={p_ratio:.2f}:1 against body bg ({bg_color})")
-            elif h1_ratio >= 3.0 and p_ratio >= 4.5:
-                record_pass("contrast", "light_theme_calculated_contrast", f"Calculated WCAG AA contrast (large text 3:1, body 4.5:1): h1={h1_ratio:.2f}:1, body={p_ratio:.2f}:1 against body bg ({bg_color})")
-            else:
-                record_fail("contrast", "light_theme_calculated_contrast", f"Calculated contrast below WCAG threshold: h1={h1_ratio:.2f}:1, body={p_ratio:.2f}:1")
+                h1_ratio = calc_contrast(h1_rgb, bg_rgb)
+                z900_ratio = calc_contrast(z900_rgb, bg_rgb)
+                z600_ratio = calc_contrast(z600_rgb, bg_rgb)
+                p_ratio = calc_contrast(p_rgb, bg_rgb)
+
+                if z900_ratio >= 4.5 and z600_ratio >= 4.5 and p_ratio >= 4.5:
+                    record_pass("contrast", "light_theme_calculated_contrast",
+                                f"Calculated WCAG AA/AAA contrast: zinc-900={z900_ratio:.2f}:1, zinc-600={z600_ratio:.2f}:1, body={p_ratio:.2f}:1, h1={h1_ratio:.2f}:1 against bg={colors['bg']}")
+                else:
+                    record_fail("contrast", "light_theme_calculated_contrast",
+                                f"Calculated contrast below WCAG AA: zinc-900={z900_ratio:.2f}:1, zinc-600={z600_ratio:.2f}:1, body={p_ratio:.2f}:1")
+            except ValueError as e:
+                record_fail("contrast", "light_theme_calculated_contrast", f"Color format parsing error: {e}")
 
             # Switch back to dark theme
             dark_btn = page.locator("header button[aria-label*='Switch to dark mode']")
