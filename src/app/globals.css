@@ -33,11 +33,11 @@ html[data-theme="dark"],
   --card-shadow:       0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.09);
   --card-shadow-hover: 0 16px 40px -8px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(56, 189, 248, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 
-  /* Living Atmospheric Mesh Tokens */
-  --border-grid:       rgba(255, 255, 255, 0.05);
-  --aurora-cyan:       rgba(56, 189, 248, 0.22);
-  --aurora-indigo:     rgba(99, 102, 241, 0.16);
-  --aurora-amber:      rgba(245, 158, 11, 0.08);
+  /* Living Atmospheric Mesh Tokens — Restrained prominence for reading comfort */
+  --border-grid:       rgba(255, 255, 255, 0.024);
+  --aurora-cyan:       rgba(56, 189, 248, 0.08);
+  --aurora-indigo:     rgba(99, 102, 241, 0.06);
+  --aurora-amber:      rgba(245, 158, 11, 0.03);
 }
 
 /* ─── Apple-Grade Luminous Light Mode: Studio Ceramic & Glass ─────── */
@@ -68,11 +68,11 @@ html[data-theme="light"],
   --card-shadow:       0 2px 8px -1px rgba(0, 0, 0, 0.04), 0 12px 32px -4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
   --card-shadow-hover: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 20px 48px -6px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1);
 
-  /* Living Atmospheric Mesh Tokens for Light Mode */
-  --border-grid:       rgba(0, 0, 0, 0.045);
-  --aurora-cyan:       rgba(2, 132, 199, 0.14);
-  --aurora-indigo:     rgba(99, 102, 241, 0.09);
-  --aurora-amber:      rgba(217, 119, 6, 0.06);
+  /* Living Atmospheric Mesh Tokens for Light Mode — Restrained prominence */
+  --border-grid:       rgba(0, 0, 0, 0.02);
+  --aurora-cyan:       rgba(2, 132, 199, 0.05);
+  --aurora-indigo:     rgba(99, 102, 241, 0.035);
+  --aurora-amber:      rgba(217, 119, 6, 0.02);
 }
 
 /* ─── Global Reset & Typography Enforcements ─────────────────────── */
@@ -266,15 +266,16 @@ a, button {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-size: 40px 40px;
+  background-size: 48px 48px;
   background-image:
     linear-gradient(to right, var(--border-grid) 1px, transparent 1px),
     linear-gradient(to bottom, var(--border-grid) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse 90% 85% at 50% 30%, #000 35%, transparent 95%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 30%, #000 35%, transparent 95%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 25%, #000 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 25%, #000 20%, transparent 80%);
+  opacity: 0.75;
 }
 
-/* Dynamic Multi-layered Aurora Blooms */
+/* Dynamic Multi-layered Aurora Blooms — Restrained Prominence */
 .apple-aurora-top {
   position: absolute;
   top: -80px;
@@ -284,7 +285,7 @@ a, button {
   max-width: 1100px;
   height: 650px;
   background: radial-gradient(ellipse 700px 380px at 50% 20%, var(--aurora-cyan), var(--aurora-indigo) 45%, transparent 75%);
-  filter: blur(50px);
+  filter: blur(60px);
   pointer-events: none;
   z-index: 0;
   animation: aurora-float-1 12s ease-in-out infinite alternate;
@@ -298,7 +299,7 @@ a, button {
   height: 600px;
   border-radius: 9999px;
   background: radial-gradient(circle, var(--aurora-indigo) 0%, var(--aurora-cyan) 40%, transparent 70%);
-  filter: blur(80px);
+  filter: blur(90px);
   pointer-events: none;
   z-index: 0;
   animation: aurora-float-2 16s ease-in-out infinite alternate;
@@ -312,25 +313,25 @@ a, button {
   height: 650px;
   border-radius: 9999px;
   background: radial-gradient(circle, var(--aurora-amber) 0%, var(--aurora-cyan) 45%, transparent 75%);
-  filter: blur(90px);
+  filter: blur(100px);
   pointer-events: none;
   z-index: 0;
   animation: aurora-float-3 18s ease-in-out infinite alternate;
 }
 
 @keyframes aurora-float-1 {
-  0% { transform: translateX(-50%) translateY(0) scale(1); opacity: 0.75; }
-  100% { transform: translateX(-48%) translateY(30px) scale(1.08); opacity: 1; }
+  0% { transform: translateX(-50%) translateY(0) scale(1); opacity: 0.45; }
+  100% { transform: translateX(-48%) translateY(25px) scale(1.05); opacity: 0.65; }
 }
 
 @keyframes aurora-float-2 {
-  0% { transform: translateY(0) scale(1); opacity: 0.6; }
-  100% { transform: translateY(-40px) translateX(-30px) scale(1.15); opacity: 0.9; }
+  0% { transform: translateY(0) scale(1); opacity: 0.35; }
+  100% { transform: translateY(-30px) translateX(-20px) scale(1.1); opacity: 0.55; }
 }
 
 @keyframes aurora-float-3 {
-  0% { transform: translateY(0) scale(1); opacity: 0.55; }
-  100% { transform: translateY(35px) translateX(25px) scale(1.12); opacity: 0.85; }
+  0% { transform: translateY(0) scale(1); opacity: 0.3; }
+  100% { transform: translateY(25px) translateX(20px) scale(1.08); opacity: 0.5; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -267,7 +267,7 @@ export const Projects = () => {
 
               <div className="space-y-2 p-5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05]">
                 <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
-                  03 · Defensible Result
+                  03 · Result
                 </h4>
                 <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                   {proj.result}

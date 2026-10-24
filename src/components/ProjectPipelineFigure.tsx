@@ -50,8 +50,8 @@ const STAGE_DETAILS = [
     tab: "04 · Deliver",
     full: "Hardware-Accelerated WebGL Analytics HUD",
     role: "Visual Intelligence",
-    desc: "Client-side 3D WebGL global capital flow arcs and D3 TopoJSON state-level choropleths running at 60 FPS in the browser.",
-    specs: ["WebGL 3D Flow Arcs", "D3 TopoJSON", "60 FPS Hardware HUD"],
+    desc: "Client-side 3D WebGL global capital flow arcs and D3 TopoJSON state-level choropleths rendered directly in the browser.",
+    specs: ["WebGL 3D Flow Arcs", "D3 TopoJSON", "Hardware-Accelerated HUD"],
     icon: <Cpu className="w-3.5 h-3.5 text-amber-500" />,
   },
 ];
@@ -222,7 +222,7 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
     setBasePath(prismPaths(bMesh, C));
   }, []);
 
-  // Animation Loop (60 FPS springs)
+  // Animation Loop (requestAnimationFrame springs)
   useEffect(() => {
     const C = camRef.current;
     const ringSamples = rrect(-W / 2, -D / 2, W / 2, D / 2, R);

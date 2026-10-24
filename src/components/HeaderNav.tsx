@@ -122,6 +122,7 @@ export const HeaderNav = ({
               <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-zinc-200/50 dark:bg-zinc-800/80 pointer-events-none">
                 <Mascot
                   key={mascotChoice}
+                  asArtwork={true}
                   directions={
                     mascotChoice === "wolf"
                       ? "/mascots/wolf-directions.webp"

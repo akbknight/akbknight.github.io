@@ -87,12 +87,14 @@ export type MascotProps = {
   /** What a screen reader calls it. */
   label?: string;
   onClick?: () => void;
+  /** When true, renders as non-interactive artwork (span) to avoid nested button controls. */
+  asArtwork?: boolean;
 };
 
 export function Mascot(props: MascotProps) {
-  const { directions, reactions, size = 140, className, label = "mascot", onClick } = props;
+  const { directions, reactions, size = 140, className, label = "mascot", onClick, asArtwork = false } = props;
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
   const squashRef = useRef<HTMLSpanElement>(null);
   const timersRef = useRef<number[]>([]);
   const boopsRef = useRef({ count: 0, at: 0 });
@@ -108,12 +110,12 @@ export function Mascot(props: MascotProps) {
     let pointer: { x: number; y: number } | null = null;
 
     const aim = () => {
-      const button = buttonRef.current;
-      if (!button || !pointer) {
+      const el = containerRef.current;
+      if (!el || !pointer) {
         return;
       }
 
-      const box = button.getBoundingClientRect();
+      const box = el.getBoundingClientRect();
       const dx = pointer.x - (box.left + box.width / 2);
       const dy = pointer.y - (box.top + box.height / 2);
 
@@ -184,9 +186,61 @@ export function Mascot(props: MascotProps) {
     onClick?.();
   };
 
+  const spriteContent = (
+    <span
+      ref={squashRef}
+      style={{
+        position: "relative",
+        display: "block",
+        width: "100%",
+        height: "100%",
+        transformOrigin: "50% 78%",
+      }}
+    >
+      <span
+        style={{
+          ...layer,
+          backgroundImage: `url(${directions})`,
+          ...cell(DIRECTIONS.indexOf(direction)),
+          opacity: reaction ? 0 : 1,
+        }}
+      />
+      {/* Always mounted so the sheet is fetched up front, never on the first click. */}
+      <span
+        style={{
+          ...layer,
+          backgroundImage: `url(${reactions})`,
+          ...cell(REACTIONS.indexOf(reaction ?? "blink")),
+          opacity: reaction ? 1 : 0,
+        }}
+      />
+    </span>
+  );
+
+  if (asArtwork) {
+    return (
+      <span
+        ref={containerRef as React.RefObject<HTMLSpanElement>}
+        aria-hidden="true"
+        className={className}
+        style={{
+          position: "relative",
+          display: "block",
+          flexShrink: 0,
+          width: size,
+          height: size,
+          userSelect: "none",
+          pointerEvents: "none",
+        }}
+      >
+        {spriteContent}
+      </span>
+    );
+  }
+
   return (
     <button
-      ref={buttonRef}
+      ref={containerRef as React.RefObject<HTMLButtonElement>}
       type="button"
       onClick={boop}
       aria-label={`Boop the ${label}`}
@@ -205,34 +259,7 @@ export function Mascot(props: MascotProps) {
         userSelect: "none",
       }}
     >
-      <span
-        ref={squashRef}
-        style={{
-          position: "relative",
-          display: "block",
-          width: "100%",
-          height: "100%",
-          transformOrigin: "50% 78%",
-        }}
-      >
-        <span
-          style={{
-            ...layer,
-            backgroundImage: `url(${directions})`,
-            ...cell(DIRECTIONS.indexOf(direction)),
-            opacity: reaction ? 0 : 1,
-          }}
-        />
-        {/* Always mounted so the sheet is fetched up front, never on the first click. */}
-        <span
-          style={{
-            ...layer,
-            backgroundImage: `url(${reactions})`,
-            ...cell(REACTIONS.indexOf(reaction ?? "blink")),
-            opacity: reaction ? 1 : 0,
-          }}
-        />
-      </span>
+      {spriteContent}
     </button>
   );
 }

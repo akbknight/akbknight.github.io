@@ -48,9 +48,9 @@ export const AmbientCanvas = () => {
     const isDarkTheme = () => document.documentElement.classList.contains("dark");
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Pipeline Data Nodes count scaled to screen size
+    // Pipeline Data Nodes count scaled to screen size — restrained for reading ease
     const isMobile = width < 768;
-    const count = isMobile ? 22 : 44;
+    const count = isMobile ? 14 : 26;
     const nodes: Node[] = [];
 
     const colorTypes: ("cyan" | "gold" | "indigo")[] = ["cyan", "cyan", "indigo", "gold"];
@@ -59,10 +59,10 @@ export const AmbientCanvas = () => {
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        radius: Math.random() * 1.6 + 1.0,
-        baseAlpha: Math.random() * 0.4 + 0.25,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        radius: Math.random() * 1.3 + 0.8,
+        baseAlpha: Math.random() * 0.2 + 0.14,
         colorType: colorTypes[Math.floor(Math.random() * colorTypes.length)],
       });
     }
@@ -112,14 +112,14 @@ export const AmbientCanvas = () => {
         );
 
         if (isDark) {
-          auraGrad.addColorStop(0, "rgba(56, 189, 248, 0.12)");
-          auraGrad.addColorStop(0.35, "rgba(99, 102, 241, 0.06)");
-          auraGrad.addColorStop(0.7, "rgba(245, 158, 11, 0.025)");
+          auraGrad.addColorStop(0, "rgba(56, 189, 248, 0.055)");
+          auraGrad.addColorStop(0.35, "rgba(99, 102, 241, 0.03)");
+          auraGrad.addColorStop(0.7, "rgba(245, 158, 11, 0.012)");
           auraGrad.addColorStop(1, "rgba(7, 8, 13, 0)");
         } else {
-          auraGrad.addColorStop(0, "rgba(2, 132, 199, 0.09)");
-          auraGrad.addColorStop(0.4, "rgba(99, 102, 241, 0.04)");
-          auraGrad.addColorStop(0.75, "rgba(217, 119, 6, 0.02)");
+          auraGrad.addColorStop(0, "rgba(2, 132, 199, 0.045)");
+          auraGrad.addColorStop(0.4, "rgba(99, 102, 241, 0.02)");
+          auraGrad.addColorStop(0.75, "rgba(217, 119, 6, 0.01)");
           auraGrad.addColorStop(1, "rgba(247, 248, 250, 0)");
         }
 
@@ -146,10 +146,10 @@ export const AmbientCanvas = () => {
             const dx = n.x - curMouseX;
             const dy = n.y - curMouseY;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 150 && dist > 0) {
-              const force = (150 - dist) / 150;
-              n.x += (dx / dist) * force * 1.5;
-              n.y += (dy / dist) * force * 1.5;
+            if (dist < 120 && dist > 0) {
+              const force = (120 - dist) / 120;
+              n.x += (dx / dist) * force * 1.2;
+              n.y += (dy / dist) * force * 1.2;
             }
           }
         }
@@ -178,7 +178,7 @@ export const AmbientCanvas = () => {
         ctx.fill();
 
         // Connect nearby nodes with subtle hairline constellation lines
-        const maxDist = isMobile ? 85 : 120;
+        const maxDist = isMobile ? 65 : 95;
         for (let j = i + 1; j < nodes.length; j++) {
           const n2 = nodes[j];
           const cdx = n.x - n2.x;
@@ -186,14 +186,14 @@ export const AmbientCanvas = () => {
           const cdist = Math.sqrt(cdx * cdx + cdy * cdy);
 
           if (cdist < maxDist) {
-            const lineAlpha = (1 - cdist / maxDist) * (isDark ? 0.12 : 0.07);
+            const lineAlpha = (1 - cdist / maxDist) * (isDark ? 0.07 : 0.035);
             ctx.beginPath();
             ctx.moveTo(n.x, n.y);
             ctx.lineTo(n2.x, n2.y);
             ctx.strokeStyle = isDark
               ? `rgba(56, 189, 248, ${lineAlpha})`
               : `rgba(2, 132, 199, ${lineAlpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         }

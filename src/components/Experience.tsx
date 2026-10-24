@@ -12,7 +12,7 @@ const EXPERIENCES = [
   {
     period: "Nov 2022 – Sep 2025",
     role: "Business Analyst (Ambassador Commendation)",
-    company: "U.S. Department of State / U.S. Embassy",
+    company: "U.S. Department of State",
     location: "New Delhi, India",
     type: "Full-Time Employment",
     summary:
@@ -29,7 +29,7 @@ const EXPERIENCES = [
   {
     period: "Nov 2021 – Nov 2022",
     role: "Software Engineer (Capital One Delivery)",
-    company: "AIS Info Source",
+    company: "AIS Info",
     location: "Gurugram, India",
     type: "Full-Time Employment",
     summary:
@@ -54,7 +54,7 @@ const EXPERIENCES = [
       "Transitioned 3 K-12 schools online during COVID-19 by developing a centralized Flutter portal (98% adoption, 2,000+ daily active users).",
       "Automated administrative reporting using Python and VBA, saving 15+ staff hours weekly.",
     ],
-    highlight: "350+ Workstations · 99.7% Uptime",
+    highlight: "350+ Workstations · 99.7% Compatibility",
   },
 ];
 
@@ -70,11 +70,11 @@ const EDUCATION = [
     coursework: "Predictive Analytics, Database & Big Data, AI for Business Strategy, Managerial Statistics",
   },
   {
-    period: "Aug 2014 – Jun 2018",
+    period: "Conferred Aug 2021",
     degree: "Bachelor of Technology in Computer Science & Engineering",
     institution: "Maharishi Dayanand University",
     location: "Rohtak, India",
-    status: "Conferred June 2018",
+    status: "Conferred August 2021",
     concentration: "Algorithms, Distributed Systems & Database Architecture",
     leadership: null,
     coursework: "Data Structures, Database Management Systems, Computer Networks, Operating Systems",

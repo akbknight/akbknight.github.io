@@ -60,7 +60,7 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         </h1>
 
         <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal pt-1 text-pretty">
-          I am an analytics engineer and Kogod STEM MBA candidate at American University in Washington, DC (graduating May 2027, available June 1, 2027). With 7+ years of software engineering background, I connect high-volume government, banking, and public datasets to executive decisions—formerly building decision dashboards at the U.S. Department of State (Ambassador Commended) and high-throughput court record pipelines for Capital One.
+          Analytics engineer and Kogod STEM MBA candidate with 7+ years of software engineering background. Formerly built decision dashboards at the U.S. Department of State (Ambassador Commended) and high-throughput court-record pipelines for Capital One.
         </p>
       </motion.div>
 
