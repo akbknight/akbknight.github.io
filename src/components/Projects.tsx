@@ -13,6 +13,7 @@ interface FeaturedProject {
   subtitle: string;
   category: string;
   summary: string;
+  tradeoff?: string;
   problem: string;
   contribution: string;
   result: string;
@@ -40,10 +41,12 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "irs990",
     number: "01",
     title: "IRS 990 Philanthropic Grant Miner & Spatial Engine",
-    subtitle: "Streaming XML parser & DuckDB columnar warehouse for $550B+ in charitable capital flows",
+    subtitle: "Streaming XML parser & local DuckDB warehouse analyzing 500,000+ public IRS grant records",
     category: "Public Data Engineering & Spatial Analytics",
     summary:
       "Public IRS Form 990 filings distribute multi-gigabyte unindexed XML records without relational structure. Engineered an in-memory streaming SAX parser in Python loading directly into DuckDB with an interactive 3D WebGL flow interface.",
+    tradeoff:
+      "Local DuckDB enables sub-second analytical queries without server hosting costs, but executes within local client memory—limiting concurrent multi-user write workflows compared to centralized cloud warehouses.",
     problem:
       "Public IRS Form 990 tax filings are distributed as multi-gigabyte unindexed XML archives without relational structure or geographic coordinates, making cross-foundation capital tracking prohibitively difficult for researchers and grant analysts.",
     contribution:
@@ -65,10 +68,12 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "retail-forecast",
     number: "02",
     title: "U.S. Retail Demand Forecasting Engine",
-    subtitle: "18-month forward retail sales projection with walk-forward holdout validation",
+    subtitle: "18-month retail demand forecasting on FRED macroeconomic data with walk-forward validation",
     category: "Econometric Modeling & Time-Series Statistics",
     summary:
       "Retail operations require forward-looking demand estimates that model macroeconomic shocks and seasonality. Developed Holt-Winters exponential smoothing models on Federal Reserve FRED data with walk-forward holdout backtesting.",
+    tradeoff:
+      "Holt-Winters captures annual seasonality and baseline trends, but cannot predict sudden macroeconomic regime shifts or exogenous supply disruptions without dedicated regression covariates.",
     problem:
       "Retail inventory planners and operations teams need reliable medium-term demand forecasts that account for macroeconomic trends, seasonality, and historical shocks rather than static linear extrapolations.",
     contribution:
@@ -89,10 +94,12 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "scheduling-optimizer",
     number: "03",
     title: "Consular Facility & Resource Scheduling Simulator",
-    subtitle: "Greedy constraint-satisfaction engine for diplomatic facility booking",
+    subtitle: "Greedy constraint-satisfaction engine modeling diplomatic facility room allocation",
     category: "Operations Research & Algorithmic Simulation",
     summary:
       "Independent operations research simulation modeling multi-departmental conference room bookings and security clearances for diplomatic facilities using a priority-based greedy constraint-satisfaction algorithm.",
+    tradeoff:
+      "The greedy constraint heuristic computes allocations in under 2 seconds, but does not guarantee global optimality in heavily over-subscribed edge cases where full constraint backtracking would be required.",
     problem:
       "Independent algorithmic simulation evaluating multi-departmental conference room and security clearance scheduling for high-security diplomatic facilities. (Independent simulation inspired by operational challenges observed during consular service; not an official government deployment).",
     contribution:
@@ -252,8 +259,8 @@ export const Projects = () => {
               </p>
             </div>
 
-            {/* Project Summary & Supported Result */}
-            <div className="space-y-4 pt-1">
+            {/* Project Summary, Supported Result & Engineering Trade-off */}
+            <div className="space-y-3.5 pt-1">
               <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed font-normal">
                 {proj.summary}
               </p>
@@ -263,6 +270,14 @@ export const Projects = () => {
                 </span>
                 <span className="leading-relaxed">{proj.result}</span>
               </div>
+              {proj.tradeoff && (
+                <div className="flex items-start gap-2.5 px-4 py-2.5 rounded-xl bg-zinc-100/70 dark:bg-white/[0.03] border border-zinc-200/70 dark:border-white/[0.06] text-xs text-zinc-600 dark:text-zinc-400">
+                  <span className="font-mono-code font-semibold text-zinc-700 dark:text-zinc-300 shrink-0">
+                    Trade-off / Boundary:
+                  </span>
+                  <span className="leading-relaxed">{proj.tradeoff}</span>
+                </div>
+              )}
             </div>
 
             {/* Dedicated Visual Presentation: Hairline Figure for Project 1; High-Res Diagrams for Projects 2 & 3 */}

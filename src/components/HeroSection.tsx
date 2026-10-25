@@ -56,11 +56,11 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         className="space-y-4 max-w-3xl"
       >
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.15] text-balance">
-          Building reliable data pipelines and predictive models for high-stakes operations.
+          Building reliable data pipelines, forecasting models, and decision tools.
         </h1>
 
         <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal pt-1 text-pretty">
-          Analytics engineer and Kogod STEM MBA candidate with 7+ years of software engineering background. Formerly built decision dashboards at the U.S. Department of State (Ambassador Commended) and high-throughput court-record pipelines for Capital One.
+          Analytics engineer and Kogod STEM MBA candidate with 7+ years of software engineering background. Experienced building operational dashboards at the U.S. Department of State (Ambassador Commended) and high-throughput court-record pipelines for Capital One.
         </p>
       </motion.div>
 
