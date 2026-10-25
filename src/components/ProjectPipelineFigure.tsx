@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { ArrowUpRight, Database, Layers, Cpu, ShieldCheck } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
 
 interface ProjectPipelineFigureProps {
   className?: string;
@@ -181,6 +182,7 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
   activeStage,
   onSelectStage,
 }) => {
+  const shouldReduceMotion = useReducedMotion();
   const [internalSelected, setInternalSelected] = useState<number>(activeStage ?? 2);
   const [internalHover, setInternalHover] = useState<number | null>(null);
   const selectedIndex = activeStage !== undefined ? activeStage : internalSelected;
@@ -222,62 +224,92 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
     setBasePath(prismPaths(bMesh, C));
   }, []);
 
-  // Animation Loop (requestAnimationFrame springs)
+  // Animation Loop (requestAnimationFrame springs with reduced-motion and settling guard)
   useEffect(() => {
     const C = camRef.current;
     const ringSamples = rrect(-W / 2, -D / 2, W / 2, D / 2, R);
 
+    const computePlates = (zValues: number[]) => {
+      const P = proj(C);
+      const newPlates = [];
+      for (let i = 0; i < 4; i++) {
+        const zBase = zValues[i];
+        const zTop = zBase + TK;
+        const pMesh = buildRing(ringSamples, B, zBase, zTop, true);
+        const paths = prismPaths(pMesh, C);
+
+        let guideStr = "";
+        if (i === highlightedIndex) {
+          const pBot = P(0, 0, zBase);
+          const pFloor = P(0, 0, 0);
+          guideStr = `M${r2(pBot[0])} ${r2(pBot[1])} L${r2(pFloor[0])} ${r2(pFloor[1])}`;
+        }
+
+        newPlates.push({
+          sil: paths.sil,
+          crease: paths.crease,
+          guides: guideStr,
+        });
+      }
+      return newPlates;
+    };
+
+    const targetZ = [...Z_REST];
+    targetZ[highlightedIndex] += 10; // Lift active plate
+
+    // 1. Reduced Motion: Immediately snap to target positions without scheduling any animation frames
+    if (shouldReduceMotion) {
+      springRef.current.z = [...targetZ];
+      springRef.current.v = [0, 0, 0, 0];
+      setPlatesState(computePlates(targetZ));
+      return;
+    }
+
+    // 2. Normal Motion: Spring physics with automatic termination when settled
+    let isMounted = true;
+
     const tick = () => {
+      if (!isMounted) return;
+      if (document.hidden) {
+        animFrameRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
       const sp = springRef.current;
       const k = 0.16, d = 0.82;
-
       let changed = false;
-      const targetZ = [...Z_REST];
-      targetZ[highlightedIndex] += 10; // Lift active plate
 
       for (let i = 0; i < 4; i++) {
         const diff = targetZ[i] - sp.z[i];
         sp.v[i] = sp.v[i] * d + diff * k;
         sp.z[i] += sp.v[i];
-        if (Math.abs(diff) > 0.05 || Math.abs(sp.v[i]) > 0.05) {
+        if (Math.abs(diff) > 0.04 || Math.abs(sp.v[i]) > 0.04) {
           changed = true;
         }
       }
 
       if (changed || platesState.length === 0) {
-        const P = proj(C);
-        const newPlates = [];
-        for (let i = 0; i < 4; i++) {
-          const zBase = sp.z[i];
-          const zTop = zBase + TK;
-          const pMesh = buildRing(ringSamples, B, zBase, zTop, true);
-          const paths = prismPaths(pMesh, C);
-
-          // Guide drop line from active plate
-          let guideStr = "";
-          if (i === highlightedIndex) {
-            const pBot = P(0, 0, zBase);
-            const pFloor = P(0, 0, 0);
-            guideStr = `M${r2(pBot[0])} ${r2(pBot[1])} L${r2(pFloor[0])} ${r2(pFloor[1])}`;
-          }
-
-          newPlates.push({
-            sil: paths.sil,
-            crease: paths.crease,
-            guides: guideStr,
-          });
-        }
-        setPlatesState(newPlates);
+        setPlatesState(computePlates(sp.z));
+        animFrameRef.current = requestAnimationFrame(tick);
+      } else {
+        // Springs have settled! Snap to exact target positions and STOP scheduling RAF
+        sp.z = [...targetZ];
+        sp.v = [0, 0, 0, 0];
+        setPlatesState(computePlates(targetZ));
+        animFrameRef.current = null;
       }
-
-      animFrameRef.current = requestAnimationFrame(tick);
     };
 
     animFrameRef.current = requestAnimationFrame(tick);
+
     return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      isMounted = false;
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
+      }
     };
-  }, [highlightedIndex, platesState.length]);
+  }, [highlightedIndex, shouldReduceMotion]);
 
   // Pointer Interaction
   const handlePointerMove = useCallback((e: React.PointerEvent<SVGSVGElement>) => {
@@ -353,6 +385,12 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
               }}
               aria-hidden="true"
             />
+
+            {/* Active Layer Architecture Annotation */}
+            <div className="absolute top-2.5 left-3 z-10 pointer-events-none flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/90 dark:bg-zinc-900/90 border border-zinc-200/80 dark:border-white/10 text-[10px] font-mono-code text-zinc-800 dark:text-zinc-200 shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+              <span>Layer {STAGE_DETAILS[highlightedIndex].step}: {STAGE_DETAILS[highlightedIndex].role}</span>
+            </div>
 
             <svg
               ref={svgRef}
@@ -432,7 +470,7 @@ export const ProjectPipelineFigure: React.FC<ProjectPipelineFigureProps> = ({
           </div>
 
           <span className="text-[10px] font-mono-code text-zinc-600 dark:text-zinc-400 mt-2 text-center">
-            Interactive 3D Strata · Hover or Drag
+            Interactive Architecture Strata · Hover or select stage
           </span>
         </div>
 

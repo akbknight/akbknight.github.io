@@ -13,7 +13,7 @@ const PLACEHOLDER_PHOTOS: Partial<PexelsPhoto>[] = [
       large: "https://images.pexels.com/photos/5531421/pexels-photo-5531421.jpeg?auto=compress&cs=tinysrgb&w=800",
       medium: "https://images.pexels.com/photos/5531421/pexels-photo-5531421.jpeg?auto=compress&cs=tinysrgb&w=500",
     } as PexelsPhoto["src"],
-    alt: "Architecture & geometry photography by Akshay Kumar",
+    alt: "Architecture and geometric perspective study",
     url: "https://www.pexels.com/photo/5531421/",
   },
   {
@@ -22,7 +22,7 @@ const PLACEHOLDER_PHOTOS: Partial<PexelsPhoto>[] = [
       large: "https://images.pexels.com/photos/5156157/pexels-photo-5156157.jpeg?auto=compress&cs=tinysrgb&w=800",
       medium: "https://images.pexels.com/photos/5156157/pexels-photo-5156157.jpeg?auto=compress&cs=tinysrgb&w=500",
     } as PexelsPhoto["src"],
-    alt: "Street & documentary photography by Akshay Kumar",
+    alt: "Street and documentary perspective study",
     url: "https://www.pexels.com/photo/5156157/",
   },
   {
@@ -31,7 +31,7 @@ const PLACEHOLDER_PHOTOS: Partial<PexelsPhoto>[] = [
       large: "https://images.pexels.com/photos/5156156/pexels-photo-5156156.jpeg?auto=compress&cs=tinysrgb&w=800",
       medium: "https://images.pexels.com/photos/5156156/pexels-photo-5156156.jpeg?auto=compress&cs=tinysrgb&w=500",
     } as PexelsPhoto["src"],
-    alt: "Atmospheric landscape photography by Akshay Kumar",
+    alt: "Atmospheric landscape and shadow study",
     url: "https://www.pexels.com/photo/5156156/",
   },
   {
@@ -40,7 +40,7 @@ const PLACEHOLDER_PHOTOS: Partial<PexelsPhoto>[] = [
       large: "https://images.pexels.com/photos/9257002/pexels-photo-9257002.jpeg?auto=compress&cs=tinysrgb&w=800",
       medium: "https://images.pexels.com/photos/9257002/pexels-photo-9257002.jpeg?auto=compress&cs=tinysrgb&w=500",
     } as PexelsPhoto["src"],
-    alt: "Urban light & shadow photography by Akshay Kumar",
+    alt: "Urban light and architectural lines study",
     url: "https://www.pexels.com/photo/9257002/",
   },
 ];
@@ -66,7 +66,7 @@ export const PersonalGallery = () => {
           <span className="text-xs font-mono-code text-zinc-600 dark:text-zinc-300">
             {loading ? "Loading…" : (
               <>
-                <strong className="text-sky-600 dark:text-sky-400 font-semibold">{views}</strong> verified views on Pexels
+                <strong className="text-sky-600 dark:text-sky-400 font-semibold">{views}</strong> views on Pexels (profile snapshot)
               </>
             )}
           </span>

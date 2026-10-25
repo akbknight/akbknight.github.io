@@ -70,7 +70,7 @@ const EDUCATION = [
     coursework: "Predictive Analytics, Database & Big Data, AI for Business Strategy, Managerial Statistics",
   },
   {
-    period: "Conferred Aug 2021",
+    period: "",
     degree: "Bachelor of Technology in Computer Science & Engineering",
     institution: "Maharishi Dayanand University",
     location: "Rohtak, India",
@@ -103,9 +103,10 @@ export const Experience = ({ onOpenResume }: ExperienceProps) => {
             type="button"
             onClick={onOpenResume}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs sm:text-sm font-medium transition-colors w-fit cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+            aria-label="View résumé"
           >
             <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-            <span>View Full PDF Résumé</span>
+            <span>View résumé</span>
           </button>
         )}
       </div>
@@ -114,7 +115,7 @@ export const Experience = ({ onOpenResume }: ExperienceProps) => {
       <div className="space-y-6">
         <h3 className="text-xs font-mono-code uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
           <Briefcase className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-          <span>Professional Roles (Verified Employment)</span>
+          <span>Professional Roles</span>
         </h3>
 
         <div className="space-y-4">
@@ -203,9 +204,11 @@ export const Experience = ({ onOpenResume }: ExperienceProps) => {
                   <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-zinc-200/60 dark:bg-white/[0.06] text-zinc-700 dark:text-zinc-300 font-medium">
                     {edu.status}
                   </span>
-                  <span className="text-xs font-mono-code text-zinc-400 dark:text-zinc-400">
-                    {edu.period}
-                  </span>
+                  {edu.period && (
+                    <span className="text-xs font-mono-code text-zinc-400 dark:text-zinc-400">
+                      {edu.period}
+                    </span>
+                  )}
                 </div>
 
                 <h4 className="text-base font-bold text-zinc-900 dark:text-white leading-snug">

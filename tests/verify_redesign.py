@@ -65,6 +65,21 @@ def run_tests():
         else:
             record_fail("viewport_tests", "compact_top_nav_height", f"Nav height is {nav_box['height'] if nav_box else 'None'}")
 
+        # Check sticky top nav persistence on long scroll to #contact
+        contact_link = page.locator("header a[href*='contact']").first
+        if contact_link.is_visible():
+            contact_link.click()
+            time.sleep(1.0)
+            nav_box_scrolled = page.locator("header").bounding_box()
+            scroll_y = page.evaluate("() => window.scrollY")
+            if nav_box_scrolled and abs(nav_box_scrolled["y"]) < 2 and scroll_y > 2000:
+                record_pass("viewport_tests", "sticky_top_nav_persists_on_scroll", f"Header bounding box y={nav_box_scrolled['y']:.1f}px at scrollY={scroll_y:.0f}px (remains pinned at top)")
+            else:
+                record_fail("viewport_tests", "sticky_top_nav_persists_on_scroll", f"Header bounding box y={nav_box_scrolled['y'] if nav_box_scrolled else 'None'} at scrollY={scroll_y}")
+            # Scroll back to top
+            page.evaluate("() => window.scrollTo(0, 0)")
+            time.sleep(0.5)
+
         # 1.2 Desktop 1440x900
         context_1440 = browser.new_context(viewport={"width": 1440, "height": 900})
         page_1440 = context_1440.new_page()
@@ -259,18 +274,18 @@ def run_tests():
 
         print("\n=== 5. INTERACTIVE RÉSUMÉ MODAL ===")
         # Open Résumé Modal from header
-        resume_btn = page.locator("header button[aria-label*='curriculum vitae']")
+        resume_btn = page.locator("header button[aria-label*='View résumé'], header button:has-text('View résumé')").first
         if resume_btn.is_visible():
             resume_btn.click()
             time.sleep(0.5)
             page.screenshot(path=os.path.join(ARTIFACT_DIR, "editorial_resume_modal.png"))
             
-            modal = page.locator("div[role='dialog'][aria-label='Executive Curriculum Vitae of Akshay Kumar']")
+            modal = page.locator("div[role='dialog'][aria-label='Résumé of Akshay Kumar']")
             if modal.is_visible():
                 record_pass("accessibility", "resume_modal_opens", "Résumé modal opened cleanly")
                 
-                # Switch to Executive Breakdown tab
-                modal.locator("button:has-text('Executive Breakdown')").click()
+                # Switch to Structured View tab
+                modal.locator("button:has-text('Structured View')").click()
                 time.sleep(0.3)
 
                 # Check for expected résumé section string presence in DOM
@@ -415,6 +430,15 @@ def run_tests():
             else:
                 record_fail("accessibility", "reduced_motion_transform_none", f"Modal element not visible during opening sample: {modal_state}")
             
+            # Check Hairline in Project 1 under reduced motion
+            p1_rm = page_rm.locator("#project-irs990")
+            if p1_rm.is_visible():
+                hairline_present = p1_rm.locator("svg[data-testid='hairline-pipeline-svg']").is_visible()
+                if hairline_present:
+                    record_pass("accessibility", "hairline_reduced_motion_static_mode", "Hairline pipeline figure renders cleanly without continuous RAF loops under prefers-reduced-motion")
+                else:
+                    record_fail("accessibility", "hairline_reduced_motion_static_mode", "Hairline SVG not visible in reduced motion mode")
+
             # Dismiss
             page_rm.keyboard.press("Escape")
             time.sleep(0.3)

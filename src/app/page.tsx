@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-[100dvh] flex flex-col relative overflow-x-hidden"
+      className="min-h-[100dvh] flex flex-col relative overflow-x-clip"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
       {/* Living Atmospheric Canvas: Interactive Spotlight & Data Constellation */}
@@ -71,8 +71,15 @@ export default function Home() {
               onClick={() => setIsResumeOpen(true)}
               className="text-sky-600 dark:text-sky-400 hover:underline cursor-pointer"
             >
-              Curriculum Vitae (PDF) ↗
+              View résumé ↗
             </button>
+            <a
+              href="/assets/Akshay_Resume.pdf"
+              download="Akshay_Kumar_Resume.pdf"
+              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-colors"
+            >
+              Download PDF ↗
+            </a>
             <a
               href="https://github.com/akbknight/akbknight.github.io"
               target="_blank"

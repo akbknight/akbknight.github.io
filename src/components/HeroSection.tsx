@@ -25,12 +25,12 @@ const EVIDENCE = [
       "Engineered automated Java pipelines processing public court records across 94 federal districts with sub-second retrieval for commercial loan screening.",
   },
   {
-    metric: "$550B+ Mapped",
-    label: "IRS Form 990 Grants",
-    org: "Public Data Pipeline",
-    badge: "9.7M+ Filings",
+    metric: "99.7%",
+    label: "Infrastructure Compatibility",
+    org: "MS Star Computers",
+    badge: "350+ Workstations",
     detail:
-      "Engineered streaming SAX parser ingesting multi-gigabyte XML records into a DuckDB columnar relational warehouse with sub-second analytical aggregations.",
+      "Administered regional IT infrastructure across 8 regional centers with a 99.7% first-time compatibility rate, saving 15+ weekly reporting hours via Python automation.",
   },
 ];
 
@@ -82,10 +82,11 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
         <button
           type="button"
           onClick={onOpenResume}
+          aria-label="View résumé"
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-sm font-medium transition-all active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
         >
           <FileText className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-          <span>Interactive résumé</span>
+          <span>View résumé</span>
         </button>
 
         <div className="flex items-center gap-1 sm:ml-2">

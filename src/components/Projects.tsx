@@ -12,6 +12,7 @@ interface FeaturedProject {
   title: string;
   subtitle: string;
   category: string;
+  summary: string;
   problem: string;
   contribution: string;
   result: string;
@@ -41,6 +42,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "IRS 990 Philanthropic Grant Miner & Spatial Engine",
     subtitle: "Streaming XML parser & DuckDB columnar warehouse for $550B+ in charitable capital flows",
     category: "Public Data Engineering & Spatial Analytics",
+    summary:
+      "Public IRS Form 990 filings distribute multi-gigabyte unindexed XML records without relational structure. Engineered an in-memory streaming SAX parser in Python loading directly into DuckDB with an interactive 3D WebGL flow interface.",
     problem:
       "Public IRS Form 990 tax filings are distributed as multi-gigabyte unindexed XML archives without relational structure or geographic coordinates, making cross-foundation capital tracking prohibitively difficult for researchers and grant analysts.",
     contribution:
@@ -64,6 +67,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "U.S. Retail Demand Forecasting Engine",
     subtitle: "18-month forward retail sales projection with walk-forward holdout validation",
     category: "Econometric Modeling & Time-Series Statistics",
+    summary:
+      "Retail operations require forward-looking demand estimates that model macroeconomic shocks and seasonality. Developed Holt-Winters exponential smoothing models on Federal Reserve FRED data with walk-forward holdout backtesting.",
     problem:
       "Retail inventory planners and operations teams need reliable medium-term demand forecasts that account for macroeconomic trends, seasonality, and historical shocks rather than static linear extrapolations.",
     contribution:
@@ -86,6 +91,8 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "Consular Facility & Resource Scheduling Simulator",
     subtitle: "Greedy constraint-satisfaction engine for diplomatic facility booking",
     category: "Operations Research & Algorithmic Simulation",
+    summary:
+      "Independent operations research simulation modeling multi-departmental conference room bookings and security clearances for diplomatic facilities using a priority-based greedy constraint-satisfaction algorithm.",
     problem:
       "Independent algorithmic simulation evaluating multi-departmental conference room and security clearance scheduling for high-security diplomatic facilities. (Independent simulation inspired by operational challenges observed during consular service; not an official government deployment).",
     contribution:
@@ -128,15 +135,15 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     live: "https://akbknight.github.io/master-resume-engineer/",
   },
   {
-    title: "Consular Appointment Forecaster (Simulation)",
-    category: "Operations Modeling",
+    title: "Macro Economic Scenario Simulator",
+    category: "Macroeconomic Modeling & Simulation",
     summary:
-      "Synthetic simulation prototype modeling seasonal non-immigrant visa appointment demand across diplomatic posts using historical queue dynamics.",
+      "Interactive macroeconomic scenario engine modeling Federal funds rate, inflation, and unemployment shocks to project retail sales growth and recession probabilities using historical FRED data.",
     contribution:
-      "Built interactive Streamlit simulation modeling daily appointment slot allocations and seasonal throughput limits.",
-    tech: ["Python", "Streamlit", "Pandas", "Plotly"],
-    github: "https://github.com/akbknight/consular-appointment-forecaster",
-    live: "https://akbknight.github.io/consular-appointment-forecaster/",
+      "Engineered client-side simulation matrix computing dynamic elasticities and forecast deviation curves without backend overhead.",
+    tech: ["JavaScript", "Chart.js", "FRED API", "Time-Series"],
+    github: "https://github.com/akbknight/economic-scenario-analysis",
+    live: "https://akbknight.github.io/economic-scenario-analysis/",
   },
 ];
 
@@ -245,33 +252,16 @@ export const Projects = () => {
               </p>
             </div>
 
-            {/* Structured Narrative: Problem, Contribution, Supported Result */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-              <div className="space-y-2 p-5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05]">
-                <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
-                  01 · The Problem
-                </h4>
-                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                  {proj.problem}
-                </p>
-              </div>
-
-              <div className="space-y-2 p-5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05]">
-                <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-sky-600 dark:text-sky-400">
-                  02 · My Contribution
-                </h4>
-                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                  {proj.contribution}
-                </p>
-              </div>
-
-              <div className="space-y-2 p-5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05]">
-                <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">
-                  03 · Result
-                </h4>
-                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                  {proj.result}
-                </p>
+            {/* Project Summary & Supported Result */}
+            <div className="space-y-4 pt-1">
+              <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed font-normal">
+                {proj.summary}
+              </p>
+              <div className="flex items-start sm:items-center gap-3 p-3.5 sm:px-4 sm:py-3 rounded-xl bg-sky-500/5 dark:bg-sky-500/[0.06] border border-sky-500/20 text-xs sm:text-sm text-zinc-800 dark:text-zinc-200">
+                <span className="font-mono-code font-semibold text-sky-700 dark:text-sky-400 shrink-0">
+                  Supported Result:
+                </span>
+                <span className="leading-relaxed">{proj.result}</span>
               </div>
             </div>
 

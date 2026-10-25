@@ -87,6 +87,30 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
   const modalContainerRef = useRef<HTMLDivElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const previousActiveElementRef = useRef<HTMLElement | null>(null);
+  const tabBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const TAB_KEYS = ["highlights", "pdf", "ats"] as const;
+
+  const handleTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let nextIndex: number | null = null;
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      nextIndex = (index + 1) % TAB_KEYS.length;
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      nextIndex = (index - 1 + TAB_KEYS.length) % TAB_KEYS.length;
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      nextIndex = 0;
+    } else if (e.key === "End") {
+      e.preventDefault();
+      nextIndex = TAB_KEYS.length - 1;
+    }
+    if (nextIndex !== null) {
+      setActiveTab(TAB_KEYS[nextIndex]);
+      tabBtnRefs.current[nextIndex]?.focus();
+    }
+  };
 
   // Lock body scroll, trap focus, and register ESC/Tab key handlers
   useEffect(() => {
@@ -172,7 +196,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Executive Curriculum Vitae of Akshay Kumar"
+          aria-label="Résumé of Akshay Kumar"
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-10"
         >
           {/* Backdrop */}
@@ -201,11 +225,8 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <h2 className="text-sm font-semibold text-zinc-900 dark:text-white tracking-tight flex items-center gap-2">
-                    Akshay Kumar · Executive Résumé
-                    <span className="text-[10px] font-mono-code font-medium px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
-                      Verified 2026–2027
-                    </span>
+                  <h2 className="text-sm font-semibold text-zinc-900 dark:text-white tracking-tight">
+                    Akshay Kumar · Résumé
                   </h2>
                   <p className="text-[11px] font-mono-code text-zinc-600 dark:text-zinc-400">
                     Washington, DC · American University Kogod STEM MBA &apos;27 (Available June 1, 2027)
@@ -266,9 +287,20 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex items-center gap-2 px-6 pt-3 border-b border-zinc-200 dark:border-white/[0.06] bg-zinc-100/50 dark:bg-[#07070A]/50">
+            <div
+              role="tablist"
+              aria-label="Résumé Views"
+              className="flex items-center gap-2 px-6 pt-3 border-b border-zinc-200 dark:border-white/[0.06] bg-zinc-100/50 dark:bg-[#07070A]/50"
+            >
               <button
+                ref={(el) => { tabBtnRefs.current[0] = el; }}
+                role="tab"
+                id="tab-highlights"
+                aria-selected={activeTab === "highlights"}
+                aria-controls="panel-highlights"
+                tabIndex={activeTab === "highlights" ? 0 : -1}
                 onClick={() => setActiveTab("highlights")}
+                onKeyDown={(e) => handleTabKeyDown(e, 0)}
                 className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors cursor-pointer ${
                   activeTab === "highlights"
                     ? "border-sky-600 dark:border-sky-400 text-sky-700 dark:text-sky-400 font-semibold"
@@ -276,11 +308,18 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                 }`}
               >
                 <Briefcase className="w-3.5 h-3.5" />
-                <span>Executive Breakdown</span>
+                <span>Structured View</span>
               </button>
 
               <button
+                ref={(el) => { tabBtnRefs.current[1] = el; }}
+                role="tab"
+                id="tab-pdf"
+                aria-selected={activeTab === "pdf"}
+                aria-controls="panel-pdf"
+                tabIndex={activeTab === "pdf" ? 0 : -1}
                 onClick={() => setActiveTab("pdf")}
+                onKeyDown={(e) => handleTabKeyDown(e, 1)}
                 className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors cursor-pointer ${
                   activeTab === "pdf"
                     ? "border-sky-600 dark:border-sky-400 text-sky-700 dark:text-sky-400 font-semibold"
@@ -288,11 +327,18 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                 }`}
               >
                 <Eye className="w-3.5 h-3.5" />
-                <span>Original PDF Viewer</span>
+                <span>PDF Document</span>
               </button>
 
               <button
+                ref={(el) => { tabBtnRefs.current[2] = el; }}
+                role="tab"
+                id="tab-ats"
+                aria-selected={activeTab === "ats"}
+                aria-controls="panel-ats"
+                tabIndex={activeTab === "ats" ? 0 : -1}
                 onClick={() => setActiveTab("ats")}
+                onKeyDown={(e) => handleTabKeyDown(e, 2)}
                 className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 transition-colors cursor-pointer ${
                   activeTab === "ats"
                     ? "border-sky-600 dark:border-sky-400 text-sky-700 dark:text-sky-400 font-semibold"
@@ -300,7 +346,7 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                 }`}
               >
                 <Terminal className="w-3.5 h-3.5" />
-                <span>ATS Plain Text</span>
+                <span>Plain Text</span>
               </button>
             </div>
 
@@ -308,7 +354,12 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-8 custom-scrollbar">
               {/* TAB 1: HIGHLIGHTS */}
               {activeTab === "highlights" && (
-                <div className="space-y-8 text-sm">
+                <div
+                  id="panel-highlights"
+                  role="tabpanel"
+                  aria-labelledby="tab-highlights"
+                  className="space-y-8 text-sm"
+                >
                   {/* Executive Summary */}
                   <div className="p-4 rounded-xl border border-sky-300 bg-sky-50 dark:border-sky-500/20 dark:bg-sky-950/15">
                     <h3 className="text-xs font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400 mb-2">
@@ -551,7 +602,12 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
 
               {/* TAB 2: ORIGINAL PDF VIEWER */}
               {activeTab === "pdf" && (
-                <div className="space-y-4">
+                <div
+                  id="panel-pdf"
+                  role="tabpanel"
+                  aria-labelledby="tab-pdf"
+                  className="space-y-4"
+                >
                   <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.08] text-xs">
                     <span className="text-zinc-700 dark:text-zinc-300 font-mono-code">
                       File: Akshay_Resume.pdf · High-Resolution PDF
@@ -590,7 +646,12 @@ export const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
 
               {/* TAB 3: ATS PLAIN TEXT */}
               {activeTab === "ats" && (
-                <div className="space-y-4">
+                <div
+                  id="panel-ats"
+                  role="tabpanel"
+                  aria-labelledby="tab-ats"
+                  className="space-y-4"
+                >
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-zinc-600 dark:text-zinc-400 font-mono-code">
                       Pristine plain text formatted for seamless copy-pasting into Applicant Tracking Systems (ATS).

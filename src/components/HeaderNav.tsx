@@ -9,10 +9,10 @@ import { useTheme } from "@/components/ThemeProvider";
 import { Mascot } from "@/components/Mascot";
 
 const NAV_LINKS = [
-  { name: "Selected Work", href: "#work" },
-  { name: "Experience", href: "#experience" },
-  { name: "Writing", href: "#writing" },
-  { name: "Contact", href: "#contact" },
+  { name: "Selected Work", href: "/#work" },
+  { name: "Experience", href: "/#experience" },
+  { name: "Writing", href: "/#writing" },
+  { name: "Contact", href: "/#contact" },
   { name: "Life", href: "/life" },
 ];
 
@@ -205,15 +205,15 @@ export const HeaderNav = ({
             </AnimatePresence>
           </div>
 
-          {/* Interactive Résumé CTA */}
+          {/* Résumé CTA */}
           <button
             type="button"
             onClick={onOpenResume}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-white/[0.1] bg-zinc-100 hover:bg-zinc-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-zinc-900 dark:text-white text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-            aria-label="Open interactive curriculum vitae and resume"
+            aria-label="View résumé"
           >
             <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-            <span className="hidden sm:inline">Résumé</span>
+            <span className="hidden sm:inline">View résumé</span>
           </button>
 
           {/* Theme Toggle Button */}
