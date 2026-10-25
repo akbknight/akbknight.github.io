@@ -379,9 +379,9 @@ def run_tests():
                 z600_ratio = calc_contrast(z600_rgb, bg_rgb)
                 p_ratio = calc_contrast(p_rgb, bg_rgb)
 
-                if z900_ratio >= 4.5 and z600_ratio >= 4.5 and p_ratio >= 4.5:
+                if z900_ratio >= 4.5 and z600_ratio >= 4.5 and p_ratio >= 4.5 and h1_ratio >= 4.5:
                     record_pass("contrast", "light_theme_calculated_contrast",
-                                f"Calculated WCAG AA/AAA contrast: zinc-900={z900_ratio:.2f}:1, zinc-600={z600_ratio:.2f}:1, body={p_ratio:.2f}:1, h1={h1_ratio:.2f}:1 against bg={colors['bg']}")
+                                f"WCAG AA/AAA: h1 {colors['h1']} on {colors['bg']} = {h1_ratio:.2f}:1; body {colors['p_body']} = {p_ratio:.2f}:1; secondary text-zinc-600 {colors['zinc600']} = {z600_ratio:.2f}:1; text-zinc-900 {colors['zinc900']} = {z900_ratio:.2f}:1")
                 else:
                     record_fail("contrast", "light_theme_calculated_contrast",
                                 f"Calculated contrast below WCAG AA: zinc-900={z900_ratio:.2f}:1, zinc-600={z600_ratio:.2f}:1, body={p_ratio:.2f}:1")

@@ -135,13 +135,13 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     live: "https://akbknight.github.io/master-resume-engineer/",
   },
   {
-    title: "Macro Economic Scenario Simulator",
-    category: "Macroeconomic Modeling & Simulation",
+    title: "Economic Scenario Analysis Simulator",
+    category: "Macroeconomic Simulation & Policy Analysis",
     summary:
-      "Interactive macroeconomic scenario engine modeling Federal funds rate, inflation, and unemployment shocks to project retail sales growth and recession probabilities using historical FRED data.",
+      "Interactive econometric policy engine modeling Federal Reserve rate levers, CPI inflation, and unemployment inputs to project 12-month forward retail sales growth and calibrated recession probabilities using FRED historical series (2000–2024).",
     contribution:
-      "Engineered client-side simulation matrix computing dynamic elasticities and forecast deviation curves without backend overhead.",
-    tech: ["JavaScript", "Chart.js", "FRED API", "Time-Series"],
+      "Formulated client-side Okun-style lag regressions, inflation mean-reversion persistence, and logistic recession probability functions with zero-dependency vanilla JavaScript and dynamic Chart.js curves.",
+    tech: ["JavaScript", "Chart.js", "FRED API", "Econometrics"],
     github: "https://github.com/akbknight/economic-scenario-analysis",
     live: "https://akbknight.github.io/economic-scenario-analysis/",
   },
