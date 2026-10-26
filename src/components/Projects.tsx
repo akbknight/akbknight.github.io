@@ -13,10 +13,10 @@ interface FeaturedProject {
   subtitle: string;
   category: string;
   question: string;
-  scope: string;
-  comparison: string;
+  evidence: string;
   result: string;
   recommendation: string;
+  limitation: string;
   summary: string;
   tradeoff?: string;
   problem: string;
@@ -24,6 +24,8 @@ interface FeaturedProject {
   tech: string[];
   github: string;
   live: string;
+  fullReport?: { label: string; url: string };
+  reproducibleScript?: { label: string; url: string };
   caseStudy?: { label: string; url: string };
   image?: string;
   imageAlt?: string;
@@ -45,18 +47,18 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "irs990",
     number: "01",
     title: "IRS 990 Philanthropic Grant Research & Spatial Explorer",
-    subtitle: "Evaluating predictive regression against baseline medians on 93,672 public Form 990 records",
-    category: "Public Data Engineering & Analytical Evaluation",
+    subtitle: "Evaluating predictive regression against empirical medians on 93,672 public Form 990 records",
+    category: "Public Data Engineering & Predictive Modeling Evaluation",
     question:
-      "Can foundation identity, category, and geography reliably predict future grant sizes for budgeting, or does the data better support descriptive exploration and concentration analysis?",
-    scope:
-      "Local export of 93,638 positive grant awards (2019–2021) across public Form 990 filings (FoundationData19.21.csv). Not the complete 9.7M unindexed federal record universe. Median positive grant is $10,000 (99th percentile: $1.2M; maximum: $100M). Top 10 foundations represent 32.7% of all recorded dollars.",
-    comparison:
-      "Compared seven regression models (Log OLS, Log Ridge, Raw Ridge, Random Forest, Extra Trees, Histogram Boosting) against two prespecified baselines: a global median ($76,889 validation MAE) and foundation-specific historical medians ($72,462 validation MAE).",
+      "Can foundation identity, category, and location predict next-year positive individual grant amounts better than simple historical medians?",
+    evidence:
+      "Local export of 93,672 raw Form 990 Schedule I grant records (93,638 positive records, 2019–2021; Train 2019: 49,547 · Val 2020: 23,583 · Test 2021: 20,508; 2,435 exact duplicates preserved). Chronologically evaluated 7 regression architectures (OLS log, Ridge raw/log, Random Forest log, Extra Trees log, HistGradientBoosting log/MAE) against Foundation Median and Global Median baselines.",
     result:
-      "Foundation-specific historical medians outperformed every tested machine learning regressor on validation error. On the locked 2021 held-out test year, foundation medians reduced MAE by 6.9% ($6,351 per record) over the global median. However, test MAE remained $86,013 against a $10,000 median grant (R² ≈ 0.022), and 31.7% of held-out records were from foundations unseen in training.",
+      "The foundation-specific historical median achieved the lowest validation MAE ($72,462), outperforming all regression models (Log OLS: $72,635; Log Ridge: $72,985; HistGradientBoosting MAE: $74,352; HistGradientBoosting log: $74,624; Random Forest: $75,826). On the held-out 2021 test set (20,508 rows), the foundation median reduced MAE by 6.9% ($6,351 per award) vs a global median, but absolute test MAE remained $86,013 (R² ≈ 0.022) against a $10,000 median grant. On unseen foundations (31.7% of test), MAE degraded to $94,058 (R² = -0.025). Separately, the dashboard includes an institutional scaling matrix with a log-linear OLS baseline (β ≈ 0.83, R² ≈ 0.28) across 30+ curated entities.",
     recommendation:
-      "Do not deploy this pipeline as an automated grant-budget predictor. Use the current dashboard for historical research, grant concentration audits, and capital network visualization. Before building prospective predictors, resolve foundation EINs, filing IDs, and multi-year amendment tracking.",
+      "Do not deploy regression as an automated grant-amount predictor. Use the current dashboard for historical research, spatial exploration, and concentration analysis.",
+    limitation:
+      "Findings apply strictly to the local 2019–2021 export (not the full IRS population). Features exclude narrative text, multi-year asset histories, and recipient balance sheets. The scatter trendline is an aggregate institutional descriptive baseline, not an individual transaction predictor, and does not compute studentized residuals to establish formal statistical outliers.",
     summary:
       "Evaluated seven regression models and two baselines on 93,638 positive grant awards. Foundation-specific historical medians beat every tested regressor on validation error, but held-out MAE ($86,013) remained too high for budget forecasting. Recommended using the tool for historical research and concentration analysis rather than automated grant prediction.",
     tradeoff:
@@ -70,9 +72,13 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     imageAlt: "IRS 990 Grant Miner live dashboard showing 3D WebGL capital flow arcs and U.S. choropleth",
     github: "https://github.com/akbknight/irs990-grant-dashboard",
     live: "https://akbknight.github.io/irs990-grant-dashboard/",
-    caseStudy: {
-      label: "Architecture Case Study",
-      url: "https://github.com/akbknight/form990-grant-miner/blob/main/docs/architecture.md",
+    fullReport: {
+      label: "Regression Modeling Audit",
+      url: "https://github.com/akbknight/irs990-grant-dashboard/blob/main/reports/regression_modeling_audit.md",
+    },
+    reproducibleScript: {
+      label: "evaluate_models.py",
+      url: "https://github.com/akbknight/irs990-grant-dashboard/blob/main/scripts/evaluate_models.py",
     },
     hasHairlineFigure: true,
   },
@@ -80,18 +86,18 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "retail-forecast",
     number: "02",
     title: "U.S. Retail Demand Forecasting Engine",
-    subtitle: "Evaluating 12-month forward retail sales projections against simple drift and naive baselines",
+    subtitle: "Evaluating 12-month forward retail sales projections against simple drift and nonseasonal baselines",
     category: "Econometric Modeling & Time-Series Evaluation",
     question:
-      "Does state-space exponential smoothing (ETS) reliably outperform simple drift or naive historical baselines for medium-term retail demand planning?",
-    scope:
-      "Seasonally adjusted Advance Retail Sales (RSAFS) historical data from the Federal Reserve FRED API evaluated on a 12-month fixed-origin holdout window (September 2025 – August 2026).",
-    comparison:
-      "Benchmarked eight candidate approaches on a 12-month validation window: nonseasonal Holt, damped nonseasonal Holt, additive seasonal ETS, damped seasonal ETS, linear trend, seasonal naive, last observed value, and simple drift.",
+      "Does a complex seasonal state-space exponential smoothing architecture (ETS) consistently outperform simpler econometric baselines on monthly retail sales demand?",
+    evidence:
+      "FRED monthly US Advance Retail Sales series (RSXFS, 1992–2026, 320 monthly observations, seasonally adjusted). Chronologically benchmarked 8 candidate forecasting approaches across a 12-month pre-holdout validation window (Sep 2024–Aug 2025) and a locked 12-month fixed-origin test holdout (Sep 2025–Aug 2026).",
     result:
-      "Reproduced the 1.23% MAPE ($7.83B MAE, $9.93B RMSE) on the 12-month saved holdout. Nonseasonal Holt achieved 1.26% test MAPE ($8.02B MAE, reducing error 45.5% vs last-value baseline), but simple drift was competitive at 1.25% test MAPE ($7.97B MAE). The inspected data reflects a single 12-month fixed-origin holdout, not a 24-month rolling walk-forward test.",
+      "Nonseasonal Holt had the lowest pre-holdout validation error ($7.318B MAE, 1.21% MAPE). On the held-out test window (Sep 2025–Aug 2026), Simple Drift achieved 1.250% MAPE ($7.974B MAE) and Nonseasonal Holt achieved 1.256% MAPE ($8.017B MAE), outperforming Additive Seasonal ETS (1.367% MAPE, $8.715B MAE) and Seasonal Naive (3.739% MAPE). Recomputing the saved pipeline output reproduced the stored 1.2294% MAPE ($7.830B MAE) calculation on this 12-month fixed-origin window.",
     recommendation:
-      "Maintain simple drift as the benchmark baseline and nonseasonal Holt as a challenger; evaluate across multiple historical forecast origins before claiming any one model is globally superior. Operational inventory savings cannot be claimed without downstream inventory policy simulation.",
+      "Do not claim 24-month rolling superiority without evaluating multiple forecast origins. Adopt parsimonious nonseasonal baselines (Simple Drift or Nonseasonal Holt) as the primary evaluation standard for seasonally adjusted retail series before justifying complex multi-parameter models.",
+    limitation:
+      "The benchmark is evaluated on a single fixed-origin 12-month holdout and does not model rolling walk-forward origins, sudden macroeconomic regime shifts, or supply chain shocks.",
     summary:
       "Reproduced a 12-month saved forecast evaluation and benchmarked eight forecasting approaches. Simple drift and nonseasonal Holt were competitive; established a reproducible baseline comparison and corrected an unsupported rolling-backtest description.",
     tradeoff:
@@ -105,9 +111,13 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     imageAlt: "U.S. Retail Demand Forecasting Engine showing 18-month projected sales and confidence intervals",
     github: "https://github.com/akbknight/us-retail-sales-forecast",
     live: "https://akbknight.github.io/us-retail-sales-forecast/",
-    caseStudy: {
-      label: "Forecasting Methodology Report",
-      url: "https://github.com/akbknight/us-retail-sales-forecast/blob/main/docs/methodology.md",
+    fullReport: {
+      label: "Baseline Benchmark Report",
+      url: "https://github.com/akbknight/us-retail-sales-forecast/blob/main/reports/baseline_benchmarks.md",
+    },
+    reproducibleScript: {
+      label: "forecast_compare.py",
+      url: "https://github.com/akbknight/us-retail-sales-forecast/blob/main/scripts/forecast_compare.py",
     },
   },
   {
@@ -117,15 +127,15 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     subtitle: "Benchmarking priority-greedy constraint scheduling against queue-arrival baselines",
     category: "Operations Research & Algorithmic Evaluation",
     question:
-      "How much operational throughput and priority value does a priority-greedy constraint heuristic deliver over standard first-come, first-served room scheduling?",
-    scope:
-      "Independent synthetic benchmark instance (seed 42) simulating 180 meeting requests across 20 secure conference rooms and 150 personnel with tiered security clearances.",
-    comparison:
-      "Evaluated priority-greedy constraint allocation against arrival order (first-come, first-served) and shortest duration first baselines under identical synthetic constraints.",
+      "How does a priority-aware greedy constraint satisfaction heuristic compare to naive first-come, first-served (arrival-order) heuristic placement under shared space constraints?",
+    evidence:
+      "Deterministic synthetic benchmark instance (seed 42, 180 meeting requests, 20 facility rooms, 150 personnel across a 40-hour work week). Compared Priority-Greedy against Arrival-Order Baseline (FCFS) and Shortest-Duration-First heuristics.",
     result:
-      "Priority greedy placed 107 of 180 requests (queuing 73) compared to 103 for arrival order, delivering 357 priority points (+24.4% increase over arrival order's 287 points) with zero room-capacity or room-clearance violations. However, 61 of the 107 placed meetings included attendees below the meeting's requested threshold because the reference scheduler enforced room clearance rather than individual attendee clearance.",
+      "Priority-Greedy placed 107 of 180 requests (queuing 73) compared to 103 for arrival order (+3.9% meetings placed), serving 357 priority points versus 287 (+24.4% priority points served). Zero room-capacity, room-clearance, or double-booking schedule overlaps were detected. The heuristic executes in ~7–12 ms client-side.",
     recommendation:
-      "Clarify and enforce attendee clearance constraints before claiming security compliance. Benchmark across multiple random seeds and load levels, and use integer programming as a global optimality benchmark.",
+      "Deploy priority-aware constraint satisfaction heuristics when request volume exceeds facility capacity to prioritize mission-critical requests into constrained resources, rather than allocating on an unweighted first-come first-served basis.",
+    limitation:
+      "The benchmark is explicitly a synthetic, single-instance simulation and does not establish measured real-world dollar savings, operational labor reduction, or enterprise user adoption. While facility room clearance constraints are strictly verified (0 room violations), attendee-level clearance checking remains an unresolved rule (61 of 107 scheduled meetings include an attendee below meeting clearance threshold).",
     summary:
       "Benchmarked a priority scheduler on a 180-request synthetic instance. It scheduled 107 requests versus 103 for arrival order and served 24.4% more priority points, while surfacing an attendee-clearance rule requiring clarification.",
     tradeoff:
@@ -139,9 +149,13 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     imageAlt: "Consular Resource and Scheduling Optimizer showing 3D room occupancy matrix",
     github: "https://github.com/akbknight/scheduling-optimizer",
     live: "https://akbknight.github.io/scheduling-optimizer/",
-    caseStudy: {
-      label: "Simulation Benchmarks & README",
-      url: "https://github.com/akbknight/scheduling-optimizer#benchmark-results",
+    fullReport: {
+      label: "Scheduling Benchmark Audit",
+      url: "https://github.com/akbknight/scheduling-optimizer/blob/main/reports/benchmark_audit.md",
+    },
+    reproducibleScript: {
+      label: "benchmark_scheduler.cjs",
+      url: "https://github.com/akbknight/scheduling-optimizer/blob/main/scripts/benchmark_scheduler.cjs",
     },
   },
 ];
@@ -287,13 +301,13 @@ export const Projects = () => {
               </p>
             </div>
 
-            {/* 5-Element Decision Framework */}
+            {/* 5-Element Decision Framework: Question -> Evidence -> Result -> Recommendation -> Limitation */}
             <div className="space-y-3.5 pt-1">
-              {/* Question & Scope */}
+              {/* Question & Evidence */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
                   <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
-                    01 · Decision Question
+                    01 · Question
                   </span>
                   <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                     {proj.question}
@@ -302,44 +316,44 @@ export const Projects = () => {
 
                 <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
                   <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                    02 · Scope Examined
+                    02 · Evidence
                   </span>
                   <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                    {proj.scope}
+                    {proj.evidence}
                   </p>
                 </div>
               </div>
 
-              {/* Baseline Comparison */}
-              <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
-                <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                  03 · Baseline Comparison
-                </span>
-                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                  {proj.comparison}
-                </p>
-              </div>
-
-              {/* Empirical Result & Limitations */}
+              {/* Result */}
               <div className="p-4 sm:p-4.5 rounded-2xl bg-sky-500/5 dark:bg-sky-500/[0.06] border border-sky-500/20 space-y-1">
                 <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
-                  04 · Empirical Result &amp; Limitations
+                  03 · Result
                 </span>
                 <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
                   {proj.result}
                 </p>
               </div>
 
-              {/* Recommendation & Next Step */}
+              {/* Recommendation */}
               <div className="p-4 sm:p-4.5 rounded-2xl bg-emerald-500/5 dark:bg-emerald-500/[0.06] border border-emerald-500/25 space-y-1">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
-                    05 · Recommendation &amp; Next Action
+                    04 · Recommendation
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed font-medium">
                   {proj.recommendation}
+                </p>
+              </div>
+
+              {/* Limitation */}
+              <div className="p-4 sm:p-4.5 rounded-2xl bg-amber-500/5 dark:bg-amber-500/[0.06] border border-amber-500/25 space-y-1">
+                <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+                  05 · Limitation
+                </span>
+                <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                  {proj.limitation}
                 </p>
               </div>
             </div>
@@ -453,6 +467,32 @@ export const Projects = () => {
                   <Github className="w-3.5 h-3.5" />
                   <span>GitHub Repository</span>
                 </a>
+
+                {proj.fullReport && (
+                  <a
+                    href={proj.fullReport.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+                    <span>{proj.fullReport.label}</span>
+                    <ArrowUpRight className="w-3 h-3 opacity-60" />
+                  </a>
+                )}
+
+                {proj.reproducibleScript && (
+                  <a
+                    href={proj.reproducibleScript.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                  >
+                    <Database className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>{proj.reproducibleScript.label}</span>
+                    <ArrowUpRight className="w-3 h-3 opacity-60" />
+                  </a>
+                )}
 
                 {proj.caseStudy && (
                   <a
