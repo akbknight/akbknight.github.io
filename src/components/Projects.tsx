@@ -97,7 +97,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     recommendation:
       "Do not claim 24-month rolling superiority without evaluating multiple forecast origins. Adopt parsimonious nonseasonal baselines (Simple Drift or Nonseasonal Holt) as the primary evaluation standard for seasonally adjusted retail series before justifying complex multi-parameter models.",
     limitation:
-      "The benchmark is evaluated on a single fixed-origin 12-month holdout and does not model rolling walk-forward origins, sudden macroeconomic regime shifts, or supply chain shocks.",
+      "The benchmark is evaluated on a single fixed-origin 12-month holdout and does not model rolling walk-forward origins, sudden macroeconomic regime shifts, or supply chain shocks. One possible explanation for why nonseasonal baselines were competitive is that RSXFS is already seasonally adjusted prior to publication; however, this is an empirical hypothesis rather than a proven causal finding.",
     summary:
       "Reproduced a 12-month saved forecast evaluation and benchmarked eight forecasting approaches. Simple drift and nonseasonal Holt were competitive; established a reproducible baseline comparison and corrected an unsupported rolling-backtest description.",
     tradeoff:
@@ -301,42 +301,50 @@ export const Projects = () => {
               </p>
             </div>
 
-            {/* 5-Element Decision Framework: Question -> Evidence -> Result -> Recommendation -> Limitation */}
-            <div className="space-y-3.5 pt-1">
-              {/* Question & Evidence */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
-                  <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
-                    01 · Question
+            {/* Unified 5-Element Decision Briefing: Concise, Natural & Non-Repetitive */}
+            <div className="rounded-2xl bg-zinc-50/60 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] p-5 sm:p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-white/[0.06] pb-2.5">
+                <span className="text-[11px] font-mono-code uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
+                  Decision Audit &amp; Empirical Framework
+                </span>
+                <span className="text-[11px] font-mono-code text-zinc-400 dark:text-zinc-500">
+                  5-Point Case Study
+                </span>
+              </div>
+
+              {/* 01. Question & 02. Evidence in side-by-side flow */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                    <span className="text-sky-600 dark:text-sky-400 font-mono-code text-[11px]">01</span> Question
                   </span>
-                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
                     {proj.question}
                   </p>
                 </div>
-
-                <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
-                  <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                    02 · Evidence
+                <div className="space-y-1">
+                  <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                    <span className="text-zinc-400 dark:text-zinc-500 font-mono-code text-[11px]">02</span> Evidence
                   </span>
-                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
                     {proj.evidence}
                   </p>
                 </div>
               </div>
 
-              {/* Result */}
-              <div className="p-4 sm:p-4.5 rounded-2xl bg-sky-500/5 dark:bg-sky-500/[0.06] border border-sky-500/20 space-y-1">
-                <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
-                  03 · Result
+              {/* 03. Result: Measured Findings */}
+              <div className="space-y-1 pt-2 border-t border-zinc-200/50 dark:border-white/[0.04]">
+                <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                  <span className="text-sky-600 dark:text-sky-400 font-mono-code text-[11px]">03</span> Result
                 </span>
-                <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                   {proj.result}
                 </p>
               </div>
 
-              {/* Recommendation */}
-              <div className="p-4 sm:p-4.5 rounded-2xl bg-emerald-500/5 dark:bg-emerald-500/[0.06] border border-emerald-500/25 space-y-1">
-                <div className="flex items-center gap-2">
+              {/* 04. Recommendation: Actionable banner */}
+              <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-500/5 dark:bg-emerald-500/[0.06] border border-emerald-500/20 space-y-1">
+                <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     04 · Recommendation
@@ -347,12 +355,12 @@ export const Projects = () => {
                 </p>
               </div>
 
-              {/* Limitation */}
-              <div className="p-4 sm:p-4.5 rounded-2xl bg-amber-500/5 dark:bg-amber-500/[0.06] border border-amber-500/25 space-y-1">
-                <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400">
-                  05 · Limitation
+              {/* 05. Limitation: Transparent boundary footnote */}
+              <div className="flex items-start gap-2 pt-1 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                <span className="font-mono-code text-[10px] uppercase font-semibold text-amber-700 dark:text-amber-400/90 shrink-0 mt-0.5">
+                  05 · Limitation:
                 </span>
-                <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">
                   {proj.limitation}
                 </p>
               </div>
