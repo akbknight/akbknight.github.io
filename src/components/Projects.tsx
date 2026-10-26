@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Github, ExternalLink, Maximize2, X, BookOpen, Database, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { ProjectPipelineFigure } from "@/components/ProjectPipelineFigure";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useTheme } from "@/components/ThemeProvider";
 
 interface FeaturedProject {
   id: string;
@@ -28,6 +29,7 @@ interface FeaturedProject {
   reproducibleScript?: { label: string; url: string };
   caseStudy?: { label: string; url: string };
   image?: string;
+  imageLight?: string;
   imageAlt?: string;
   hasHairlineFigure?: boolean;
 }
@@ -69,6 +71,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
       "Engineered an in-memory streaming SAX parser in Python to process multi-gigabyte XML archives without disk spill. Normalized relational schemas in DuckDB and built an interactive dashboard with 3D WebGL capital flow arcs and state choropleths.",
     tech: ["Python", "DuckDB", "Three.js / Globe.gl", "D3 TopoJSON", "AWS S3 Open Data"],
     image: "/projects/irs990.png",
+    imageLight: "/projects/irs990-light.png",
     imageAlt: "IRS 990 Grant Miner live dashboard showing 3D WebGL capital flow arcs and U.S. choropleth",
     github: "https://github.com/akbknight/irs990-grant-dashboard",
     live: "https://akbknight.github.io/irs990-grant-dashboard/",
@@ -108,6 +111,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
       "Formulated state-space ETS(A,A,A) and Holt-Winters exponential smoothing models in Python using statsmodels on Federal Reserve FRED data. Integrated walk-forward holdout validation and built an interactive browser backtesting studio.",
     tech: ["Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
     image: "/projects/retail-forecast.png",
+    imageLight: "/projects/retail-forecast-light.png",
     imageAlt: "U.S. Retail Demand Forecasting Engine showing 18-month projected sales and confidence intervals",
     github: "https://github.com/akbknight/us-retail-sales-forecast",
     live: "https://akbknight.github.io/us-retail-sales-forecast/",
@@ -146,6 +150,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
       "Designed and implemented a priority-based greedy constraint-satisfaction scheduling engine in JavaScript allocating synthetic meeting requests across 20 secure conference rooms and 150 personnel with tiered security clearances.",
     tech: ["JavaScript", "Greedy CSP", "Three.js", "Chart.js"],
     image: "/projects/scheduling-optimizer.png",
+    imageLight: "/projects/scheduling-optimizer-light.png",
     imageAlt: "Consular Resource and Scheduling Optimizer showing 3D room occupancy matrix",
     github: "https://github.com/akbknight/scheduling-optimizer",
     live: "https://akbknight.github.io/scheduling-optimizer/",
@@ -197,6 +202,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
 ];
 
 export const Projects = () => {
+  const { theme } = useTheme();
   const [lightboxImage, setLightboxImage] = useState<{ src: string; alt: string; title: string } | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const modalCloseBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -378,7 +384,11 @@ export const Projects = () => {
                       type="button"
                       onClick={(e) =>
                         openLightbox(
-                          { src: proj.image!, alt: proj.imageAlt!, title: proj.title },
+                          {
+                            src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
+                            alt: proj.imageAlt!,
+                            title: proj.title,
+                          },
                           e.currentTarget
                         )
                       }
@@ -403,7 +413,11 @@ export const Projects = () => {
                     type="button"
                     onClick={(e) =>
                       openLightbox(
-                        { src: proj.image!, alt: proj.imageAlt!, title: proj.title },
+                        {
+                          src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
+                          alt: proj.imageAlt!,
+                          title: proj.title,
+                        },
                         e.currentTarget
                       )
                     }
@@ -416,18 +430,36 @@ export const Projects = () => {
                 </div>
 
                 <div
-                  className="group relative w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-950 cursor-pointer shadow-sm"
+                  className="group relative w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-100 dark:bg-zinc-950 cursor-pointer shadow-sm"
                   onClick={(e) => {
                     const btn = e.currentTarget.parentElement?.querySelector("button");
-                    if (btn) openLightbox({ src: proj.image!, alt: proj.imageAlt!, title: proj.title }, btn);
+                    if (btn) {
+                      openLightbox(
+                        {
+                          src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
+                          alt: proj.imageAlt!,
+                          title: proj.title,
+                        },
+                        btn
+                      );
+                    }
                   }}
                 >
                   <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[380px]">
+                    {proj.imageLight && (
+                      <Image
+                        src={proj.imageLight}
+                        alt={proj.imageAlt ?? proj.title}
+                        fill
+                        className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.01] dark:hidden block"
+                        sizes="(max-width: 1024px) 100vw, 980px"
+                      />
+                    )}
                     <Image
                       src={proj.image}
                       alt={proj.imageAlt ?? proj.title}
                       fill
-                      className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.01]"
+                      className={`object-cover object-center transition-transform duration-300 group-hover:scale-[1.01] ${proj.imageLight ? "hidden dark:block" : ""}`}
                       sizes="(max-width: 1024px) 100vw, 980px"
                     />
                   </div>
@@ -610,12 +642,12 @@ export const Projects = () => {
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.96 }}
               animate={shouldReduceMotion ? { opacity: 1, transition: { duration: 0 } } : { opacity: 1, scale: 1, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
               exit={shouldReduceMotion ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
-              className="relative max-w-5xl w-full rounded-2xl bg-zinc-950 border border-white/10 shadow-2xl overflow-hidden p-4 sm:p-6"
+              className="relative max-w-5xl w-full rounded-2xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-2xl overflow-hidden p-4 sm:p-6 text-zinc-900 dark:text-white"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Lightbox Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
-                <h3 className="text-sm font-medium text-white truncate max-w-[80%]">
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-white/10 mb-4">
+                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white truncate max-w-[80%]">
                   {lightboxImage.title}
                 </h3>
                 <button
@@ -623,14 +655,14 @@ export const Projects = () => {
                   type="button"
                   onClick={closeLightbox}
                   aria-label="Close enlarged preview (Escape)"
-                  className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                  className="p-1.5 rounded-lg text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/10 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Lightbox Image */}
-              <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] max-h-[75vh] rounded-xl overflow-hidden bg-black">
+              <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] max-h-[75vh] rounded-xl overflow-hidden bg-zinc-100 dark:bg-black border border-zinc-200/80 dark:border-white/[0.08]">
                 <Image
                   src={lightboxImage.src}
                   alt={lightboxImage.alt}
@@ -641,7 +673,7 @@ export const Projects = () => {
                 />
               </div>
 
-              <div className="pt-3 flex items-center justify-between text-xs font-mono-code text-zinc-400">
+              <div className="pt-3 flex items-center justify-between text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
                 <span>{lightboxImage.alt}</span>
                 <span>Press Esc to close</span>
               </div>
