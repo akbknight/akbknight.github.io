@@ -89,12 +89,12 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "retail-forecast",
     number: "02",
     title: "U.S. Retail Demand Forecasting Engine",
-    subtitle: "Evaluating 12-month forward retail sales projections against simple drift and nonseasonal baselines",
+    subtitle: "Evaluating a 12-month backtest holdout against simple drift baselines, alongside an 18-month forward forecast",
     category: "Econometric Modeling & Time-Series Evaluation",
     question:
       "Does a complex seasonal state-space exponential smoothing architecture (ETS) consistently outperform simpler econometric baselines on monthly retail sales demand?",
     evidence:
-      "FRED monthly US Advance Retail Sales series (RSXFS, 1992–2026, 320 monthly observations, seasonally adjusted). Chronologically benchmarked 8 candidate forecasting approaches across a 12-month pre-holdout validation window (Sep 2024–Aug 2025) and a locked 12-month fixed-origin test holdout (Sep 2025–Aug 2026).",
+      "FRED monthly US Advance Retail Sales series (RSXFS, January 2000–August 2026, 320 monthly observations, seasonally adjusted; series truncated from 1992 to avoid pre-2000 benchmark revision noise). Chronologically benchmarked 8 candidate forecasting approaches across a 12-month pre-holdout validation window (Sep 2024–Aug 2025) and a locked 12-month fixed-origin evaluation holdout (Sep 2025–Aug 2026), alongside an 18-month forward operational projection horizon (Sep 2026–Feb 2028).",
     result:
       "Nonseasonal Holt had the lowest pre-holdout validation error ($7.318B MAE, 1.21% MAPE). On the held-out test window (Sep 2025–Aug 2026), Simple Drift achieved 1.250% MAPE ($7.974B MAE) and Nonseasonal Holt achieved 1.256% MAPE ($8.017B MAE), outperforming Additive Seasonal ETS (1.367% MAPE, $8.715B MAE) and Seasonal Naive (3.739% MAPE). Recomputing the saved pipeline output reproduced the stored 1.2294% MAPE ($7.830B MAE) calculation on this 12-month fixed-origin window.",
     recommendation:
@@ -102,7 +102,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     limitation:
       "The benchmark is evaluated on a single fixed-origin 12-month holdout and does not model rolling walk-forward origins, sudden macroeconomic regime shifts, or supply chain shocks. One possible explanation for why nonseasonal baselines were competitive is that RSXFS is already seasonally adjusted prior to publication; however, this is an empirical hypothesis rather than a proven causal finding.",
     summary:
-      "Reproduced a 12-month saved forecast evaluation and benchmarked eight forecasting approaches. Simple drift and nonseasonal Holt were competitive; established a reproducible baseline comparison and corrected an unsupported rolling-backtest description.",
+      "Evaluated an 18-month forward projection engine and benchmarked eight approaches on a 12-month fixed holdout using 320 monthly observations (January 2000–August 2026 data). Simple drift and nonseasonal Holt were competitive; established reproducible baselines and corrected an unsupported rolling-backtest description.",
     tradeoff:
       "Holt-Winters captures annual seasonality and baseline trends, but cannot predict sudden macroeconomic regime shifts or exogenous supply disruptions without dedicated regression covariates.",
     problem:
