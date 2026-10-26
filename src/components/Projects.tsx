@@ -151,11 +151,11 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     live: "https://akbknight.github.io/scheduling-optimizer/",
     fullReport: {
       label: "Scheduling Benchmark Audit",
-      url: "https://github.com/akbknight/scheduling-optimizer/blob/main/reports/benchmark_audit.md",
+      url: "https://github.com/akbknight/scheduling-optimizer/blob/master/reports/benchmark_audit.md",
     },
     reproducibleScript: {
       label: "benchmark_scheduler.cjs",
-      url: "https://github.com/akbknight/scheduling-optimizer/blob/main/scripts/benchmark_scheduler.cjs",
+      url: "https://github.com/akbknight/scheduling-optimizer/blob/master/scripts/benchmark_scheduler.cjs",
     },
   },
 ];
