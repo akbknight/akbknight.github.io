@@ -12,11 +12,15 @@ interface FeaturedProject {
   title: string;
   subtitle: string;
   category: string;
+  question: string;
+  scope: string;
+  comparison: string;
+  result: string;
+  recommendation: string;
   summary: string;
   tradeoff?: string;
   problem: string;
   contribution: string;
-  result: string;
   tech: string[];
   github: string;
   live: string;
@@ -40,19 +44,27 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
   {
     id: "irs990",
     number: "01",
-    title: "IRS 990 Philanthropic Grant Miner & Spatial Engine",
-    subtitle: "Streaming XML parser & local DuckDB warehouse analyzing 500,000+ public IRS grant records",
-    category: "Public Data Engineering & Spatial Analytics",
+    title: "IRS 990 Philanthropic Grant Research & Spatial Explorer",
+    subtitle: "Evaluating predictive regression against baseline medians on 93,672 public Form 990 records",
+    category: "Public Data Engineering & Analytical Evaluation",
+    question:
+      "Can foundation identity, category, and geography reliably predict future grant sizes for budgeting, or does the data better support descriptive exploration and concentration analysis?",
+    scope:
+      "Local export of 93,638 positive grant awards (2019–2021) across public Form 990 filings (FoundationData19.21.csv). Not the complete 9.7M unindexed federal record universe. Median positive grant is $10,000 (99th percentile: $1.2M; maximum: $100M). Top 10 foundations represent 32.7% of all recorded dollars.",
+    comparison:
+      "Compared seven regression models (Log OLS, Log Ridge, Raw Ridge, Random Forest, Extra Trees, Histogram Boosting) against two prespecified baselines: a global median ($76,889 validation MAE) and foundation-specific historical medians ($72,462 validation MAE).",
+    result:
+      "Foundation-specific historical medians outperformed every tested machine learning regressor on validation error. On the locked 2021 held-out test year, foundation medians reduced MAE by 6.9% ($6,351 per record) over the global median. However, test MAE remained $86,013 against a $10,000 median grant (R² ≈ 0.022), and 31.7% of held-out records were from foundations unseen in training.",
+    recommendation:
+      "Do not deploy this pipeline as an automated grant-budget predictor. Use the current dashboard for historical research, grant concentration audits, and capital network visualization. Before building prospective predictors, resolve foundation EINs, filing IDs, and multi-year amendment tracking.",
     summary:
-      "Public IRS Form 990 filings distribute multi-gigabyte unindexed XML records without relational structure. Engineered an in-memory streaming SAX parser in Python loading directly into DuckDB with an interactive 3D WebGL flow interface.",
+      "Evaluated seven regression models and two baselines on 93,638 positive grant awards. Foundation-specific historical medians beat every tested regressor on validation error, but held-out MAE ($86,013) remained too high for budget forecasting. Recommended using the tool for historical research and concentration analysis rather than automated grant prediction.",
     tradeoff:
       "Local DuckDB enables sub-second analytical queries without server hosting costs, but executes within local client memory—limiting concurrent multi-user write workflows compared to centralized cloud warehouses.",
     problem:
       "Public IRS Form 990 tax filings are distributed as multi-gigabyte unindexed XML archives without relational structure or geographic coordinates, making cross-foundation capital tracking prohibitively difficult for researchers and grant analysts.",
     contribution:
       "Engineered an in-memory streaming SAX parser in Python to process multi-gigabyte XML archives without disk spill. Normalized relational schemas in DuckDB and built an interactive dashboard with 3D WebGL capital flow arcs and state choropleths.",
-    result:
-      "Standardized schemas in DuckDB enable sub-second OLAP query execution across 500,000+ standardized grant records with zero external runtime API costs or database hosting fees.",
     tech: ["Python", "DuckDB", "Three.js / Globe.gl", "D3 TopoJSON", "AWS S3 Open Data"],
     image: "/projects/irs990.png",
     imageAlt: "IRS 990 Grant Miner live dashboard showing 3D WebGL capital flow arcs and U.S. choropleth",
@@ -68,18 +80,26 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "retail-forecast",
     number: "02",
     title: "U.S. Retail Demand Forecasting Engine",
-    subtitle: "18-month retail demand forecasting on FRED macroeconomic data with walk-forward validation",
-    category: "Econometric Modeling & Time-Series Statistics",
+    subtitle: "Evaluating 12-month forward retail sales projections against simple drift and naive baselines",
+    category: "Econometric Modeling & Time-Series Evaluation",
+    question:
+      "Does state-space exponential smoothing (ETS) reliably outperform simple drift or naive historical baselines for medium-term retail demand planning?",
+    scope:
+      "Seasonally adjusted Advance Retail Sales (RSAFS) historical data from the Federal Reserve FRED API evaluated on a 12-month fixed-origin holdout window (September 2025 – August 2026).",
+    comparison:
+      "Benchmarked eight candidate approaches on a 12-month validation window: nonseasonal Holt, damped nonseasonal Holt, additive seasonal ETS, damped seasonal ETS, linear trend, seasonal naive, last observed value, and simple drift.",
+    result:
+      "Reproduced the 1.23% MAPE ($7.83B MAE, $9.93B RMSE) on the 12-month saved holdout. Nonseasonal Holt achieved 1.26% test MAPE ($8.02B MAE, reducing error 45.5% vs last-value baseline), but simple drift was competitive at 1.25% test MAPE ($7.97B MAE). The inspected data reflects a single 12-month fixed-origin holdout, not a 24-month rolling walk-forward test.",
+    recommendation:
+      "Maintain simple drift as the benchmark baseline and nonseasonal Holt as a challenger; evaluate across multiple historical forecast origins before claiming any one model is globally superior. Operational inventory savings cannot be claimed without downstream inventory policy simulation.",
     summary:
-      "Retail operations require forward-looking demand estimates that model macroeconomic shocks and seasonality. Developed Holt-Winters exponential smoothing models on Federal Reserve FRED data with walk-forward holdout backtesting.",
+      "Reproduced a 12-month saved forecast evaluation and benchmarked eight forecasting approaches. Simple drift and nonseasonal Holt were competitive; established a reproducible baseline comparison and corrected an unsupported rolling-backtest description.",
     tradeoff:
       "Holt-Winters captures annual seasonality and baseline trends, but cannot predict sudden macroeconomic regime shifts or exogenous supply disruptions without dedicated regression covariates.",
     problem:
       "Retail inventory planners and operations teams need reliable medium-term demand forecasts that account for macroeconomic trends, seasonality, and historical shocks rather than static linear extrapolations.",
     contribution:
       "Formulated state-space ETS(A,A,A) and Holt-Winters exponential smoothing models in Python using statsmodels on Federal Reserve FRED data. Integrated walk-forward holdout validation and built an interactive browser backtesting studio.",
-    result:
-      "Achieved ~2.0% Mean Absolute Percentage Error (MAPE) across 24-month walk-forward holdout backtesting, with analytical 80% and 95% prediction intervals evaluated against MAE ($10.8B) and RMSE ($13.2B) benchmark baselines.",
     tech: ["Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
     image: "/projects/retail-forecast.png",
     imageAlt: "U.S. Retail Demand Forecasting Engine showing 18-month projected sales and confidence intervals",
@@ -94,18 +114,26 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     id: "scheduling-optimizer",
     number: "03",
     title: "Consular Facility & Resource Scheduling Simulator",
-    subtitle: "Greedy constraint-satisfaction engine modeling diplomatic facility room allocation",
-    category: "Operations Research & Algorithmic Simulation",
+    subtitle: "Benchmarking priority-greedy constraint scheduling against queue-arrival baselines",
+    category: "Operations Research & Algorithmic Evaluation",
+    question:
+      "How much operational throughput and priority value does a priority-greedy constraint heuristic deliver over standard first-come, first-served room scheduling?",
+    scope:
+      "Independent synthetic benchmark instance (seed 42) simulating 180 meeting requests across 20 secure conference rooms and 150 personnel with tiered security clearances.",
+    comparison:
+      "Evaluated priority-greedy constraint allocation against arrival order (first-come, first-served) and shortest duration first baselines under identical synthetic constraints.",
+    result:
+      "Priority greedy placed 107 of 180 requests (queuing 73) compared to 103 for arrival order, delivering 357 priority points (+24.4% increase over arrival order's 287 points) with zero room-capacity or room-clearance violations. However, 61 of the 107 placed meetings included attendees below the meeting's requested threshold because the reference scheduler enforced room clearance rather than individual attendee clearance.",
+    recommendation:
+      "Clarify and enforce attendee clearance constraints before claiming security compliance. Benchmark across multiple random seeds and load levels, and use integer programming as a global optimality benchmark.",
     summary:
-      "Independent operations research simulation modeling multi-departmental conference room bookings and security clearances for diplomatic facilities using a priority-based greedy constraint-satisfaction algorithm.",
+      "Benchmarked a priority scheduler on a 180-request synthetic instance. It scheduled 107 requests versus 103 for arrival order and served 24.4% more priority points, while surfacing an attendee-clearance rule requiring clarification.",
     tradeoff:
       "The greedy constraint heuristic computes allocations in under 2 seconds, but does not guarantee global optimality in heavily over-subscribed edge cases where full constraint backtracking would be required.",
     problem:
       "Independent algorithmic simulation evaluating multi-departmental conference room and security clearance scheduling for high-security diplomatic facilities. (Independent simulation inspired by operational challenges observed during consular service; not an official government deployment).",
     contribution:
       "Designed and implemented a priority-based greedy constraint-satisfaction scheduling engine in JavaScript allocating synthetic meeting requests across 20 secure conference rooms and 150 personnel with tiered security clearances.",
-    result:
-      "Allocates all 180 synthetic constraint sets with zero room double-bookings or security clearance violations in under 2 seconds during client-side benchmark execution.",
     tech: ["JavaScript", "Greedy CSP", "Three.js", "Chart.js"],
     image: "/projects/scheduling-optimizer.png",
     imageAlt: "Consular Resource and Scheduling Optimizer showing 3D room occupancy matrix",
@@ -259,25 +287,61 @@ export const Projects = () => {
               </p>
             </div>
 
-            {/* Project Summary, Supported Result & Engineering Trade-off */}
+            {/* 5-Element Decision Framework */}
             <div className="space-y-3.5 pt-1">
-              <p className="text-sm sm:text-base text-zinc-700 dark:text-zinc-300 leading-relaxed font-normal">
-                {proj.summary}
-              </p>
-              <div className="flex items-start sm:items-center gap-3 p-3.5 sm:px-4 sm:py-3 rounded-xl bg-sky-500/5 dark:bg-sky-500/[0.06] border border-sky-500/20 text-xs sm:text-sm text-zinc-800 dark:text-zinc-200">
-                <span className="font-mono-code font-semibold text-sky-700 dark:text-sky-400 shrink-0">
-                  Supported Result:
-                </span>
-                <span className="leading-relaxed">{proj.result}</span>
-              </div>
-              {proj.tradeoff && (
-                <div className="flex items-start gap-2.5 px-4 py-2.5 rounded-xl bg-zinc-100/70 dark:bg-white/[0.03] border border-zinc-200/70 dark:border-white/[0.06] text-xs text-zinc-600 dark:text-zinc-400">
-                  <span className="font-mono-code font-semibold text-zinc-700 dark:text-zinc-300 shrink-0">
-                    Trade-off / Boundary:
+              {/* Question & Scope */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
+                  <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
+                    01 · Decision Question
                   </span>
-                  <span className="leading-relaxed">{proj.tradeoff}</span>
+                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                    {proj.question}
+                  </p>
                 </div>
-              )}
+
+                <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
+                  <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                    02 · Scope Examined
+                  </span>
+                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                    {proj.scope}
+                  </p>
+                </div>
+              </div>
+
+              {/* Baseline Comparison */}
+              <div className="p-4 sm:p-4.5 rounded-2xl bg-zinc-50/80 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] space-y-1">
+                <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  03 · Baseline Comparison
+                </span>
+                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  {proj.comparison}
+                </p>
+              </div>
+
+              {/* Empirical Result & Limitations */}
+              <div className="p-4 sm:p-4.5 rounded-2xl bg-sky-500/5 dark:bg-sky-500/[0.06] border border-sky-500/20 space-y-1">
+                <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
+                  04 · Empirical Result &amp; Limitations
+                </span>
+                <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                  {proj.result}
+                </p>
+              </div>
+
+              {/* Recommendation & Next Step */}
+              <div className="p-4 sm:p-4.5 rounded-2xl bg-emerald-500/5 dark:bg-emerald-500/[0.06] border border-emerald-500/25 space-y-1">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                    05 · Recommendation &amp; Next Action
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed font-medium">
+                  {proj.recommendation}
+                </p>
+              </div>
             </div>
 
             {/* Dedicated Visual Presentation: Hairline Figure for Project 1; High-Res Diagrams for Projects 2 & 3 */}
