@@ -36,26 +36,26 @@ const EVIDENCE = [
 
 export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
   return (
-    <section id="overview" className="pt-8 pb-16 sm:pb-24 border-b border-zinc-200/80 dark:border-white/[0.08]">
+    <section id="overview" className="pt-10 pb-16 sm:pb-20 border-b border-zinc-200/80 dark:border-white/[0.08]">
       {/* Target Role & Availability Badge */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-sky-500/25 bg-sky-500/10 text-sky-800 dark:text-sky-300 text-xs font-mono-code font-medium mb-6"
+        transition={{ duration: 0.2 }}
+        className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/25 bg-sky-500/10 text-sky-800 dark:text-sky-300 text-xs font-mono-code font-medium mb-6"
       >
-        <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
         <span>Targeting BI, Data Analytics &amp; Operations Roles · Available June 1, 2027</span>
       </motion.div>
 
-      {/* Main Headline */}
+      {/* Main Headline & Positioning */}
       <motion.div
-        initial={{ opacity: 0, y: 14 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.05 }}
+        transition={{ duration: 0.25, delay: 0.04 }}
         className="space-y-4 max-w-3xl"
       >
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.15] text-balance">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.14]">
           Building reliable data pipelines, forecasting models, and decision tools.
         </h1>
 
@@ -66,14 +66,14 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
 
       {/* Action CTAs */}
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.28, delay: 0.12 }}
+        transition={{ duration: 0.25, delay: 0.08 }}
         className="flex flex-wrap items-center gap-3 pt-6 pb-12"
       >
         <a
           href="#work"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm transition-all shadow-sm active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm transition-all shadow-xs active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
         >
           <span>Explore selected work</span>
           <ArrowDown className="w-3.5 h-3.5" />
@@ -120,26 +120,26 @@ export const HeroSection = ({ onOpenResume }: HeroSectionProps) => {
 
       {/* 3 Concrete Evidence Proof Points */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.18 }}
+        transition={{ duration: 0.25, delay: 0.12 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-4"
       >
         {EVIDENCE.map((item, idx) => (
           <div
             key={idx}
-            className="apple-glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between"
+            className="card-surface p-5 sm:p-6 rounded-2xl flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">
                 <span className="text-[10px] font-mono-code font-semibold px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
                   {item.badge}
                 </span>
-                <span className="text-[11px] font-mono-code text-zinc-600 dark:text-zinc-300">
+                <span className="text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400">
                   {item.org}
                 </span>
               </div>
-              <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-2">
+              <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-2 tabular-nums">
                 {item.metric}
               </div>
               <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">

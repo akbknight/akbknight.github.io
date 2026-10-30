@@ -3,82 +3,71 @@
 @variant dark (&:where(.dark, .dark *));
 @variant light (&:where(.light, .light *));
 
-/* ─── Apple-Grade Living Dark Mode Tokens (Default Root) ─────────── */
+/* ─── Editorial Quantitative Craft Tokens ─────────────────────────── */
 :root,
 html.dark,
 html[data-theme="dark"],
 .dark:not(.light),
 [data-theme="dark"]:not([data-theme="light"]) {
-  --bg:             #07080D;  /* Rich midnight obsidian */
-  --bg-surface:     #0D0F18;  /* Elevated titanium obsidian */
-  --bg-card:        rgba(14, 16, 26, 0.72); /* Translucent frosted glass */
-  --bg-card-hover:  rgba(20, 24, 38, 0.85);
-  --border:         rgba(255, 255, 255, 0.08); /* 1px hairline rim lighting */
+  --bg:             #090A0F;  /* Deep neutral obsidian */
+  --bg-surface:     #11131C;  /* Elevated panel surface */
+  --bg-subtle:      #191C28;  /* Secondary control backgrounds */
+  --bg-card:        #11131C;
+  --bg-card-hover:  #161924;
+  --border:         rgba(255, 255, 255, 0.08); /* 1px crisp rim */
   --border-subtle:  rgba(255, 255, 255, 0.04);
-  --border-accent:  rgba(56, 189, 248, 0.45);
+  --border-accent:  rgba(56, 189, 248, 0.40);
 
-  /* WCAG 2.2 AAA Contrast Tokens for Dark Mode */
-  --text:           #F8FAFC;  /* Crisp luminous white (16:1 contrast against #07080D) */
-  --text-2:         #E2E8F0;  /* Light slate body copy (13.5:1 contrast) */
-  --text-muted:     #94A3B8;  /* Silver slate metadata (7.2:1 contrast - WCAG AAA) */
-  --text-dim:       #64748B;
+  /* WCAG AAA Contrast Ratios */
+  --text:           #F9FAFB;  /* 16:1 ratio against #090A0F */
+  --text-2:         #D1D5DB;  /* Warm grey editorial body copy */
+  --text-muted:     #9CA3AF;  /* Muted metadata */
+  --text-dim:       #6B7280;
 
-  /* Radiant Sapphire / Cyan Accent */
+  /* Disciplined Ocean Sapphire Accent */
   --accent:         #38BDF8;
-  --accent-glow:    rgba(56, 189, 248, 0.22);
-  --accent-subtle:  rgba(56, 189, 248, 0.09);
+  --accent-glow:    rgba(56, 189, 248, 0.16);
+  --accent-subtle:  rgba(56, 189, 248, 0.08);
   --accent-hover:   #7DD3FC;
 
-  /* Apple Vision-Grade Specular Glass & Ambient Elevation */
-  --card-shadow:       0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.09);
-  --card-shadow-hover: 0 16px 40px -8px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(56, 189, 248, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-
-  /* Living Atmospheric Mesh Tokens — Restrained prominence for reading comfort */
-  --border-grid:       rgba(255, 255, 255, 0.024);
-  --aurora-cyan:       rgba(56, 189, 248, 0.08);
-  --aurora-indigo:     rgba(99, 102, 241, 0.06);
-  --aurora-amber:      rgba(245, 158, 11, 0.03);
+  --card-shadow:       0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover: 0 4px 16px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-/* ─── Apple-Grade Luminous Light Mode: Studio Ceramic & Glass ─────── */
+/* ─── Luminous Architectural Ceramic (Light Mode) ─────────────────── */
 html.light,
 html[data-theme="light"],
 .light:not(.dark),
 [data-theme="light"]:not([data-theme="dark"]) {
-  --bg:             #F7F8FA;  /* Apple signature luminous off-white */
-  --bg-surface:     #EFF1F6;  /* Soft elevated ceramic neutral */
-  --bg-card:        rgba(255, 255, 255, 0.82); /* Crisp frosted glass */
-  --bg-card-hover:  rgba(255, 255, 255, 0.95);
-  --border:         rgba(0, 0, 0, 0.07); /* Precision hairline border */
-  --border-subtle:  rgba(0, 0, 0, 0.035);
+  --bg:             #F8F9FA;  /* Architectural off-white */
+  --bg-surface:     #FFFFFF;  /* Crisp white card surface */
+  --bg-subtle:      #F1F3F5;  /* Subtle neutral controls */
+  --bg-card:        #FFFFFF;
+  --bg-card-hover:  #FAFAFA;
+  --border:         rgba(0, 0, 0, 0.08); /* Precision 1px border */
+  --border-subtle:  rgba(0, 0, 0, 0.04);
   --border-accent:  rgba(2, 132, 199, 0.45);
 
-  /* WCAG 2.2 AAA Contrast Tokens for Light Mode */
-  --text:           #09090B;  /* Deep charcoal pitch black (18:1 contrast) */
-  --text-2:         #27272A;  /* High-legibility body charcoal (13:1 contrast) */
-  --text-muted:     #52525B;  /* Muted slate metadata (7.3:1 contrast - WCAG AAA) */
-  --text-dim:       #71717A;
+  /* WCAG AAA Contrast Ratios */
+  --text:           #111827;  /* High-contrast charcoal (17:1 ratio) */
+  --text-2:         #374151;  /* High-legibility editorial body */
+  --text-muted:     #6B7280;  /* Muted captions and metadata */
+  --text-dim:       #9CA3AF;
 
-  /* Electric Sapphire / Cyan Accent — WCAG AA compliant on #F7F8FA (5.68:1) */
-  --accent:         #0369A1;
-  --accent-glow:    rgba(3, 105, 161, 0.16);
-  --accent-subtle:  rgba(3, 105, 161, 0.07);
-  --accent-hover:   #075985;
+  /* Refined Ocean Sapphire */
+  --accent:         #0284C7;
+  --accent-glow:    rgba(2, 132, 199, 0.12);
+  --accent-subtle:  rgba(2, 132, 199, 0.06);
+  --accent-hover:   #0369A1;
 
-  --card-shadow:       0 2px 8px -1px rgba(0, 0, 0, 0.04), 0 12px 32px -4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
-  --card-shadow-hover: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 20px 48px -6px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1);
-
-  /* Living Atmospheric Mesh Tokens for Light Mode — Restrained prominence */
-  --border-grid:       rgba(0, 0, 0, 0.02);
-  --aurora-cyan:       rgba(2, 132, 199, 0.05);
-  --aurora-indigo:     rgba(99, 102, 241, 0.035);
-  --aurora-amber:      rgba(217, 119, 6, 0.02);
+  --card-shadow:       0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+  --card-shadow-hover: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
 }
 
 /* ─── Global Reset & Typography Enforcements ─────────────────────── */
 html {
-  scroll-behavior: auto; /* Managed by Lenis smooth scroller */
-  touch-action: manipulation; /* Eliminate 300ms mobile tap delay */
+  scroll-behavior: auto;
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -91,44 +80,47 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
   text-rendering: optimizeLegibility;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
-/* Strict Typography Color Fallbacks — Guarantees zero invisible text */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 p {
   color: var(--text-2);
+  text-wrap: pretty;
 }
 
-/* Selection */
 ::selection {
-  background: var(--accent-glow);
+  background: var(--accent-subtle);
   color: var(--accent);
 }
 
-/* Custom Scrollbars */
+/* Clean Custom Scrollbars */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
-/* Section scroll-margin for sticky navigation */
-section { scroll-margin-top: 32px; }
+section { scroll-margin-top: 48px; }
 
-/* ─── Apple/Linear Design System Utilities ────────────────────────── */
+/* ─── Typography & Editorial Utilities ────────────────────────────── */
 .font-mono-code {
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 .section-label {
-  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
   display: inline-flex;
@@ -139,43 +131,37 @@ section { scroll-margin-top: 32px; }
 .section-label::before {
   content: "";
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 9999px;
   background-color: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
 }
 
-/* Precision 1px Surface with Ambient Shadows */
+/* Precision Surface */
 .card-surface {
-  background-color: var(--bg-card);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border);
   box-shadow: var(--card-shadow);
-  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 180ms ease;
+  transition: border-color 150ms ease,
+              box-shadow 150ms ease,
+              background-color 150ms ease;
 }
 
 .card-surface:hover {
-  background-color: var(--bg-card-hover);
   border-color: var(--border-accent);
-  transform: translateY(-2px);
   box-shadow: var(--card-shadow-hover);
 }
 
-/* Modern Micro-Pill Tag */
+/* Micro-Pill Tag */
 .tech-pill {
-  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
   line-height: 1rem;
-  letter-spacing: 0.02em;
   padding: 0.2rem 0.55rem;
-  border-radius: 9999px;
-  background-color: var(--bg-surface);
+  border-radius: 6px;
+  background-color: var(--bg-subtle);
   border: 1px solid var(--border);
   color: var(--text-2);
-  transition: all 150ms ease-out;
+  transition: all 120ms ease-out;
 }
 
 .tech-pill:hover {
@@ -199,185 +185,28 @@ section { scroll-margin-top: 32px; }
   background: var(--text-muted);
 }
 
-/* ─── Awwwards-Tier Spotlight Card Dynamic Glow ────────────────────── */
-.spotlight-card {
-  position: relative;
-  overflow: hidden;
-}
-
-.spotlight-card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: radial-gradient(
-    450px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-    var(--spotlight-color, var(--border-accent)),
-    transparent 75%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1;
-}
-
-.spotlight-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-    var(--accent-glow),
-    transparent 80%
-  );
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 0;
-}
-
-.spotlight-card:hover::before,
-.spotlight-card:hover::after {
-  opacity: 1;
-}
-
-/* ─── Editorial Document Layout Foundation ────────────────────────── */
-html {
-  scroll-behavior: auto; /* Managed by Lenis smooth scroller */
-  touch-action: manipulation; /* Eliminate 300ms mobile tap delay */
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Ensure clean link and focus behavior */
+/* Interactive Elements Active State */
 a, button {
   transition-property: color, background-color, border-color, transform, opacity;
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  transition-duration: 150ms;
+  transition-duration: 140ms;
 }
 
-/* ─── Apple-Grade Ambient Atmosphere & Specular Glass ───────────── */
-.apple-architectural-grid {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-size: 48px 48px;
-  background-image:
-    linear-gradient(to right, var(--border-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border-grid) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse 75% 65% at 50% 25%, #000 20%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 25%, #000 20%, transparent 80%);
-  opacity: 0.75;
+button:active, a:active {
+  transform: scale(0.985);
 }
 
-/* Dynamic Multi-layered Aurora Blooms — Restrained Prominence */
-.apple-aurora-top {
-  position: absolute;
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 1100px;
-  height: 650px;
-  background: radial-gradient(ellipse 700px 380px at 50% 20%, var(--aurora-cyan), var(--aurora-indigo) 45%, transparent 75%);
-  filter: blur(60px);
-  pointer-events: none;
-  z-index: 0;
-  animation: aurora-float-1 12s ease-in-out infinite alternate;
-}
-
-.apple-aurora-mid {
-  position: absolute;
-  top: 900px;
-  right: -120px;
-  width: 600px;
-  height: 600px;
-  border-radius: 9999px;
-  background: radial-gradient(circle, var(--aurora-indigo) 0%, var(--aurora-cyan) 40%, transparent 70%);
-  filter: blur(90px);
-  pointer-events: none;
-  z-index: 0;
-  animation: aurora-float-2 16s ease-in-out infinite alternate;
-}
-
-.apple-aurora-lower {
-  position: absolute;
-  top: 2100px;
-  left: -150px;
-  width: 650px;
-  height: 650px;
-  border-radius: 9999px;
-  background: radial-gradient(circle, var(--aurora-amber) 0%, var(--aurora-cyan) 45%, transparent 75%);
-  filter: blur(100px);
-  pointer-events: none;
-  z-index: 0;
-  animation: aurora-float-3 18s ease-in-out infinite alternate;
-}
-
-@keyframes aurora-float-1 {
-  0% { transform: translateX(-50%) translateY(0) scale(1); opacity: 0.45; }
-  100% { transform: translateX(-48%) translateY(25px) scale(1.05); opacity: 0.65; }
-}
-
-@keyframes aurora-float-2 {
-  0% { transform: translateY(0) scale(1); opacity: 0.35; }
-  100% { transform: translateY(-30px) translateX(-20px) scale(1.1); opacity: 0.55; }
-}
-
-@keyframes aurora-float-3 {
-  0% { transform: translateY(0) scale(1); opacity: 0.3; }
-  100% { transform: translateY(25px) translateX(20px) scale(1.08); opacity: 0.5; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .apple-aurora-top,
-  .apple-aurora-mid,
-  .apple-aurora-lower {
-    animation: none !important;
-  }
-}
-
-.apple-dot-matrix {
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(var(--border-grid) 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
-  mask-image: radial-gradient(ellipse 95% 85% at 50% 30%, #000 40%, transparent 95%);
-  -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 30%, #000 40%, transparent 95%);
-  pointer-events: none;
-  z-index: 0;
-}
-
+/* Backward-compatible alias for existing components */
 .apple-glass-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border);
   box-shadow: var(--card-shadow);
-  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 180ms ease;
+  transition: border-color 150ms ease,
+              box-shadow 150ms ease,
+              background-color 150ms ease;
 }
 
 .apple-glass-card:hover {
-  background: var(--bg-card-hover);
   border-color: var(--border-accent);
   box-shadow: var(--card-shadow-hover);
 }
-
-.apple-pill-tab {
-  transition: all 140ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.apple-pill-tab:active {
-  transform: scale(0.97);
-}
-
-
-
-

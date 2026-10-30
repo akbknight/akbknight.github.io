@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, FileText, Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
+import { Sun, Moon, FileText, Menu, X } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import { Mascot } from "@/components/Mascot";
 
@@ -29,38 +28,25 @@ export const HeaderNav = ({
 }: HeaderNavProps) => {
   const { theme, toggle } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mascotMenuOpen, setMascotMenuOpen] = useState(false);
-  const mascotMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-  // Close menus on click outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        mascotMenuRef.current &&
-        !mascotMenuRef.current.contains(e.target as Node)
-      ) {
-        setMascotMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Handle escape key
+  // Close mobile menu on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setMobileMenuOpen(false);
-        setMascotMenuOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const handleToggleMascot = () => {
+    onToggleMascot(mascotChoice === "wolf" ? "knight" : "wolf");
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/80 dark:bg-[#070709]/80 border-b border-zinc-200/80 dark:border-white/[0.08] transition-colors duration-200">
+    <header className="sticky top-0 z-50 w-full bg-white/90 dark:bg-[#090A0F]/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-white/[0.08] transition-colors duration-200">
       {/* Skip to Content for Keyboard Accessibility */}
       <a
         href="#content"
@@ -84,7 +70,7 @@ export const HeaderNav = ({
               <span className="leading-tight group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                 Akshay Kumar
               </span>
-              <span className="text-[10px] font-mono-code font-normal text-zinc-600 dark:text-zinc-300 leading-none">
+              <span className="text-[10px] font-mono-code font-normal text-zinc-500 dark:text-zinc-400 leading-none">
                 Washington, DC
               </span>
             </div>
@@ -107,105 +93,40 @@ export const HeaderNav = ({
           ))}
         </nav>
 
-        {/* Right: Controls (Mascot Companion, Resume CTA, Theme Toggle, Mobile Menu) */}
+        {/* Right: Controls (Companion Mark, Resume CTA, Theme Toggle, Mobile Menu) */}
         <div className="flex items-center gap-2">
-          {/* Mascot Companion Mini Control */}
-          <div className="relative" ref={mascotMenuRef}>
-            <button
-              type="button"
-              onClick={() => setMascotMenuOpen((v) => !v)}
-              className="flex items-center gap-1.5 p-1 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900/60 dark:hover:bg-zinc-800/80 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-              aria-label={`Mascot companion: ${mascotChoice === "wolf" ? "Chibi Wolf" : "Knight"}. Click to toggle choice.`}
-              aria-expanded={mascotMenuOpen}
-              title="Click to interact with mascot companion"
-            >
-              <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-zinc-200/50 dark:bg-zinc-800/80 pointer-events-none">
-                <Mascot
-                  key={mascotChoice}
-                  asArtwork={true}
-                  directions={
-                    mascotChoice === "wolf"
-                      ? "/mascots/wolf-directions.webp"
-                      : "/mascots/knight-directions.webp"
-                  }
-                  reactions={
-                    mascotChoice === "wolf"
-                      ? "/mascots/wolf-reactions.webp"
-                      : "/mascots/knight-reactions.webp"
-                  }
-                  size={36}
-                  label={mascotChoice === "wolf" ? "Wolf mascot" : "Knight mascot"}
-                />
-              </div>
-              <span className="text-[11px] font-mono-code text-zinc-600 dark:text-zinc-300 pr-1.5 hidden sm:inline">
-                {mascotChoice === "wolf" ? "🐺" : "⚔️"}
-              </span>
-            </button>
+          {/* Subtle Companion Mark Toggle */}
+          <button
+            type="button"
+            onClick={handleToggleMascot}
+            className="flex items-center gap-1.5 p-1 rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900/60 dark:hover:bg-zinc-800/80 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+            aria-label={`Toggle companion crest: currently ${mascotChoice === "wolf" ? "Wolf" : "Knight"}. Click to switch.`}
+            title={`Companion crest: ${mascotChoice === "wolf" ? "Wolf (click for Knight)" : "Knight (click for Wolf)"}`}
+          >
+            <div className="w-7 h-7 rounded-lg overflow-hidden flex items-center justify-center bg-zinc-200/50 dark:bg-zinc-800/80 pointer-events-none">
+              <Mascot
+                key={mascotChoice}
+                asArtwork={true}
+                directions={
+                  mascotChoice === "wolf"
+                    ? "/mascots/wolf-directions.webp"
+                    : "/mascots/knight-directions.webp"
+                }
+                reactions={
+                  mascotChoice === "wolf"
+                    ? "/mascots/wolf-reactions.webp"
+                    : "/mascots/knight-reactions.webp"
+                }
+                size={30}
+                label={mascotChoice === "wolf" ? "Wolf companion" : "Knight companion"}
+              />
+            </div>
+            <span className="text-[10px] font-mono-code text-zinc-500 dark:text-zinc-400 pr-1 hidden sm:inline">
+              {mascotChoice === "wolf" ? "🐺" : "⚔️"}
+            </span>
+          </button>
 
-            {/* Mascot Choice Dropdown Popover */}
-            <AnimatePresence>
-              {mascotMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 4, scale: 0.96 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute right-0 mt-2 w-48 rounded-xl border border-zinc-200 dark:border-white/[0.1] bg-white dark:bg-[#0E0E14] shadow-lg p-2 z-50"
-                  role="dialog"
-                  aria-label="Select mascot companion"
-                >
-                  <p className="text-[10px] font-mono-code text-zinc-600 dark:text-zinc-300 px-2 py-1 uppercase tracking-wider">
-                    Companion Sprite
-                  </p>
-                  <div className="flex flex-col gap-1 mt-1">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onToggleMascot("wolf");
-                        setMascotMenuOpen(false);
-                      }}
-                      className={`flex items-center justify-between w-full px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                        mascotChoice === "wolf"
-                          ? "bg-sky-500/10 text-sky-700 dark:text-sky-300 font-semibold"
-                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/[0.05]"
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <span>🐺</span>
-                        <span>Chibi Wolf</span>
-                      </span>
-                      {mascotChoice === "wolf" && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-                      )}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onToggleMascot("knight");
-                        setMascotMenuOpen(false);
-                      }}
-                      className={`flex items-center justify-between w-full px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                        mascotChoice === "knight"
-                          ? "bg-sky-500/10 text-sky-700 dark:text-sky-300 font-semibold"
-                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/[0.05]"
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <span>⚔️</span>
-                        <span>Noble Knight</span>
-                      </span>
-                      {mascotChoice === "knight" && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-                      )}
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Résumé CTA */}
+          {/* Interactive Résumé CTA */}
           <button
             type="button"
             onClick={onOpenResume}
@@ -213,7 +134,7 @@ export const HeaderNav = ({
             aria-label="View résumé"
           >
             <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-            <span className="hidden sm:inline">View résumé</span>
+            <span className="hidden sm:inline">Résumé</span>
           </button>
 
           {/* Theme Toggle Button */}
@@ -256,8 +177,8 @@ export const HeaderNav = ({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-zinc-200 dark:border-white/[0.08] bg-white/95 dark:bg-[#070709]/95 backdrop-blur-md px-6 py-4 space-y-3"
+            transition={{ duration: 0.18 }}
+            className="md:hidden border-t border-zinc-200 dark:border-white/[0.08] bg-white/98 dark:bg-[#090A0F]/98 backdrop-blur-md px-6 py-4 space-y-3"
           >
             <nav aria-label="Mobile navigation" className="flex flex-col gap-2">
               {NAV_LINKS.map((link) => (

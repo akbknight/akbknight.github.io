@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { HeaderNav } from "@/components/HeaderNav";
 import { ResumeModal } from "@/components/ResumeModal";
-import { AmbientCanvas } from "@/components/AmbientCanvas";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,16 +30,6 @@ export default function LifePage() {
       className="min-h-[100dvh] flex flex-col relative overflow-x-clip"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
-      {/* Living Atmospheric Canvas */}
-      <AmbientCanvas />
-
-      {/* Architectural Coordinate Grid & Dot Matrix */}
-      <div className="apple-architectural-grid" aria-hidden="true" />
-      <div className="apple-dot-matrix" aria-hidden="true" />
-
-      {/* Top Aurora Bloom */}
-      <div className="apple-aurora-top" aria-hidden="true" />
-
       {/* Unified Top Navigation */}
       <HeaderNav
         onOpenResume={() => setIsResumeOpen(true)}
@@ -66,7 +55,7 @@ export default function LifePage() {
         </motion.div>
 
         {/* Section 1: The Book */}
-        <section className="mb-24 p-6 sm:p-10 rounded-2xl apple-glass-card border border-zinc-200/80 dark:border-white/[0.08]">
+        <section className="mb-24 p-6 sm:p-10 rounded-2xl card-surface">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             {/* Book Artwork Cover */}
             <div className="md:col-span-5 flex justify-center">

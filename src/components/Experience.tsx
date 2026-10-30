@@ -124,7 +124,7 @@ export const Experience = ({ onOpenResume }: ExperienceProps) => {
             return (
               <div
                 key={idx}
-                className="apple-glass-card rounded-2xl overflow-hidden transition-all duration-200"
+                className="card-surface rounded-2xl overflow-hidden transition-all duration-200"
               >
                 <button
                   type="button"
@@ -197,7 +197,7 @@ export const Experience = ({ onOpenResume }: ExperienceProps) => {
           {EDUCATION.map((edu, idx) => (
             <div
               key={idx}
-              className="apple-glass-card p-6 rounded-2xl space-y-3 flex flex-col justify-between"
+              className="card-surface p-6 rounded-2xl space-y-3 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">

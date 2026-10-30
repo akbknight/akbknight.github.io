@@ -9,7 +9,6 @@ import { Writing } from "@/components/Writing";
 import { PersonalGallery } from "@/components/PersonalGallery";
 import { Contact } from "@/components/Contact";
 import { ResumeModal } from "@/components/ResumeModal";
-import { AmbientCanvas } from "@/components/AmbientCanvas";
 
 export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -20,19 +19,7 @@ export default function Home() {
       className="min-h-[100dvh] flex flex-col relative overflow-x-clip"
       style={{ background: "var(--bg)", color: "var(--text)" }}
     >
-      {/* Living Atmospheric Canvas: Interactive Spotlight & Data Constellation */}
-      <AmbientCanvas />
-
-      {/* Apple-Grade Architectural Coordinate Grid & Tactile Micro-Matrix */}
-      <div className="apple-architectural-grid" aria-hidden="true" />
-      <div className="apple-dot-matrix" aria-hidden="true" />
-
-      {/* Dynamic Multi-layered Aurora Blooms (Hero, Projects, Experience) */}
-      <div className="apple-aurora-top" aria-hidden="true" />
-      <div className="apple-aurora-mid" aria-hidden="true" />
-      <div className="apple-aurora-lower" aria-hidden="true" />
-
-      {/* Compact Sticky Top Navigation Header with Integrated Mascot Companion */}
+      {/* Refined Top Navigation Header with Integrated Companion Mark */}
       <HeaderNav
         onOpenResume={() => setIsResumeOpen(true)}
         mascotChoice={mascotChoice}
@@ -44,7 +31,7 @@ export default function Home() {
         {/* 00 · Hero Overview & Evidence */}
         <HeroSection onOpenResume={() => setIsResumeOpen(true)} />
 
-        {/* 01 · Selected Systems & Evidence (Including Hairline Architecture) */}
+        {/* 01 · Selected Systems & Evidence */}
         <Projects />
 
         {/* 02 · Career Track Record & Academic Background */}
@@ -61,7 +48,7 @@ export default function Home() {
 
         {/* Quiet Editorial Footer */}
         <footer className="py-12 border-t border-zinc-200/80 dark:border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-xs font-mono-code text-zinc-600 dark:text-zinc-300">
+          <p className="text-xs font-mono-code text-zinc-600 dark:text-zinc-400">
             Architected &amp; engineered by Akshay Kumar · {new Date().getFullYear()}
           </p>
 
@@ -76,7 +63,7 @@ export default function Home() {
             <a
               href="/assets/Akshay_Resume.pdf"
               download="Akshay_Kumar_Resume.pdf"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-colors"
+              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
             >
               Download PDF ↗
             </a>
@@ -84,13 +71,13 @@ export default function Home() {
               href="https://github.com/akbknight/akbknight.github.io"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-colors"
+              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
             >
               Source Code ↗
             </a>
             <a
               href="/life"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-colors"
+              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
             >
               Essays &amp; Journal ↗
             </a>

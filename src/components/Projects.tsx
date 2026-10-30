@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Github, ExternalLink, Maximize2, X, BookOpen, Database, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { Github, ExternalLink, Maximize2, X, BookOpen, Database, ArrowUpRight, CheckCircle2, ChevronDown, AlertCircle } from "lucide-react";
 import { ProjectPipelineFigure } from "@/components/ProjectPipelineFigure";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "@/components/ThemeProvider";
@@ -22,6 +22,7 @@ interface FeaturedProject {
   tradeoff?: string;
   problem: string;
   contribution: string;
+  keyTakeaway: string;
   tech: string[];
   github: string;
   live: string;
@@ -51,6 +52,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "IRS 990 Philanthropic Grant Research & Spatial Explorer",
     subtitle: "Evaluating predictive regression against empirical medians on 93,672 public Form 990 records",
     category: "Public Data Engineering & Predictive Modeling Evaluation",
+    keyTakeaway: "Foundation-specific historical medians outperformed 7 regression architectures on validation error; recommended dashboard strictly for research rather than automated prediction.",
     question:
       "Can foundation identity, category, and location predict next-year positive individual grant amounts better than simple historical medians?",
     evidence:
@@ -91,6 +93,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "U.S. Retail Demand Forecasting Engine",
     subtitle: "Evaluating a 12-month backtest holdout against simple drift baselines, alongside an 18-month forward forecast",
     category: "Econometric Modeling & Time-Series Evaluation",
+    keyTakeaway: "Simple drift (1.250% MAPE) and nonseasonal Holt (1.256% MAPE) outperformed complex seasonal ETS (1.367% MAPE) on the 12-month holdout; established reproducible baselines on FRED retail series.",
     question:
       "Does a complex seasonal state-space exponential smoothing architecture (ETS) consistently outperform simpler econometric baselines on monthly retail sales demand?",
     evidence:
@@ -130,6 +133,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "Consular Facility & Resource Scheduling Simulator",
     subtitle: "Benchmarking priority-greedy constraint scheduling against queue-arrival baselines",
     category: "Operations Research & Algorithmic Evaluation",
+    keyTakeaway: "Priority-greedy heuristic placed 107 of 180 requests (+3.9% over arrival-order) and served 24.4% more priority points with zero room double-booking; documented an attendee clearance rule requiring resolution.",
     question:
       "How does a priority-aware greedy constraint satisfaction heuristic compare to naive first-come, first-served (arrival-order) heuristic placement under shared space constraints?",
     evidence:
@@ -145,10 +149,10 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     tradeoff:
       "The greedy constraint heuristic computes allocations in under 2 seconds, but does not guarantee global optimality in heavily over-subscribed edge cases where full constraint backtracking would be required.",
     problem:
-      "Independent algorithmic simulation evaluating multi-departmental conference room and security clearance scheduling for high-security diplomatic facilities. (Independent simulation inspired by operational challenges observed during consular service; not an official government deployment).",
+      "Independent consular sections and diplomatic facilities share limited high-security rooms and personnel, leading to double-booking, sub-optimal capacity allocation, and manual triage delays during high-demand surge periods.",
     contribution:
-      "Designed and implemented a priority-based greedy constraint-satisfaction scheduling engine in JavaScript allocating synthetic meeting requests across 20 secure conference rooms and 150 personnel with tiered security clearances.",
-    tech: ["JavaScript", "Greedy CSP", "Three.js", "Chart.js"],
+      "Architected a priority-weighted greedy heuristic in vanilla JavaScript with conflict matrices and multi-factor validation. Visualized real-time schedule timetables and 3D room occupancy layouts in the browser.",
+    tech: ["JavaScript", "Heuristics", "Constraint Satisfaction", "Three.js", "Chart.js"],
     image: "/projects/scheduling-optimizer.png",
     imageLight: "/projects/scheduling-optimizer-light.png",
     imageAlt: "Consular Resource and Scheduling Optimizer showing 3D room occupancy matrix",
@@ -204,10 +208,15 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
 export const Projects = () => {
   const { theme } = useTheme();
   const [lightboxImage, setLightboxImage] = useState<{ src: string; alt: string; title: string } | null>(null);
+  const [expandedAudits, setExpandedAudits] = useState<Record<string, boolean>>({});
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const modalCloseBtnRef = useRef<HTMLButtonElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  const toggleAudit = (id: string) => {
+    setExpandedAudits((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const closeLightbox = useCallback(() => {
     setLightboxImage(null);
@@ -220,11 +229,9 @@ export const Projects = () => {
   useEffect(() => {
     if (!lightboxImage) return;
 
-    // Lock page scrolling
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    // Set initial focus to close button
     const timer = setTimeout(() => {
       modalCloseBtnRef.current?.focus();
     }, 50);
@@ -267,119 +274,134 @@ export const Projects = () => {
   };
 
   return (
-    <section id="work" className="py-16 sm:py-24 border-b border-zinc-200/80 dark:border-white/[0.08]">
+    <section id="work" className="py-16 sm:py-20 border-b border-zinc-200/80 dark:border-white/[0.08]">
       {/* Section Header */}
       <div className="mb-12 sm:mb-16">
         <p className="section-label mb-3">01 · Selected Systems &amp; Evidence</p>
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
           Featured Engineering &amp; Analytics Projects
         </h2>
-        <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 max-w-2xl">
+        <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 max-w-2xl text-pretty">
           Three representative systems connecting unindexed public records, econometric forecasting, and operations research to measurable outcomes.
         </p>
       </div>
 
-      {/* Flagship Projects: Spacious, Individual Compositions */}
-      <div className="space-y-20 sm:space-y-28">
-        {FEATURED_PROJECTS.map((proj) => (
-          <article
-            key={proj.id}
-            id={`project-${proj.id}`}
-            className="apple-glass-card rounded-3xl p-6 sm:p-10 lg:p-12 space-y-8"
-          >
-            {/* Project Header & Category */}
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-xs font-mono-code font-semibold px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
-                  {proj.category}
-                </span>
-                <span className="text-xs font-mono-code text-zinc-400 dark:text-zinc-400">
-                  Project {proj.number} of 03
-                </span>
-              </div>
+      {/* Flagship Projects: Visual First with Progressive Disclosure */}
+      <div className="space-y-16 sm:space-y-24">
+        {FEATURED_PROJECTS.map((proj) => {
+          const isAuditOpen = !!expandedAudits[proj.id];
 
-              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white pt-1">
-                {proj.title}
-              </h3>
-
-              <p className="text-sm sm:text-base font-medium text-zinc-600 dark:text-zinc-300 leading-snug">
-                {proj.subtitle}
-              </p>
-            </div>
-
-            {/* Unified 5-Element Decision Briefing: Concise, Natural & Non-Repetitive */}
-            <div className="rounded-2xl bg-zinc-50/60 dark:bg-white/[0.02] border border-zinc-200/60 dark:border-white/[0.05] p-5 sm:p-6 space-y-4">
-              <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-white/[0.06] pb-2.5">
-                <span className="text-[11px] font-mono-code uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
-                  Decision Audit &amp; Empirical Framework
-                </span>
-                <span className="text-[11px] font-mono-code text-zinc-400 dark:text-zinc-500">
-                  5-Point Case Study
-                </span>
-              </div>
-
-              {/* 01. Question & 02. Evidence in side-by-side flow */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
-                    <span className="text-sky-600 dark:text-sky-400 font-mono-code text-[11px]">01</span> Question
+          return (
+            <article
+              key={proj.id}
+              id={`project-${proj.id}`}
+              className="card-surface rounded-2xl p-6 sm:p-8 lg:p-10 space-y-6"
+            >
+              {/* Project Header */}
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-xs font-mono-code font-semibold px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20">
+                    {proj.category}
                   </span>
-                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                    {proj.question}
-                  </p>
+                  <span className="text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
+                    Project {proj.number} of 03
+                  </span>
                 </div>
-                <div className="space-y-1">
-                  <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
-                    <span className="text-zinc-400 dark:text-zinc-500 font-mono-code text-[11px]">02</span> Evidence
-                  </span>
-                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                    {proj.evidence}
+
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white pt-1">
+                  {proj.title}
+                </h3>
+
+                <p className="text-sm sm:text-base font-medium text-zinc-600 dark:text-zinc-300 leading-snug">
+                  {proj.subtitle}
+                </p>
+
+                {/* Key Takeaway Callout */}
+                <div className="pt-2">
+                  <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 bg-zinc-100/70 dark:bg-white/[0.03] border-l-2 border-sky-500 px-3.5 py-2 rounded-r-lg leading-relaxed">
+                    <strong className="text-zinc-900 dark:text-white font-semibold">Key Outcome: </strong>
+                    {proj.keyTakeaway}
                   </p>
                 </div>
               </div>
 
-              {/* 03. Result: Measured Findings */}
-              <div className="space-y-1 pt-2 border-t border-zinc-200/50 dark:border-white/[0.04]">
-                <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
-                  <span className="text-sky-600 dark:text-sky-400 font-mono-code text-[11px]">03</span> Result
-                </span>
-                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                  {proj.result}
-                </p>
-              </div>
-
-              {/* 04. Recommendation: Actionable banner */}
-              <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-500/5 dark:bg-emerald-500/[0.06] border border-emerald-500/20 space-y-1">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
-                    04 · Recommendation
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed font-medium">
-                  {proj.recommendation}
-                </p>
-              </div>
-
-              {/* 05. Limitation: Transparent boundary footnote */}
-              <div className="flex items-start gap-2 pt-1 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                <span className="font-mono-code text-[10px] uppercase font-semibold text-amber-700 dark:text-amber-400/90 shrink-0 mt-0.5">
-                  05 · Limitation:
-                </span>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                  {proj.limitation}
-                </p>
-              </div>
-            </div>
-
-            {/* Dedicated Visual Presentation: Hairline Figure for Project 1; High-Res Diagrams for Projects 2 & 3 */}
-            {proj.hasHairlineFigure ? (
-              <div className="space-y-3 pt-2">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
-                    System Architecture &amp; Data Pipeline Stages
-                  </h4>
+              {/* Primary Visual Presentation: Large, Unobscured Preview */}
+              {proj.hasHairlineFigure ? (
+                <div className="space-y-4 pt-1">
                   {proj.image && (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
+                        <span>Research Workbench Interface Preview</span>
+                        <button
+                          type="button"
+                          onClick={(e) =>
+                            openLightbox(
+                              {
+                                src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
+                                alt: proj.imageAlt!,
+                                title: proj.title,
+                              },
+                              e.currentTarget
+                            )
+                          }
+                          className="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded p-1"
+                          aria-label={`Enlarge preview for ${proj.title}`}
+                        >
+                          <Maximize2 className="w-3.5 h-3.5" />
+                          <span>Click to enlarge preview</span>
+                        </button>
+                      </div>
+
+                      <div
+                        className="group relative w-full rounded-xl overflow-hidden border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-100 dark:bg-zinc-950 cursor-pointer shadow-xs"
+                        onClick={(e) => {
+                          const btn = e.currentTarget.parentElement?.querySelector("button");
+                          if (btn) {
+                            openLightbox(
+                              {
+                                src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
+                                alt: proj.imageAlt!,
+                                title: proj.title,
+                              },
+                              btn
+                            );
+                          }
+                        }}
+                      >
+                        <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[420px]">
+                          {proj.imageLight && (
+                            <Image
+                              src={proj.imageLight}
+                              alt={proj.imageAlt ?? proj.title}
+                              fill
+                              className="object-cover object-top transition-transform duration-200 group-hover:scale-[1.008] dark:hidden block"
+                              sizes="(max-width: 1024px) 100vw, 980px"
+                            />
+                          )}
+                          <Image
+                            src={proj.image}
+                            alt={proj.imageAlt ?? proj.title}
+                            fill
+                            className={`object-cover object-top transition-transform duration-200 group-hover:scale-[1.008] ${proj.imageLight ? "hidden dark:block" : ""}`}
+                            sizes="(max-width: 1024px) 100vw, 980px"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Pipeline Architecture Stage Inspector */}
+                  <div className="space-y-2 pt-2">
+                    <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
+                      System Architecture &amp; Data Pipeline Stages
+                    </h4>
+                    <ProjectPipelineFigure />
+                  </div>
+                </div>
+              ) : proj.image ? (
+                <div className="space-y-2 pt-1">
+                  <div className="flex items-center justify-between text-xs font-mono-code text-zinc-500 dark:text-zinc-400">
+                    <span>Operational Interface Preview</span>
                     <button
                       type="button"
                       onClick={(e) =>
@@ -392,163 +414,218 @@ export const Projects = () => {
                           e.currentTarget
                         )
                       }
-                      className="inline-flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400 hover:underline font-mono-code cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded p-1"
+                      className="inline-flex items-center gap-1.5 text-sky-600 dark:text-sky-400 hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded p-1"
+                      aria-label={`Enlarge diagram for ${proj.title}`}
                     >
                       <Maximize2 className="w-3.5 h-3.5" />
-                      <span>View Live HUD Screenshot</span>
+                      <span>Click to enlarge preview</span>
                     </button>
-                  )}
-                </div>
+                  </div>
 
-                {/* Compact Apple-style Horizontal Pipeline Inspector */}
-                <ProjectPipelineFigure />
-              </div>
-            ) : proj.image ? (
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-mono-code uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400">
-                    Analytical Preview &amp; Output Diagram
-                  </h4>
-                  <button
-                    type="button"
-                    onClick={(e) =>
-                      openLightbox(
-                        {
-                          src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
-                          alt: proj.imageAlt!,
-                          title: proj.title,
-                        },
-                        e.currentTarget
-                      )
-                    }
-                    className="inline-flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400 hover:underline font-mono-code cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded p-1"
-                    aria-label={`Enlarge diagram for ${proj.title}`}
+                  <div
+                    className="group relative w-full rounded-xl overflow-hidden border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-100 dark:bg-zinc-950 cursor-pointer shadow-xs"
+                    onClick={(e) => {
+                      const btn = e.currentTarget.parentElement?.querySelector("button");
+                      if (btn) {
+                        openLightbox(
+                          {
+                            src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
+                            alt: proj.imageAlt!,
+                            title: proj.title,
+                          },
+                          btn
+                        );
+                      }
+                    }}
                   >
-                    <Maximize2 className="w-3.5 h-3.5" />
-                    <span>Click to enlarge diagram</span>
-                  </button>
-                </div>
-
-                <div
-                  className="group relative w-full rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-100 dark:bg-zinc-950 cursor-pointer shadow-sm"
-                  onClick={(e) => {
-                    const btn = e.currentTarget.parentElement?.querySelector("button");
-                    if (btn) {
-                      openLightbox(
-                        {
-                          src: theme === "light" && proj.imageLight ? proj.imageLight : proj.image!,
-                          alt: proj.imageAlt!,
-                          title: proj.title,
-                        },
-                        btn
-                      );
-                    }
-                  }}
-                >
-                  <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[380px]">
-                    {proj.imageLight && (
+                    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[420px]">
+                      {proj.imageLight && (
+                        <Image
+                          src={proj.imageLight}
+                          alt={proj.imageAlt ?? proj.title}
+                          fill
+                          className="object-cover object-top transition-transform duration-200 group-hover:scale-[1.008] dark:hidden block"
+                          sizes="(max-width: 1024px) 100vw, 980px"
+                        />
+                      )}
                       <Image
-                        src={proj.imageLight}
+                        src={proj.image}
                         alt={proj.imageAlt ?? proj.title}
                         fill
-                        className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.01] dark:hidden block"
+                        className={`object-cover object-top transition-transform duration-200 group-hover:scale-[1.008] ${proj.imageLight ? "hidden dark:block" : ""}`}
                         sizes="(max-width: 1024px) 100vw, 980px"
                       />
-                    )}
-                    <Image
-                      src={proj.image}
-                      alt={proj.imageAlt ?? proj.title}
-                      fill
-                      className={`object-cover object-center transition-transform duration-300 group-hover:scale-[1.01] ${proj.imageLight ? "hidden dark:block" : ""}`}
-                      sizes="(max-width: 1024px) 100vw, 980px"
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <span className="text-xs font-mono-code text-white bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded-md">
-                      Click to expand full resolution
-                    </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
 
-            {/* Footer: Tech Stack Badges & Project Actions */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-zinc-200/80 dark:border-white/[0.06]">
-              {/* Tech Badges */}
-              <div className="flex flex-wrap items-center gap-1.5">
-                {proj.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-[11px] font-mono-code px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-white/[0.04] text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-white/[0.06]"
+              {/* Action Buttons & Tech Stack Bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                {/* Tech Badges */}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {proj.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="text-[11px] font-mono-code px-2.5 py-0.5 rounded-md bg-zinc-100 dark:bg-white/[0.05] text-zinc-700 dark:text-zinc-300 border border-zinc-200/70 dark:border-white/[0.06]"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Direct Action Links */}
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <a
+                    href={proj.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-medium transition-all shadow-xs active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
                   >
-                    {t}
+                    <span>Launch Live System</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+
+                  <a
+                    href={proj.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                  >
+                    <Github className="w-3 h-3" />
+                    <span>Source Repo</span>
+                  </a>
+
+                  {proj.fullReport && (
+                    <a
+                      href={proj.fullReport.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                    >
+                      <BookOpen className="w-3 h-3 text-sky-600 dark:text-sky-400" />
+                      <span>{proj.fullReport.label}</span>
+                      <ArrowUpRight className="w-3 h-3 opacity-60" />
+                    </a>
+                  )}
+
+                  {proj.reproducibleScript && (
+                    <a
+                      href={proj.reproducibleScript.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                    >
+                      <Database className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                      <span>{proj.reproducibleScript.label}</span>
+                      <ArrowUpRight className="w-3 h-3 opacity-60" />
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Narrative Problem & Contribution Overview */}
+              <div className="pt-2 border-t border-zinc-200/60 dark:border-white/[0.06] text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed space-y-2">
+                <p>
+                  <strong className="text-zinc-900 dark:text-white font-medium">Problem: </strong>
+                  {proj.problem}
+                </p>
+                <p>
+                  <strong className="text-zinc-900 dark:text-white font-medium">Contribution: </strong>
+                  {proj.contribution}
+                </p>
+              </div>
+
+              {/* Progressive Disclosure: Methodology & Empirical Framework Accordion */}
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => toggleAudit(proj.id)}
+                  aria-expanded={isAuditOpen}
+                  aria-controls={`audit-framework-${proj.id}`}
+                  className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-50/70 hover:bg-zinc-100 dark:bg-white/[0.02] dark:hover:bg-white/[0.04] text-xs font-mono-code text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                >
+                  <span className="font-semibold uppercase tracking-wider flex items-center gap-2">
+                    <span className="text-sky-600 dark:text-sky-400">❖</span>
+                    <span>Methodology &amp; Empirical Framework (5-Point Audit)</span>
                   </span>
-                ))}
+                  <div className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400">
+                    <span>{isAuditOpen ? "Hide Framework" : "Inspect Details"}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isAuditOpen ? "rotate-180" : ""}`} />
+                  </div>
+                </button>
+
+                <AnimatePresence>
+                  {isAuditOpen && (
+                    <motion.div
+                      id={`audit-framework-${proj.id}`}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden mt-3"
+                    >
+                      <div className="rounded-xl bg-zinc-50/90 dark:bg-white/[0.02] border border-zinc-200/80 dark:border-white/[0.06] p-5 sm:p-6 space-y-4">
+                        {/* 01. Question & 02. Evidence */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                              <span className="text-sky-600 dark:text-sky-400 font-mono-code text-[11px]">01</span> Question
+                            </span>
+                            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                              {proj.question}
+                            </p>
+                          </div>
+                          <div className="space-y-1">
+                            <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                              <span className="text-zinc-400 dark:text-zinc-500 font-mono-code text-[11px]">02</span> Evidence
+                            </span>
+                            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                              {proj.evidence}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 03. Result */}
+                        <div className="space-y-1 pt-2 border-t border-zinc-200/60 dark:border-white/[0.04]">
+                          <span className="text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
+                            <span className="text-sky-600 dark:text-sky-400 font-mono-code text-[11px]">03</span> Result
+                          </span>
+                          <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                            {proj.result}
+                          </p>
+                        </div>
+
+                        {/* 04. Recommendation */}
+                        <div className="p-3.5 rounded-lg bg-emerald-500/5 dark:bg-emerald-500/[0.06] border border-emerald-500/20 space-y-1">
+                          <div className="flex items-center gap-1.5">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                            <span className="text-[11px] font-mono-code font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                              04 · Recommendation
+                            </span>
+                          </div>
+                          <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed font-medium">
+                            {proj.recommendation}
+                          </p>
+                        </div>
+
+                        {/* 05. Limitation */}
+                        <div className="flex items-start gap-2 pt-1 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                          <span className="font-mono-code text-[10px] uppercase font-semibold text-amber-700 dark:text-amber-400/90 shrink-0 mt-0.5">
+                            05 · Limitation:
+                          </span>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                            {proj.limitation}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-
-              {/* Action Links */}
-              <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href={proj.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-medium transition-all shadow-xs active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-                >
-                  <span>Launch Live System</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-
-                <a
-                  href={proj.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-                >
-                  <Github className="w-3.5 h-3.5" />
-                  <span>GitHub Repository</span>
-                </a>
-
-                {proj.fullReport && (
-                  <a
-                    href={proj.fullReport.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-                  >
-                    <BookOpen className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-                    <span>{proj.fullReport.label}</span>
-                    <ArrowUpRight className="w-3 h-3 opacity-60" />
-                  </a>
-                )}
-
-                {proj.reproducibleScript && (
-                  <a
-                    href={proj.reproducibleScript.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 text-xs font-medium transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-                  >
-                    <Database className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span>{proj.reproducibleScript.label}</span>
-                    <ArrowUpRight className="w-3 h-3 opacity-60" />
-                  </a>
-                )}
-
-                {proj.caseStudy && (
-                  <a
-                    href={proj.caseStudy.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-mono-code text-zinc-500 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors p-1"
-                  >
-                    <span>{proj.caseStudy.label}</span>
-                    <ArrowUpRight className="w-3 h-3" />
-                  </a>
-                )}
-              </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
 
       {/* Project Archive Section */}
@@ -564,7 +641,7 @@ export const Projects = () => {
           {ARCHIVE_PROJECTS.map((p, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-2xl border border-zinc-200/80 dark:border-white/[0.08] bg-zinc-50/60 dark:bg-[#0A0A0F] flex flex-col justify-between"
+              className="card-surface p-5 rounded-2xl flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between gap-1 mb-2">
@@ -640,9 +717,9 @@ export const Projects = () => {
               aria-modal="true"
               aria-label={lightboxImage.title}
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.96 }}
-              animate={shouldReduceMotion ? { opacity: 1, transition: { duration: 0 } } : { opacity: 1, scale: 1, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
-              exit={shouldReduceMotion ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
-              className="relative max-w-5xl w-full rounded-2xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-2xl overflow-hidden p-4 sm:p-6 text-zinc-900 dark:text-white"
+              animate={shouldReduceMotion ? { opacity: 1, scale: 1, transition: { duration: 0.18, ease: [0.16, 1, 0.3, 1] } } : { opacity: 1, scale: 1 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, transition: { duration: 0.14 } }}
+              className="relative max-w-5xl w-full rounded-2xl bg-white dark:bg-[#11131C] border border-zinc-200 dark:border-white/10 shadow-2xl overflow-hidden p-4 sm:p-6 text-zinc-900 dark:text-white"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Lightbox Header */}
