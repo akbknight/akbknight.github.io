@@ -8,9 +8,9 @@ const WRITEUPS = [
     type: "Methodology Specification",
     title: "Econometric Demand Forecasting Methodology (FRED Time-Series)",
     description:
-      "Engineering write-up specifying state-space ETS(A,A,A) models, joint parameter estimation via maximum likelihood (L-BFGS-B), analytical prediction interval derivation, and walk-forward holdout validation (~2.0% MAPE) for U.S. macroeconomic indicators.",
+      "Engineering write-up specifying state-space ETS(A,A,A) models, joint parameter estimation via maximum likelihood (L-BFGS-B), analytical prediction interval derivation, and fixed-origin holdout evaluation (1.23%–1.25% MAPE) for U.S. macroeconomic indicators.",
     url: "https://github.com/akbknight/us-retail-sales-forecast/blob/main/docs/methodology.md",
-    tags: ["statsmodels", "State-Space ETS", "FRED RSXFS", "Walk-Forward Validation"],
+    tags: ["statsmodels", "State-Space ETS", "FRED RSXFS", "Fixed-Origin Holdout Evaluation"],
     source: "us-retail-sales-forecast",
   },
   {

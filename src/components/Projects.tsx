@@ -111,7 +111,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     problem:
       "Retail inventory planners and operations teams need reliable medium-term demand forecasts that account for macroeconomic trends, seasonality, and historical shocks rather than static linear extrapolations.",
     contribution:
-      "Formulated state-space ETS(A,A,A) and Holt-Winters exponential smoothing models in Python using statsmodels on Federal Reserve FRED data. Integrated walk-forward holdout validation and built an interactive browser backtesting studio.",
+      "Formulated state-space ETS(A,A,A) and Holt-Winters exponential smoothing models in Python using statsmodels on Federal Reserve FRED data. Integrated locked fixed-origin holdout evaluation and built an interactive browser backtesting studio.",
     tech: ["Python", "statsmodels", "Pandas", "FRED API", "Chart.js"],
     image: "/projects/retail-forecast.png",
     imageLight: "/projects/retail-forecast-light.png",

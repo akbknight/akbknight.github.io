@@ -96,7 +96,7 @@ export const STAGES: PipelineStage[] = [
       "Meeting & resource capacity matrices",
     ],
     invariants: [
-      "Walk-forward holdout validation (~2.0% MAPE)",
+      "Fixed-origin holdout evaluation (1.23%–1.25% MAPE)",
       "80% & 95% predictive confidence intervals",
       "CUSUM drift & 3-sigma Z-Score boundaries",
     ],
