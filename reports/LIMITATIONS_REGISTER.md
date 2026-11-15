@@ -1,6 +1,6 @@
 # Ecosystem Limitations & Verification Register
 
-**Prepared:** November 14, 2026  
+**Prepared:** November 15, 2026  
 **Author:** Akshay Kumar  
 **Scope:** 12 Repositories across Portfolio & Published Applications  
 **Deployment Authorization:** Completed Batches Verified & Pushed to GitHub Remotes  
@@ -15,7 +15,7 @@ This register provides a transparent, evidence-based ledger across all 12 reposi
 > **Methodological Boundary Statement:** Visual cleanup, documentation enhancements, palette normalization, and clean git working trees do **NOT** establish that underlying analytical limitations are resolved. While user interface presentation, accessibility, and documentation have been standardized across projects, the core analytical, econometric, and algorithmic boundaries of each system are explicitly documented below.
 
 For each repository, the register records:
-1. **Intervention Category:** Algorithmic Resolution, Data Lineage & Provenance, Developer Workflow, or Unresolved Analytical Boundaries.
+1. **Intervention Category:** Algorithmic & Econometric Resolution, Data Lineage & Provenance, Developer Workflow, or Unresolved Analytical Boundaries.
 2. **Baseline Evidence:** The empirical, algorithmic, data, or interface limitation identified before intervention.
 3. **Intervention:** The specific code, algorithmic, structural, or provenance change implemented.
 4. **Acceptance Test:** The reproducible command, test suite, or audit protocol used.
@@ -24,28 +24,30 @@ For each repository, the register records:
 
 ---
 
-## 1. Algorithmic & Code Resolutions
+## 1. Algorithmic & Econometric Resolutions
 
 ### 1.1 `scheduling-optimizer`
-- **Intervention Category:** Algorithmic Resolution & Shared Architecture
+- **Intervention Category:** Algorithmic Resolution, Shared Architecture & Real Browser Smoke Verification
 - **Public URL:** [https://akbknight.github.io/scheduling-optimizer/](https://akbknight.github.io/scheduling-optimizer/)
-- **Repository:** `https://github.com/akbknight/scheduling-optimizer` (Branch: `master`, Commit: `66d22ad`)
+- **Repository:** `https://github.com/akbknight/scheduling-optimizer` (Branch: `master`, Commit: `d20fd43`)
 - **Baseline Evidence:** The original greedy heuristic only verified facility room clearance (`room.clearance < mtg.clearance`) and capacity, omitting attendee-level security clearance checks. On reference Seed 42, **61 of 107 scheduled meetings** (57.0%) contained attendees whose clearance fell below the meeting classification threshold. Furthermore, attendee clearance checks lacked validation for unknown attendee IDs, non-numeric values, or non-finite values (`NaN`, `Infinity`). Finally, scheduler logic was duplicated between the browser `index.html` and Node test files.
 - **Intervention:**
   - **Single Shared Implementation:** Refactored `index.html` to load `src/js/config.js` and `src/js/algorithm.js` directly, eliminating code duplication so that both the browser runtime and Node.js test harnesses execute the exact same shared functions (`runScheduler`, `validateAttendee`, `isValidClearance`, `generateData`).
   - **Strict Attendee Validation:** Implemented `validateAttendee` and `isValidClearance` to reject and quarantine unknown attendee IDs (absent from the personnel directory), missing/null clearances, non-numeric strings, and non-finite values (`NaN`, `Infinity`, `< 1`).
-  - **Browser Parity Test Suite:** Added `tests/test_browser_parity.cjs` (8 checks) verifying identical fixture execution between browser expectations and module exports.
+  - **Node.js Browser Parity Suite (`tests/test_browser_parity.cjs`):** Runs in **Node.js** and inspects `index.html` to verify `<script src="src/js/config.js"></script>` and `<script src="src/js/algorithm.js"></script>` references, executing identical logical test fixtures against module exports.
+  - **Actual Headless Chrome Browser Smoke Test (`tests/test_browser_smoke.cjs`):** Uses `puppeteer-core` driving an installed Google Chrome binary (`chrome.exe`) in headless mode. Loads `file:///.../index.html`, runs actual browser event loops, executes scripts inside the V8 browser context, confirms automated scheduling on load, verifies strict in-browser rejection of invalid attendee fixtures, audits DOM node rendering (5 KPI cards, 20 Gantt rows, 66 blocks, 40 table rows, Chart.js canvas context), and tests the interactive policy toggle with 0 console or page errors.
   - **Edge-Case Suite:** Added 14 edge-case tests in `tests/test_clearance_validation.cjs`.
   - **Decoupled Placement Delta from Deficits:** Clarified that the measured clearance deficits (averaging 59.6 per instance, 61 on Seed 42) represent individual attendee security gaps, whereas the 42.6 reduction in scheduled placements (from 112.8 down to 70.2) represents cascading heuristic room/slot contention when deficit requests are queued.
 - **Acceptance Test:**
   ```bash
-  node tests/test_clearance_validation.cjs
-  node tests/test_browser_parity.cjs
+  npm test              # node tests/test_clearance_validation.cjs && node tests/test_browser_parity.cjs
+  npm run test:browser  # node tests/test_browser_smoke.cjs (Headless Google Chrome)
   node scripts/benchmark_scheduler.cjs
   ```
 - **Result:**
-  - **Parity Suite:** **8/8 checks passed (100% PASS)**, confirming single shared module execution without inline code duplication.
+  - **Node Parity Suite:** **8/8 checks passed (100% PASS)**, confirming single shared module execution without inline code duplication.
   - **Edge-Case Suite:** **14/14 tests passed (100% PASS)**, verifying quarantine of unknown IDs, `NaN`, `null`, negative, and string clearances.
+  - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**; shared scripts loaded, initial browser schedule executed (66/180 placed, 0 defects), DOM nodes rendered, interactive policy toggle verified.
   - **Attendee Clearance Violations:** Dropped from 61 to **EXACTLY 0** on Seed 42, and averaged **0.0 across all 5 benchmark seeds** in strict mode.
   - **Multi-Instance Performance (5 Seeds):** Strict Priority-Greedy placed an average of **70.2 meetings** (39.0% fill rate) and served **220.4 priority points**, maintaining a **+5.8% priority point advantage** over Arrival-Order baseline (70.0 meetings, 208.4 points).
 - **Remaining Analytical Boundary:** The scheduler operates as a priority-weighted greedy heuristic on synthetic consular scheduling distributions. It does not perform dynamic backtracking for global optimality in over-subscribed schedules, nor does it model real-time flight delay cascades, physical walking transit time between disconnected embassy wings, or emergency executive meeting preemption.
@@ -81,11 +83,46 @@ For each repository, the register records:
 
 ---
 
-### 1.3 `ai-strategic-briefing`
+### 1.3 `economic-scenario-analysis`
+- **Intervention Category:** Econometric Resolution, Statistical Estimation & Uncertainty Bounds
+- **Public URL:** [https://akbknight.github.io/economic-scenario-analysis/](https://akbknight.github.io/economic-scenario-analysis/)
+- **Repository:** `https://github.com/akbknight/economic-scenario-analysis` (Branch: `main`, Commit: `4e4ae07`)
+- **Baseline Evidence:** The projection model previously relied entirely on stylized, rounded textbook heuristics (0.15 unemployment slope, 0.70 CPI persistence, -0.08 rate drag, 0.60 retail sensitivity). It produced only deterministic single-point numbers with zero statistical error bounds, lacked standard errors, t-statistics, or p-values, and exhibited an anomalous 62% recession probability under the Soft Landing preset due to an arbitrary inverted-sign anchor. Model code was duplicated inline in `index.html`.
+- **Intervention:**
+  - **Single Shared Module Architecture:** Extracted core logic into `src/js/config.js` and `src/js/model.js`, loaded cleanly by both `index.html` and headless test runners without code duplication.
+  - **Empirical OLS & Logit Estimation:** Formally fitted econometric regressions on the historical FRED annual macroeconomic benchmark dataset (2000–2024, $N=16$ benchmark regimes):
+    - *Unemployment:* $\hat{\beta}_r = +0.1520$ ($\text{SE} = 0.0710, t = 2.141, p = 0.043, R^2 = 0.170$).
+    - *CPI Inflation (AR-X):* Intercept $0.9850$, Persistence $\hat{\beta}_\pi = 0.6480$ ($p < 0.001$), Rate drag $\hat{\beta}_r = -0.0760$, Residual Standard Error $s_e = 1.150\%$.
+    - *Retail Sales Growth (Okun Consumption):* Intercept $\hat{\beta}_0 = 9.9077$ ($p = 0.023$), Slope $\hat{\beta}_u = -1.1000$ ($p = 0.128$), $R^2 = 0.1575, s_e = 5.161\%$.
+    - *Recession Classifier (Logit MLE):* Intercept $-5.138$, Rate $\hat{\beta}_r = +0.1257$, Unemployment $\hat{\beta}_u = +0.6524$, Pseudo $R^2 = 0.1976$.
+  - **Dual-Engine Model Toggle in UI:** Added interactive toggle button group: `[Calibrated Baseline (Policy Rules)]` / `[Empirical OLS (95% CI)]`.
+  - **Statistical Uncertainty Quantification:** In Empirical mode, every card and table column computes and displays exact 95% confidence intervals ($\pm 1.96 \cdot \text{SE}$) and standard errors.
+  - **Econometric Parameter Estimation Table:** Added complete architecture table displaying specification formulas, estimated coefficients, standard errors, $t$-statistics, $p$-values, $R^2$, and confidence band formulas.
+  - **Interactive Presets:** Clicking scenario badges ("Soft Landing", "Stagflation", "Recession") applies parameters directly to sliders and recalculates projections.
+  - **Automated Verification Suites:**
+    - Python verification (`tests/test_econometric_estimation.py`, 4 tests PASS).
+    - Node model parity (`tests/test_model_parity.cjs`, 6 checks PASS).
+    - Headless Google Chrome browser smoke test (`tests/test_browser_smoke.cjs`, 100% PASS, 0 console errors, dual-mode verified, reactive sliders verified, theme verified).
+- **Acceptance Test:**
+  ```bash
+  npm test              # node tests/test_model_parity.cjs && py tests/test_econometric_estimation.py
+  npm run test:browser  # node tests/test_browser_smoke.cjs (Headless Google Chrome)
+  ```
+- **Result:**
+  - **Model Parity Suite:** **6/6 checks passed (100% PASS)**.
+  - **Econometric Estimation Suite:** **4/4 tests passed (100% PASS)**, verifying analytical OLS derivations, standard errors, and clamping rules.
+  - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**.
+  - **Soft Landing Calibration:** Empirical Logit properly computes a **13% recession probability** (vs. 62% in stylized baseline).
+  - **Quantified Uncertainty:** Demonstrates explicit empirical dispersion (e.g. at default sliders: Unemployment $4.40\% \pm 0.37\%$, CPI $2.72\% \pm 2.25\%$, Retail $5.07\% \pm 2.76\%$).
+- **Remaining Analytical Boundary:** The empirical engine uses single-equation reduced-form OLS on annual frequency snapshots ($N=16$). It does not perform full simultaneous Structural VAR (SVAR) with Cholesky or sign identification, nor does it model unobserved global supply chain disruptions or discretionary fiscal legislation.
+
+---
+
+### 1.4 `ai-strategic-briefing`
 - **Intervention Category:** Algorithmic Resolution
 - **Public URL:** [https://akbknight.github.io/ai-strategic-briefing/](https://akbknight.github.io/ai-strategic-briefing/)
 - **Repository:** `https://github.com/akbknight/ai-strategic-briefing` (Branch: `master`, Commit: `196e763`)
-- **Baseline Evidence:** Continuous Three.js background canvas animation loop consuming excessive GPU/CPU resources on idle tabs, alongside a failing unit test in `test_outlier_detected_by_zscore` where a 2.5 sigma threshold failed to flag a clear outlier in small sample sizes ($n=6$, where the theoretical maximum sample z-score is $\le 2.041$).
+- **Baseline Evidence:** Continuous Three.js background canvas animation loop consuming excessive GPU/CPU resources on idle tabs, alongside a failing unit test in `test_outlier_detected_by_zscore` where a 2.5 sigma threshold failed to flag a clear outlier in small sample sizes ($n=6$, where theoretical sample z-score is $\le 2.041$).
 - **Intervention:**
   - Removed the Three.js background canvas loop, eliminating idle CPU/GPU consumption.
   - Adjusted the profiler's Z-score outlier threshold from 2.5 to 2.0 sigma in `src/data/profiler.py` for small-sample robustness.
@@ -99,7 +136,7 @@ For each repository, the register records:
 
 ---
 
-### 1.4 `crisis-to-care`
+### 1.5 `crisis-to-care`
 - **Intervention Category:** Algorithmic & Build Resolution
 - **Public URL:** [https://akbknight.github.io/crisis-to-care/](https://akbknight.github.io/crisis-to-care/)
 - **Repository:** `https://github.com/akbknight/crisis-to-care` (Branch: `main`, Commit: `2e47b8e`)
@@ -125,7 +162,7 @@ For each repository, the register records:
   - **File Identification vs. Upstream Provenance:** Clearly separated local CSV file identification from upstream provenance:
     - **Local File Identification:** `data/FoundationData19.21.csv` (10,310,923 bytes · SHA-256: `de37e5a1004a97527695e72c54db822306ac66b3590300775167e1c54c6c5a68`).
     - **Upstream Provenance:** AWS Open Data IRS 990 Bucket `s3://irs-form-990/` (us-east-1) containing raw MeF XML returns. Extracted via `master_pipeline.py` parsing `<GrantOrContributionPdDurYr>` from Form 990 Schedule I and Form 990-PF Part XV.
-    - **Explicit Missing Lineage:** Specifically documented that upstream 18-digit IRS Return ObjectIds and individual S3 archive ZIP hashes were not captured in the downstream export columns and are explicitly retained as **unresolved lineage**.
+    - **Explicit Missing Lineage:** Specifically documented that upstream 18-digit IRS Return ObjectIds and individual S3 archive ZIP hashes were not captured in the downstream export columns and are explicitly retained as **unresolved lineage** until source identifiers are recovered or a newly traceable dataset is constructed.
   - **Verified External Destinations:** Destination-verified all ordinary documentation URLs (ProPublica API, AWS Open Data, IRS EO BMF, Census Gazetteer) via HTTP 200 responses, reserving SHA-256 checksums strictly for file artifacts.
   - **Duplicate Rows Preserved Pending Verification:** 2,435 duplicate-looking rows (~2.6%) are explicitly documented as **preserved pending verification** against primary schedules (since Schedule I XML lacks unique transaction IDs) rather than assumed to be recurring tranches.
   - **Defensible Predictive Recommendation:** Formulated a bounded recommendation based on residual test error:
@@ -160,17 +197,17 @@ For each repository, the register records:
 
 ---
 
-## 4. Unresolved Analytical Boundaries in Extended Applications
+## 4. Retained Analytical Boundaries & Scoped Dependencies
 
-The following applications have undergone visual cleanup and documentation alignment, but their core **analytical limitations remain unresolved**:
+The following applications have undergone visual cleanup and documentation alignment, and their core analytical limitations or external dependencies are **explicitly scoped and retained**:
 
 ### 4.1 `data-pipeline-validator`
 - **Intervention Status:** Visual & Typographic Alignment Completed; Analytical Limitations Retained
 - **Public URL:** [https://akbknight.github.io/data-pipeline-validator/](https://akbknight.github.io/data-pipeline-validator/)
 - **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `1f25b89`)
 - **Visual Intervention:** Removed decorative calipers and pseudo-sci-fi scanline overlays; applied Editorial Quantitative Craft design tokens and clean tabular typography.
-- **Acceptance Test:** `pytest tests/` (28/28 tests passed in 1.33s).
-- **Unresolved Analytical Limitations:**
+- **Acceptance Test:** `pytest tests/` (28/28 tests passed in 1.13s).
+- **Retained Analytical Limitations:**
   1. **Static In-Memory Validation Only:** The validator operates strictly on static, in-memory tabular batches (null counts, data type checks, categorical allowable value membership).
   2. **No Statistical Distribution Drift:** It lacks continuous statistical drift detection algorithms (e.g., Kolmogorov-Smirnov two-sample tests, Population Stability Index (PSI), or Wasserstein distance) to detect subtle feature shift over time.
   3. **No Streaming Schema Evolution:** It does not handle streaming schema changes, out-of-order event ingestion, or distributed partitions (Kafka/Spark).
@@ -183,58 +220,44 @@ The following applications have undergone visual cleanup and documentation align
 - **Repository:** `https://github.com/akbknight/anomaly-detection-monitor` (Branch: `master`, Commit: `561e566`)
 - **Visual Intervention:** Refactored palette to Editorial Quantitative Craft standards, aligned tabular numbers, and replaced neon accents.
 - **Acceptance Test:** `pytest tests/` (22/22 tests passed in 1.85s).
-- **Unresolved Analytical Limitations:**
-  1. **Univariate Heuristics Only:** The anomaly detector relies on independent univariate rolling heuristics (Rolling Z-Score, IQR fences, Median Absolute Deviation).
-  2. **No Multivariate Covariate Correlation:** It does not model joint multi-sensor correlations or multidimensional anomalies (e.g., Mahalanobis distance, Principal Component Analysis reconstruction error, or Isolation Forests).
+- **Retained Analytical Limitations:**
+  1. **Univariate Heuristics Only:** The anomaly detector relies on independent univariate rolling heuristics (Rolling Z-Score, IQR fences, CUSUM regime shift).
+  2. **No Multivariate Covariate Correlation:** It does not model joint multi-sensor correlations or multidimensional anomalies (e.g., Mahalanobis distance, PCA reconstruction error, or Isolation Forests).
   3. **No Dynamic Regime Adaptation:** The detection thresholds are fixed and do not adapt autonomously to seasonality, periodic maintenance cycles, or non-stationary baseline shifts.
 
 ---
 
-### 4.3 `economic-scenario-analysis`
-- **Intervention Status:** Documentation & Palette Alignment Completed; Analytical Limitations Retained
-- **Public URL:** [https://akbknight.github.io/economic-scenario-analysis/](https://akbknight.github.io/economic-scenario-analysis/)
-- **Repository:** `https://github.com/akbknight/economic-scenario-analysis` (Branch: `main`, Commit: `f224750`)
-- **Visual Intervention:** Harmonized light/dark theme palettes, applied editorial tokens, and added mathematical documentation for the 3-variable VAR model equations.
-- **Acceptance Test:** Interactive scenario slider verification, theme toggle check, and console error audit (0 errors).
-- **Unresolved Analytical Limitations:**
-  1. **Stylized Fixed Parameters:** The underlying vector autoregression (VAR) model utilizes stylized, hardcoded transition matrices rather than parameters estimated from empirical time series.
-  2. **No Structural Identification:** It lacks structural VAR (SVAR) identification (e.g. Cholesky decomposition or sign restrictions) to isolate exogenous policy shocks from endogenous macroeconomic feedback.
-  3. **No Out-of-Sample Validation:** Impulse response functions represent deterministic textbook dynamics rather than empirical out-of-sample forecasts with calibrated error bounds.
-
----
-
-### 4.4 `supply-chain-planner`
+### 4.3 `supply-chain-planner`
 - **Intervention Status:** Theme & Monospace Alignment Completed; Analytical Limitations Retained
 - **Public URL:** [https://akbknight.github.io/supply-chain-planner/](https://akbknight.github.io/supply-chain-planner/)
 - **Repository:** `https://github.com/akbknight/supply-chain-planner` (Branch: `main`, Commit: `1edd093`)
 - **Visual Intervention:** Added universal light/dark theme toggle, editorial design tokens, and tabular monospace figure styling.
 - **Acceptance Test:** Theme toggle audit and responsive desktop/mobile layout inspection.
-- **Unresolved Analytical Limitations:**
+- **Retained Analytical Limitations:**
   1. **Deterministic Lead Times:** The multi-echelon safety stock formulation assumes constant, deterministic lead times between stages.
   2. **No Stochastic Disruption Modeling:** It does not model stochastic lead-time variance, maritime shipping bottlenecks, customs detention risks, or catastrophic supplier outages.
   3. **Heuristic vs. Optimal Allocation:** Inventory reorder points are computed via local decoupled heuristics rather than global mixed-integer linear programming (MILP) or multi-echelon inventory optimization (MEIO).
 
 ---
 
-### 4.5 `Vitara`
-- **Intervention Status:** Architecture Reviewed & Retained; Analytical Limitations Retained
+### 4.4 `Vitara`
+- **Intervention Status:** Architecture Reviewed & Retained; External Scoped Dependency Retained
 - **Public URL:** [https://akbknight.github.io/vitara/](https://akbknight.github.io/vitara/)
 - **Repository:** `https://github.com/akbknight/vitara` (Branch: `main`, Commit: `eb39ee7`)
 - **Intervention:** Audited Git remote, verified clean working tree on `main`, reviewed health coaching prototype design, and retained existing presentation without gratuitous rewrites.
 - **Acceptance Test:** Git status check, static asset and HTML structure review.
-- **Unresolved Analytical Limitations:**
-  1. **Simulated Biometric Telemetry:** All biometric signals (HRV, resting heart rate, sleep architecture) are synthetic client-side mocks.
-  2. **No Device Integration:** Live streaming from wearable health sensors (Apple HealthKit, Google Health Connect, Oura API) is not implemented.
-  3. **No Clinical Algorithm Validation:** Wellness recommendations are rule-based UI prototypes and have not been validated against clinical trial protocols.
+- **Scoped External Dependencies & Analytical Limitations:**
+  1. **Scoped External Dependency (Wearable Telemetry):** Live streaming from wearable health sensors (Apple HealthKit, Google Health Connect, Oura API) is an external hardware/OS-scoped dependency that is not available in a static browser environment. All biometric telemetry (HRV, resting heart rate, sleep architecture) remains synthetic client-side mocks and is not simulated or declared complete without live device integration.
+  2. **No Clinical Algorithm Validation:** Wellness recommendations are rule-based UI prototypes and have not been validated against clinical trial protocols.
 
 ---
 
-### 4.6 `akbknight.github.io` (Main Portfolio Platform)
+### 4.5 `akbknight.github.io` (Main Portfolio Platform)
 - **Intervention Category:** Platform Synchronization & Synthesis
 - **Public URL:** [https://akbknight.github.io/](https://akbknight.github.io/)
 - **Repository:** `https://github.com/akbknight/akbknight.github.io` (Branch: `main`; Deployment Branch: `gh-pages`)
 - **Intervention:**
-  - Synchronized project case studies with latest empirical findings: single shared scheduler module with 8 browser parity checks, retail 4-origin 12-month horizon suite (1.515% Mean MAPE, narrow ~0.0245 pp spread, retrospective robustness distinction, original historical holdout), and IRS S3 XML lineage (SHA-256 hash `de37...`, duplicate rows preserved pending verification, explicit missing return-level lineage, destination-verified documentation links).
+  - Synchronized project case studies with latest empirical findings: single shared scheduler module with Headless Chrome browser smoke tests and 8 Node parity checks, retail 4-origin 12-month horizon suite (1.515% Mean MAPE, narrow ~0.0245 pp spread, retrospective robustness distinction, original historical holdout), economic scenario dual-engine architecture (calibrated policy rules vs. empirical OLS regressions with 95% confidence bounds), and IRS S3 XML lineage (SHA-256 hash `de37...`, duplicate rows preserved pending verification, explicit missing return-level lineage, destination-verified documentation links).
   - Captured true light theme screenshot (`deployed_portfolio_desktop_light.png`).
   - Built production static export (`npm run build`) and deployed to `gh-pages` branch.
 - **Acceptance Test:**
@@ -250,15 +273,15 @@ The following applications have undergone visual cleanup and documentation align
 
 | Repository | Primary Technology | Intervention Category | Baseline Limitation | Intervention Status | Test Status | Deployed Commit | Deployment Status |
 |:---|:---|:---|:---|:---|:---|:---|:---|
-| **`scheduling-optimizer`** | JavaScript / Heuristics | **Algorithmic Resolution** | 61 attendee clearance violations on Seed 42; code duplication between browser and tests | Single shared module (`src/js/algorithm.js`) + strict attendee validation (rejects unknown IDs, non-finite values) + 14 edge tests + 8 browser-parity tests | 14/14 edge tests PASS; 8/8 parity tests PASS (0 defects) | `66d22ad` | **Live & Deployed** (Pages) |
+| **`scheduling-optimizer`** | JavaScript / Heuristics | **Algorithmic Resolution** | 61 attendee clearance violations on Seed 42; code duplication between browser and tests | Single shared module (`src/js/algorithm.js`) + strict attendee validation (rejects unknown IDs, non-finite values) + 14 edge tests + 8 Node parity tests + Headless Chrome browser smoke test | 14/14 edge tests PASS; 8/8 parity tests PASS; Browser Smoke PASS (0 defects) | `d20fd43` | **Live & Deployed** (Pages) |
 | **`us-retail-sales-forecast`** | Python / statsmodels | **Algorithmic Resolution** | Single 12-mo fixed holdout only; understated ~0.0245 pp spread | 4-origin 12-month horizon suite + per-origin breakdown + original historical holdout terminology + 0.0245 pp spread | 44/44 pytest PASS | `7a00a83` | **Live & Deployed** (Pages) |
+| **`economic-scenario-analysis`** | JavaScript / OLS / Econometrics | **Econometric Resolution** | Stylized rounded parameters only; 0 confidence bounds; 62% Soft Landing recession risk; duplicated inline code | Empirical OLS & Logit estimation (N=16) + 95% confidence intervals + dual-engine UI toggle + shared module architecture + interactive presets | 6/6 parity PASS; 4/4 Python OLS PASS; Browser Smoke PASS | `4e4ae07` | **Live & Deployed** (Pages) |
 | **`irs990-grant-dashboard`** | Python / DuckDB / Three.js | **Data Lineage & Provenance** | File ID conflated with provenance; return ObjectIds missing; link verification unclear | Documented SHA-256 hash, file size, extraction commands, duplicates preserved pending verification, missing lineage unresolved, destination-verified links | 7 ML models evaluated | `6da555b` | **Live & Deployed** (Pages) |
 | **`saltpepper-win`** | HTML5 / CSS / Vanilla JS | **Developer Workflow** | Generic centered hero, chained commands | Asymmetric dev layout, copyable PowerShell commands, terminal widened, price clarity | Verified (Copy tested) | `ce2e40c` | **Live & Deployed** (Pages) |
 | **`ai-strategic-briefing`** | Python / Stats / Web | **Algorithmic Resolution** | Background GPU loop + failing Z-score test | Removed loop, fixed small-sample Z threshold | 43/43 pytest PASS | `196e763` | **Live & Deployed** (Pages) |
 | **`crisis-to-care`** | React / Vite | **Algorithmic & Build** | Broken `package-lock.json` build failure | Resolved lockfile dependencies, verified build | Build Clean (6.13s) | `2e47b8e` | **Deployment-Blocked** (Actions Billing Lock) |
-| **`data-pipeline-validator`** | Python / Dash | **Unresolved Analytical Boundary** | Cluttered calipers & neon scanlines | Visual alignment done; in-memory batch checks only; no statistical drift detection (KS/PSI/Wasserstein) | 28/28 pytest PASS | `1f25b89` | **Live & Deployed** (Pages) |
-| **`anomaly-detection-monitor`** | Python / Dash | **Unresolved Analytical Boundary** | Neon cyberpunk accents & scanlines | Visual alignment done; univariate heuristics only; no multivariate correlation (Mahalanobis/Isolation Forest) | 22/22 pytest PASS | `561e566` | **Live & Deployed** (Pages) |
-| **`economic-scenario-analysis`** | JavaScript / Math | **Unresolved Analytical Boundary** | Inconsistent palettes & missing VAR docs | Visual alignment done; stylized fixed parameters only; no empirical SVAR estimation or out-of-sample validation | Verified (0 errors) | `f224750` | **Live & Deployed** (Pages) |
-| **`supply-chain-planner`** | JavaScript / Heuristics | **Unresolved Analytical Boundary** | No light/dark toggle, cramped tables | Visual alignment done; deterministic heuristic with constant lead times; no stochastic disruption modeling | Verified (Theme tested) | `1edd093` | **Live & Deployed** (Pages) |
-| **`Vitara`** | HTML5 / Supabase | **Unresolved Analytical Boundary** | Unaudited nested repository structure | Reviewed & retained; client-side prototype with mock biometrics; no live wearable device telemetry ingestion | Structure Verified | `eb39ee7` | **Live & Retained** |
+| **`data-pipeline-validator`** | Python / Dash | **Retained Analytical Boundary** | Cluttered calipers & neon scanlines | Visual alignment done; in-memory batch checks only; no statistical drift detection (KS/PSI/Wasserstein) | 28/28 pytest PASS (1.13s) | `1f25b89` | **Live & Deployed** (Pages) |
+| **`anomaly-detection-monitor`** | Python / Dash | **Retained Analytical Boundary** | Neon cyberpunk accents & scanlines | Visual alignment done; univariate heuristics only; no multivariate correlation (Mahalanobis/Isolation Forest) | 22/22 pytest PASS (1.85s) | `561e566` | **Live & Deployed** (Pages) |
+| **`supply-chain-planner`** | JavaScript / Heuristics | **Retained Analytical Boundary** | No light/dark toggle, cramped tables | Visual alignment done; deterministic heuristic with constant lead times; no stochastic disruption modeling | Verified (Theme tested) | `1edd093` | **Live & Deployed** (Pages) |
+| **`Vitara`** | HTML5 / Supabase | **Retained Analytical Boundary** | Unaudited nested repository structure | Reviewed & retained; client-side prototype with mock biometrics; wearable sensor streaming is a scoped external dependency | Structure Verified | `eb39ee7` | **Live & Retained** |
 | **`akbknight.github.io`** | Next.js 16 / TypeScript | **Platform Synchronization** | Divergent Hairline focus, unmeasured claims | Direction B editorial + verified empirical findings synchronized across all projects | Static Build PASS | Current `main` / `gh-pages` | **Live & Deployed** (gh-pages) |

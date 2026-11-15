@@ -151,7 +151,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     problem:
       "Independent consular sections and diplomatic facilities share limited high-security rooms and personnel, leading to double-booking, sub-optimal capacity allocation, and manual triage delays during high-demand surge periods.",
     contribution:
-      "Architected a priority-weighted greedy heuristic implemented as a single shared module (src/js/algorithm.js) loaded directly by the browser UI and tested via Node.js harnesses (14 edge-case tests and 8 browser-parity tests). Visualized real-time schedule timetables and 3D room occupancy layouts in the browser.",
+      "Architected a priority-weighted greedy heuristic implemented as a single shared module (src/js/algorithm.js) loaded directly by the browser UI and verified via Node.js parity harnesses (14 edge-case tests, 8 parity tests) and Headless Chrome browser smoke testing (100% pass). Visualized real-time schedule timetables and 3D room occupancy layouts in the browser.",
     tech: ["JavaScript", "Heuristics", "Constraint Satisfaction", "Three.js", "Chart.js"],
     image: "/projects/scheduling-optimizer.png",
     imageLight: "/projects/scheduling-optimizer-light.png",
@@ -198,8 +198,8 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     summary:
       "Interactive econometric policy engine modeling Federal Reserve rate levers, CPI inflation, and unemployment inputs to project 12-month forward retail sales growth and calibrated recession probabilities using FRED historical series (2000–2024).",
     contribution:
-      "Formulated client-side Okun-style lag regressions, inflation mean-reversion persistence, and logistic recession probability functions with zero-dependency vanilla JavaScript and dynamic Chart.js curves.",
-    tech: ["JavaScript", "Chart.js", "FRED API", "Econometrics"],
+      "Engineered dual-engine architecture with formal empirical OLS & MLE logit estimation, deriving 95% confidence bounds (±1.96·SE) across macroeconomic regimes (2000–2024) alongside stylized policy rules.",
+    tech: ["JavaScript", "Chart.js", "FRED API", "OLS Econometrics", "Puppeteer"],
     github: "https://github.com/akbknight/economic-scenario-analysis",
     live: "https://akbknight.github.io/economic-scenario-analysis/",
   },
