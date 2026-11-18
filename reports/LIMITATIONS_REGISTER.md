@@ -147,7 +147,7 @@ For each repository, the register records:
 
 ---
 
-### 1.6 `data-pipeline-validator` [VERIFIED & CLOSED]
+### 1.6 `data-pipeline-validator`: Distribution Drift Screening & Gate Isolation [RESOLVED]
 - **Intervention Category:** Algorithmic & Statistical Resolution, Drift Monitoring, Gate Isolation & Explicit Insufficient Data Handling
 - **Public URL:** [https://akbknight.github.io/data-pipeline-validator/](https://akbknight.github.io/data-pipeline-validator/)
 - **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `f3ebf8a`)
@@ -191,36 +191,42 @@ For each repository, the register records:
 
 ---
 
-### 1.7 `supply-chain-planner` [VERIFIED & CLOSED]
+### 1.7 `supply-chain-planner`: Reorder Point Arithmetic & Scenario KPI Defect [RESOLVED]
 - **Intervention Category:** Algorithmic Resolution, Modular Architecture & Dynamic Scenario Consistency
 - **Public URL:** [https://akbknight.github.io/supply-chain-planner/](https://akbknight.github.io/supply-chain-planner/)
-- **Repository:** `https://github.com/akbknight/supply-chain-planner` (Branch: `main`, Commit: `03b4c5a`)
+- **Repository:** `https://github.com/akbknight/supply-chain-planner` (Branch: `main`, Commit: `93ccbd2`)
 - **Baseline Evidence:**
   1. **Architectural Disconnection:** The repository extracted reference files in `src/js/` (`config.js`, `eoq.js`, `simulation.js`), but `index.html` duplicated all data constants, EOQ formulas, scenario logic, and KPI aggregation inline, creating code divergence risk.
-  2. **Baseline Arithmetic Deficits:** In the baseline dataset (`BASE_DATA`), 4 of 8 categories were dimensioned with nominal reorder points below deterministic lead-time demand ($d \times L > R$: IT Equipment $25.2 > 10$, Security Gear $39.2 > 30$, Communication Equip $11.2 > 8$, Vehicle Parts $37.8 > 25$), guaranteeing stockout prior to replenishment delivery under nominal baseline conditions.
+  2. **Baseline Synthetic Arithmetic Inconsistency:** In the original synthetic scenario inputs (`BASE_DATA`), 4 of 8 categories were dimensioned with nominal reorder points below deterministic lead-time demand ($d \times L > R$: IT Equipment $25.2 > 10$, Security Gear $39.2 > 30$, Communication Equip $11.2 > 8$, Vehicle Parts $37.8 > 25$), guaranteeing stockout prior to replenishment delivery under nominal baseline conditions.
   3. **Contradictory KPI Workflow:** The "Below Reorder Point" KPI card evaluated inventory strictly against frozen nominal reorder points rather than scenario-adjusted lead-time demand. During severe demand surges (2.0x–3.0x) and transit delays (+14 days) where items were in `CRITICAL` stockout status, the KPI counter remained stuck at 0 items below reorder.
   4. **Complete Absence of Automated Tests:** The repository possessed 0 automated unit, integration, parity, or browser tests.
 - **Intervention & Evidence Repairs:**
   - **Single Shared Modular Architecture:** Refactored `index.html` to load and bind `src/js/config.js`, `src/js/eoq.js`, and `src/js/simulation.js`. Removed 56 lines of duplicate inline logic. Added explicit browser global `window` exposure across all modules, ensuring 100% execution parity between browser runtime and Node.js automated test harnesses.
-  - **Calibrated Deterministic Reorder Points:** Corrected baseline reorder points in `BASE_DATA` to satisfy deterministic lead-time demand ($R \ge \lceil d \times L \rceil$: Office Supplies 126, IT Equipment 26, Security Gear 40, Medical Supplies 75, Communication Equip 12, Vehicle Parts 38, Stationery 200, Facility Supplies 100).
+  - **Revisions to Synthetic Scenario Inputs (Original Values Preserved):** Revised baseline reorder points in `BASE_DATA` to satisfy deterministic lead-time demand ($R \ge \lceil d \times L \rceil$: Office Supplies 126, IT Equipment 26, Security Gear 40, Medical Supplies 75, Communication Equip 12, Vehicle Parts 38, Stationery 200, Facility Supplies 100). The original synthetic demonstration inputs (Office Supplies 120, IT Equipment 10, Security Gear 30, Communication Equip 8, Vehicle Parts 25) are explicitly preserved as `legacyReorderPoint` in the dataset, documentation, and tests for comparative audit. This represents a revision to synthetic demonstration inputs, **not** a measured operational improvement on live facilities.
   - **Dynamic Scenario Reorder Points & Consistent KPIs:** Implemented dynamic calculation of `effectiveReorderPoint = Math.ceil(effectiveDemand * effectiveLeadTime + safetyStock)` and boolean `isBelowReorder` in `computeScenario`. Updated `computeKPIs` to count items below the dynamic scenario threshold. When demand spikes to 2.0x, the KPI card dynamically reflects 3 items below reorder (IT Equipment, Comm Equip, Vehicle Parts), matching the 3 `CRITICAL` stockout alerts.
   - **Dual-Dataset Chart.js Dynamic Scaling:** Bound `effectiveReorderPoint` to Chart.js dataset 1 (`stockChart.data.datasets[1].data = rows.map(r => r.effectiveReorderPoint)`), enabling visual comparison between current stock and dynamically rising reorder thresholds. Bound `window.chart = stockChart` ensuring theme toggle cleanly updates chart styling.
-  - **Comprehensive Automated Test Suite (18 tests total):**
-    - `tests/test_eoq.cjs` (8 unit tests): Wilson EOQ formula analytical derivations, zero/negative parameter guards, exact integer outputs for all 8 base categories, safety stock buffers, and stockout risk thresholds.
-    - `tests/test_simulation.cjs` (6 integration tests): Baseline lead-time coverage invariants, 2.0x demand surge verification, maximum stress (+14d delay, 3.0x demand), 40% disruption cuts, and deterministic mathematical invariants (every `CRITICAL` item is strictly below reorder point).
+  - **Disruption Toggle Scoped as Replenishment-Quantity Illustration:** Explicitly documented in UI, docstrings, and methodology that the disruption toggle represents an illustrative batch-size reduction (reducing `effectiveOrderQty` by 40%). Because this simulation evaluates a single-period static snapshot of current on-hand stock, downstream replenishment shipment arrivals over time, pipeline stock, and multi-period stock trajectories are unmodeled; therefore `effectiveOrderQty` does not alter `daysUntilStockout` or status classifications.
+  - **Removal of Implied Service-Level Guarantees:** Removed all implied service-level claims (e.g. "95% nominal protection") from the buffer-day safety stock calculation (`calculateSafetyStock`). Documented that safety stock based on simple buffer days is a deterministic heuristic and does not guarantee a statistical service level without empirical demand/lead-time distributions, variance estimation ($z \cdot \sigma_L$), and continuous convolution.
+  - **Comprehensive Automated Test Suite (19 tests total):**
+    - `tests/test_eoq.cjs` (8 unit tests): Wilson EOQ formula analytical derivations, zero/negative parameter guards, exact integer outputs for all 8 base categories, safety stock buffer calculations, and stockout risk thresholds.
+    - `tests/test_simulation.cjs` (7 integration tests): Baseline lead-time coverage invariants, 2.0x demand surge verification, maximum stress (+14d delay, 3.0x demand), 40% disruption cuts confirming unmodeled downstream timing invariance, preservation of legacy synthetic ROPs across all 8 items, and deterministic mathematical invariants (every `CRITICAL` item is strictly below reorder point).
     - `tests/test_browser_parity.cjs` (4 parity tests): Confirms `index.html` script tags, asserts absence of duplicate inline definitions, checks presence of all interactive DOM controls, and verifies chart assignments.
     - `tests/test_browser_smoke.cjs` (Real Browser Smoke Test): Headless Google Chrome execution via Puppeteer Core; asserts 0 page/console errors, validates DOM rendering of 4 KPI cards and 8 table rows, tests interactive demand surge slider (verifying 3 critical badges), transit delay slider (+7d), disruption toggle, theme toggle, and captures full-page visual screenshot.
 - **Acceptance Test:**
   ```bash
-  npm test              # 18 unit, simulation, and browser parity tests (100% PASS)
+  npm test              # 19 unit, simulation, and browser parity tests (100% PASS)
   npm run test:browser  # Headless Google Chrome browser smoke test (0 defects, 0 errors)
   ```
 - **Result:**
-  - **Unit & Simulation Suite:** **18/18 tests passed (100% PASS)**.
+  - **Unit & Simulation Suite:** **19/19 tests passed (100% PASS)**.
   - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**.
   - **Live Verification Screenshot:** Saved to `live_after_evidence/supply_chain_planner_desktop.png`.
-  - **Git Remote Synchronization:** Committed and pushed to `main` at `03b4c5a`.
-- **Remaining Analytical Boundary:** The planner is a single-echelon, deterministic lead-time simulation designed for tactical scenario exploration. It does not model stochastic lead-time variance distributions, multi-echelon inventory optimization (MEIO), or global mixed-integer linear programming (MILP) network allocation.
+  - **Git Remote Synchronization:** Committed and pushed to `main` at `93ccbd2`.
+- **Retained Analytical Boundaries:**
+  1. **Unmodeled Replenishment Dynamics & Multi-Period Stock Trajectories:** Downstream replenishment shipment arrivals, in-transit purchase order pipelines, and dynamic post-arrival inventory trajectories over time are not simulated.
+  2. **Static Inventory-Position Assumptions:** Stock is modeled strictly as static current on-hand quantity ($S$); does not account for open purchase orders, vendor backorders, emergency reserves, or scrap.
+  3. **Deterministic Lead Times & Demand:** Lead times and daily demand rates are scalar constants; does not model stochastic variance distributions or covariance.
+  4. **Local Heuristics vs. Global Optimization:** Decentralized single-item Wilson EOQ / ROP without multi-echelon inventory optimization (MEIO) or mixed-integer linear programming (MILP).
 
 ---
 
@@ -326,8 +332,8 @@ The following applications have undergone visual cleanup and documentation align
 | **`irs990-grant-dashboard`** | Python / DuckDB / Three.js | **Data Lineage & Provenance** | File ID conflated with provenance; return ObjectIds missing; link verification unclear | Documented SHA-256 hash, file size, extraction commands, duplicates preserved pending verification, missing lineage unresolved, destination-verified links | 7 ML models evaluated | `6da555b` | **Live & Deployed** (Pages) |
 | **`saltpepper-win`** | HTML5 / CSS / Vanilla JS | **Developer Workflow** | Generic centered hero, chained commands | Asymmetric dev layout, copyable PowerShell commands, terminal widened, price clarity | Verified (Copy tested) | `ce2e40c` | **Live & Deployed** (Pages) |
 | **`ai-strategic-briefing`** | Python / Stats / Web | **Algorithmic Resolution** | Background GPU loop + failing Z-score test | Removed loop, fixed small-sample Z threshold | 43/43 pytest PASS | `196e763` | **Live & Deployed** (Pages) |
-| **`data-pipeline-validator`** | Python / Stats / Web | **Algorithmic & Statistical Resolution** | Static in-memory validation only; blind to distributional drift | Dual-engine architecture + Two-Sample KS test + Continuous/Categorical PSI + Downstream Gate isolation + verified SciPy fallback & explicit insufficient data handling | 54/54 pytest PASS; Browser Smoke PASS (0 defects) | `f3ebf8a` | **Live & Deployed** (Pages) |
-| **`supply-chain-planner`** | JavaScript / Heuristics | **Algorithmic Resolution & Modular Architecture** | Code duplication between index.html and src/js; 4/8 categories with R < d*L; frozen static reorder KPI; 0 tests | Single shared module architecture + calibrated baseline ROP + dynamic scenario ROP & consistent KPI + 18 automated tests | 18/18 tests PASS; Browser Smoke PASS (0 defects) | `03b4c5a` | **Live & Deployed** (Pages) |
+| **`data-pipeline-validator`** | Python / Stats / Web | **Algorithmic & Statistical Resolution (Drift Screening & Gate Isolation)** | Static in-memory validation only; blind to distributional drift | Dual-engine architecture + Two-Sample KS test + Continuous/Categorical PSI + Downstream Gate isolation + verified SciPy fallback & explicit insufficient data handling | 54/54 pytest PASS; Browser Smoke PASS (0 defects) | `f3ebf8a` | **Live & Deployed** (Pages) |
+| **`supply-chain-planner`** | JavaScript / Heuristics | **Algorithmic Resolution (Reorder Arithmetic & Dynamic Scenario KPI)** | Code duplication between index.html and src/js; 4/8 categories with R < d*L; frozen static reorder KPI; 0 tests | Single shared module architecture + revised synthetic baseline ROPs (legacy preserved) + dynamic scenario ROP & consistent KPI + 19 automated tests | 19/19 tests PASS; Browser Smoke PASS (0 defects) | `93ccbd2` | **Live & Deployed** (Pages) |
 | **`crisis-to-care`** | React / Vite | **Algorithmic & Build** | Broken `package-lock.json` build failure | Resolved lockfile dependencies, verified build | Build Clean (6.13s) | `2e47b8e` | **Deployment-Blocked** (Actions Billing Lock) |
 | **`anomaly-detection-monitor`** | Python / Dash | **Retained Analytical Boundary** | Neon cyberpunk accents & scanlines | Visual alignment done; univariate heuristics only; no multivariate correlation (Mahalanobis/Isolation Forest) | 22/22 pytest PASS (1.85s) | `561e566` | **Live & Deployed** (Pages) |
 | **`Vitara`** | HTML5 / Supabase | **Retained Analytical Boundary** | Unaudited nested repository structure | Reviewed & retained; client-side prototype with mock biometrics; wearable sensor streaming is a scoped external dependency | Structure Verified | `eb39ee7` | **Live & Retained** |
