@@ -230,6 +230,49 @@ For each repository, the register records:
 
 ---
 
+### 1.8 `anomaly-detection-monitor`: Numerical Division Guards & Dataset Synchronization [RESOLVED]
+- **Intervention Category:** Algorithmic & Statistical Resolution, Numerical Division Guardrails & Dashboard Synchronization
+- **Public URL:** [https://akbknight.github.io/anomaly-detection-monitor/](https://akbknight.github.io/anomaly-detection-monitor/)
+- **Repository:** `https://github.com/akbknight/anomaly-detection-monitor` (Branch: `master`, Commit: `e2f8f68`)
+- **Baseline Evidence:**
+  1. **Numerical Division Hazards & Runtime Warnings:** In `src/detectors/iqr.py`, computing outlier severity distance ($\text{dist} = \max(|x - \text{fence}|) / IQR$) on discrete, step-level, or degenerate series where $Q_1 = Q_3$ ($IQR = 0$) threw `ZeroDivisionError` and `RuntimeWarning: divide by zero encountered in scalar divide`, producing infinite scores (`inf`). In `src/detectors/zscore.py`, uniform or constant series threw `scipy.stats.zscore` precision loss warnings due to catastrophic cancellation.
+  2. **Data Desynchronization Defect:** The browser dashboard (`index.html`) hardcoded an outdated May 2026 dataset (314 months through March 2026, 7 CPI anomalies), while `detect.py` generated 321 months through October 2026 (8 CPI anomalies) into `anomaly_data.json`. The web dashboard was desynchronized from pipeline output, and KPI card period labels were hardcoded rather than dynamic.
+  3. **Absence of Browser Smoke and Parity Testing:** Zero automated browser smoke tests, DOM parity checks, or output synchronization tests existed.
+- **Intervention & Evidence Repairs:**
+  - **Numerical Guardrails:** Added explicit small-sample and degenerate-series guards across all detectors:
+    - `zscore.py`: Added `len(series) < 2` guard and `std <= 1e-12` guard; computed $z$-scores directly via $(x - \mu) / \sigma$ with zero-variance protection, eliminating catastrophic cancellation warnings and returning empty anomaly lists on uniform series.
+    - `iqr.py`: Added `len(series) < 4` guard and `iqr <= 1e-12` guard, eliminating `ZeroDivisionError` and infinite scores.
+    - `cusum.py`: Preserved existing `std_diff <= 1e-9` zero-variance guard.
+  - **Automated Pipeline-Dashboard Synchronization:**
+    - Updated `src/pipeline/runner.py`'s `write_output(output, sync_html=True)` to serialize to `anomaly_data.json`, `data/artifacts/anomaly_data.json`, and automatically synchronize the inline `const DATA = { ... };` payload in `index.html` via regex replacement with callable lambda substitution (preventing `\u` regex escape corruption).
+    - Added `--no-sync` flag to `src/cli/run.py` to allow skipping HTML updates when desired.
+    - Exposed `window.DATA = DATA;` on the global browser scope for headless inspection.
+    - Updated `index.html` KPI card to evaluate `sub: s0.meta.period` dynamically (`Jan 2000 – Oct 2026`), and fixed table header pluralization (`Anomalies`).
+  - **Comprehensive Test Suite (31 Pytest Tests + Headless Browser Smoke Test):**
+    - `tests/test_detectors.py`: 16 unit tests, including dedicated zero-variance and zero-IQR tests (`test_zscore_zero_variance_and_small_sample`, `test_iqr_zero_iqr_and_small_sample`).
+    - `tests/test_pipeline.py`: 10 deduplication and `write_output` tests (`test_write_output_sync_html_updates_file`, `test_write_output_no_sync_preserves_html`).
+    - `tests/test_browser_parity.py`: 5 contract and parity tests asserting exact JSON equality between `index.html`, `anomaly_data.json`, and `data/artifacts/anomaly_data.json`.
+    - `tests/test_browser_smoke.cjs`: Headless Google Chrome browser smoke test verifying 0 console/runtime errors, `window.DATA` bindings (UNRATE: 321 mos / 4 anomalies, CPI: 321 mos / 8 anomalies), 5 KPI cards (12 anomalies, 4 high), Chart.js canvas rendering, initial UNRATE table (4 rows), interactive series switch to CPI (#btn-1, 8 rows), and light/dark theme toggle.
+  - **Visual Evidence:** Saved full desktop viewport screenshot to `live_after_evidence/anomaly_detection_monitor_desktop.png`.
+- **Acceptance Test:**
+  ```bash
+  pytest tests/ -v                      # 31 unit, edge-case, and parity tests (100% PASS in 4.87s)
+  node tests/test_browser_smoke.cjs     # Headless Google Chrome browser smoke test (0 defects, 0 errors)
+  python detect.py                      # Full FRED ingestion, detection & HTML sync (321 months, 12 anomalies)
+  ```
+- **Result:**
+  - **Pytest Suite:** **31/31 tests passed (100% PASS)** in 4.87s.
+  - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**.
+  - **Synchronization:** Verified identical data between `anomaly_data.json` and `index.html` (321 months, 12 anomalies: 4 UNRATE, 8 CPI; 4 high severity).
+  - **Live Verification Screenshot:** Saved to `live_after_evidence/anomaly_detection_monitor_desktop.png`.
+  - **Git Remote Synchronization:** Committed and pushed to `origin/master` at `e2f8f68`.
+- **Retained Analytical Boundaries:**
+  1. **Univariate Heuristics Only:** Detection is conducted independently on each univariate series (Rolling Z-Score, Tukey IQR fences, Page CUSUM on first differences). It does not model cross-series macroeconomic covariance or joint structural breaks (e.g. via Mahalanobis distance, VAR residuals, PCA reconstruction, or multivariate Isolation Forest).
+  2. **Fixed Deterministic Thresholding:** Thresholds ($2.5\sigma$ Z-score, $2.0 \times IQR$, $h=4\sigma$ CUSUM) are static heuristics. They do not dynamically adapt to non-stationary volatility regimes or seasonal decomposition (STL).
+  3. **Descriptive Anomaly Filtering:** Flagged anomalies represent historical statistical outliers and level shifts. They do not isolate causal policy shocks or constitute forward-looking probabilistic recession forecasts.
+
+---
+
 ## 2. Empirical Data Lineage & Provenance
 
 ### 2.1 `irs990-grant-dashboard`
@@ -278,22 +321,9 @@ For each repository, the register records:
 
 ## 4. Retained Analytical Boundaries & Scoped Dependencies
 
-The following applications have undergone visual cleanup and documentation alignment, and their core analytical limitations or external dependencies are **explicitly scoped and retained**:
+The following applications have undergone architectural review, and their core analytical boundaries or external dependencies are **explicitly scoped and retained**:
 
-### 4.1 `anomaly-detection-monitor`
-- **Intervention Status:** Visual Alignment Completed; Analytical Limitations Retained
-- **Public URL:** [https://akbknight.github.io/anomaly-detection-monitor/](https://akbknight.github.io/anomaly-detection-monitor/)
-- **Repository:** `https://github.com/akbknight/anomaly-detection-monitor` (Branch: `master`, Commit: `561e566`)
-- **Visual Intervention:** Refactored palette to Editorial Quantitative Craft standards, aligned tabular numbers, and replaced neon accents.
-- **Acceptance Test:** `pytest tests/` (22/22 tests passed in 1.85s).
-- **Retained Analytical Limitations:**
-  1. **Univariate Heuristics Only:** The anomaly detector relies on independent univariate rolling heuristics (Rolling Z-Score, IQR fences, CUSUM regime shift).
-  2. **No Multivariate Covariate Correlation:** It does not model joint multi-sensor correlations or multidimensional anomalies (e.g., Mahalanobis distance, PCA reconstruction error, or Isolation Forests).
-  3. **No Dynamic Regime Adaptation:** The detection thresholds are fixed and do not adapt autonomously to seasonality, periodic maintenance cycles, or non-stationary baseline shifts.
-
----
-
-### 4.2 `Vitara`
+### 4.1 `Vitara`
 - **Intervention Status:** Architecture Reviewed & Retained; External Scoped Dependency Retained
 - **Public URL:** [https://akbknight.github.io/vitara/](https://akbknight.github.io/vitara/)
 - **Repository:** `https://github.com/akbknight/vitara` (Branch: `main`, Commit: `eb39ee7`)
@@ -305,13 +335,12 @@ The following applications have undergone visual cleanup and documentation align
 
 ---
 
-### 4.3 `akbknight.github.io` (Main Portfolio Platform)
+### 4.2 `akbknight.github.io` (Main Portfolio Platform)
 - **Intervention Category:** Platform Synchronization & Synthesis
 - **Public URL:** [https://akbknight.github.io/](https://akbknight.github.io/)
 - **Repository:** `https://github.com/akbknight/akbknight.github.io` (Branch: `main`; Deployment Branch: `gh-pages`)
 - **Intervention:**
-  - Synchronized project case studies with latest empirical findings: single shared scheduler module with Headless Chrome browser smoke tests and 8 Node parity checks, retail 4-origin 12-month horizon suite (1.515% Mean MAPE, narrow ~0.0245 pp spread, retrospective robustness distinction, original historical holdout), economic scenario dual-engine architecture (calibrated policy rules vs. empirical OLS regressions with 95% confidence bounds), and IRS S3 XML lineage (SHA-256 hash `de37...`, duplicate rows preserved pending verification, explicit missing return-level lineage, destination-verified documentation links).
-  - Captured true light theme screenshot (`deployed_portfolio_desktop_light.png`).
+  - Synchronized project case studies with latest empirical findings: single shared scheduler module with Headless Chrome browser smoke tests and 8 Node parity checks, retail 4-origin 12-month horizon suite (1.515% Mean MAPE, narrow ~0.0245 pp spread, retrospective robustness distinction, original historical holdout), economic scenario dual-engine architecture (calibrated policy rules vs. empirical OLS regressions with 95% confidence bounds), IRS S3 XML lineage (SHA-256 hash `de37...`, duplicate rows preserved pending verification, explicit missing return-level lineage, destination-verified documentation links), data pipeline validator distribution drift screening and gate isolation (54 pytest checks, Headless Chrome smoke test), and anomaly detection monitor numerical division guards and automated dashboard synchronization (31 pytest checks, Headless Chrome smoke test).
   - Built production static export (`npm run build`) and deployed to `gh-pages` branch.
 - **Acceptance Test:**
   ```bash
@@ -334,7 +363,7 @@ The following applications have undergone visual cleanup and documentation align
 | **`ai-strategic-briefing`** | Python / Stats / Web | **Algorithmic Resolution** | Background GPU loop + failing Z-score test | Removed loop, fixed small-sample Z threshold | 43/43 pytest PASS | `196e763` | **Live & Deployed** (Pages) |
 | **`data-pipeline-validator`** | Python / Stats / Web | **Algorithmic & Statistical Resolution (Drift Screening & Gate Isolation)** | Static in-memory validation only; blind to distributional drift | Dual-engine architecture + Two-Sample KS test + Continuous/Categorical PSI + Downstream Gate isolation + verified SciPy fallback & explicit insufficient data handling | 54/54 pytest PASS; Browser Smoke PASS (0 defects) | `f3ebf8a` | **Live & Deployed** (Pages) |
 | **`supply-chain-planner`** | JavaScript / Heuristics | **Algorithmic Resolution (Reorder Arithmetic & Dynamic Scenario KPI)** | Code duplication between index.html and src/js; 4/8 categories with R < d*L; frozen static reorder KPI; 0 tests | Single shared module architecture + revised synthetic baseline ROPs (legacy preserved) + dynamic scenario ROP & consistent KPI + 19 automated tests | 19/19 tests PASS; Browser Smoke PASS (0 defects) | `93ccbd2` | **Live & Deployed** (Pages) |
+| **`anomaly-detection-monitor`** | Python / Stats / Web | **Algorithmic & Statistical Resolution (Numerical Guards & Dashboard Sync)** | Zero-variance catastrophic warnings; Zero-IQR division by zero; desynchronized HTML (314 vs 321 mos); 0 tests | Zero-variance/zero-IQR guardrails + write_output automatic HTML synchronization + 31 unit/parity tests + Headless Chrome smoke test | 31/31 pytest PASS; Browser Smoke PASS (0 defects) | `e2f8f68` | **Live & Deployed** (Pages) |
 | **`crisis-to-care`** | React / Vite | **Algorithmic & Build** | Broken `package-lock.json` build failure | Resolved lockfile dependencies, verified build | Build Clean (6.13s) | `2e47b8e` | **Deployment-Blocked** (Actions Billing Lock) |
-| **`anomaly-detection-monitor`** | Python / Dash | **Retained Analytical Boundary** | Neon cyberpunk accents & scanlines | Visual alignment done; univariate heuristics only; no multivariate correlation (Mahalanobis/Isolation Forest) | 22/22 pytest PASS (1.85s) | `561e566` | **Live & Deployed** (Pages) |
 | **`Vitara`** | HTML5 / Supabase | **Retained Analytical Boundary** | Unaudited nested repository structure | Reviewed & retained; client-side prototype with mock biometrics; wearable sensor streaming is a scoped external dependency | Structure Verified | `eb39ee7` | **Live & Retained** |
 | **`akbknight.github.io`** | Next.js 16 / TypeScript | **Platform Synchronization** | Divergent Hairline focus, unmeasured claims | Direction B editorial + verified empirical findings synchronized across all projects | Static Build PASS | `ab0ebfd` / `11dec09` | **Live & Deployed** (gh-pages) |
