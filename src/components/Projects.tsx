@@ -196,12 +196,23 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     title: "Data Pipeline Integrity & Statistical Drift Validator",
     category: "Data Quality & Statistical Drift Monitoring",
     summary:
-      "Automated enterprise quality control engine combining 7 categorical static invariant checks with continuous non-parametric statistical distribution drift detection (Two-Sample Kolmogorov-Smirnov & Population Stability Index deciles).",
+      "Automated quality control engine combining 7 categorical static invariant checks with continuous non-parametric statistical distribution drift screening (Two-Sample Kolmogorov-Smirnov & Population Stability Index deciles).",
     contribution:
-      "Engineered automated quarantine enforcement on severe distribution drift (PSI ≥ 0.25), catching silent transaction scaling and status shift even when static schema checks pass 100%. Verified by 44 pytest unit tests and Headless Chrome smoke tests.",
+      "Engineered automated quarantine gating on severe distribution drift (PSI ≥ 0.25) and static invariant failures with write-once audit manifests, verified SciPy fallback approximation, and explicit insufficient data handling. Verified by 54 pytest unit tests and Headless Chrome smoke tests.",
     tech: ["Python", "Pandas", "NumPy", "SciPy", "Statistical Testing", "Chart.js"],
     github: "https://github.com/akbknight/data-pipeline-validator",
     live: "https://akbknight.github.io/data-pipeline-validator/",
+  },
+  {
+    title: "Supply Chain Scenario Planner",
+    category: "Diplomatic Logistics & Inventory Optimization",
+    summary:
+      "Tactical inventory simulation modeling 8 mission supply categories, computing optimal order quantities via Wilson EOQ, and stress-testing stockout risk under interactive demand surges, transit delays, and supply disruptions.",
+    contribution:
+      "Refactored to single shared modular architecture (src/js/), calibrated baseline reorder points to satisfy deterministic lead-time demand, and implemented dynamic scenario reorder points with consistent KPI tracking. Verified by 18 automated tests and Headless Chrome smoke tests.",
+    tech: ["JavaScript", "Chart.js", "EOQ / ROP", "Puppeteer", "Scenario Planning"],
+    github: "https://github.com/akbknight/supply-chain-planner",
+    live: "https://akbknight.github.io/supply-chain-planner/",
   },
   {
     title: "Economic Scenario Analysis Simulator",
