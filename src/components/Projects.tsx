@@ -209,10 +209,21 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     summary:
       "Tactical inventory simulation modeling 8 mission supply categories, computing optimal order quantities via Wilson EOQ, and stress-testing stockout risk under interactive demand surges, transit delays, and supply disruptions.",
     contribution:
-      "Refactored to single shared modular architecture (src/js/), calibrated baseline reorder points to satisfy deterministic lead-time demand, and implemented dynamic scenario reorder points with consistent KPI tracking. Verified by 18 automated tests and Headless Chrome smoke tests.",
+      "Refactored to single shared modular architecture (src/js/), calibrated baseline reorder points to satisfy deterministic lead-time demand, and implemented dynamic scenario reorder points with consistent KPI tracking. Verified by 19 automated tests and Headless Chrome smoke tests.",
     tech: ["JavaScript", "Chart.js", "EOQ / ROP", "Puppeteer", "Scenario Planning"],
     github: "https://github.com/akbknight/supply-chain-planner",
     live: "https://akbknight.github.io/supply-chain-planner/",
+  },
+  {
+    title: "Economic Anomaly Detection Monitor",
+    category: "Macroeconomic Regime Shift & Break Detection",
+    summary:
+      "Statistical monitoring engine applying three complementary algorithms (Rolling Z-Score, Tukey IQR Fences, Page CUSUM) across 26 years of FRED macroeconomic time series (UNRATE and CPIAUCSL, 2000–2026).",
+    contribution:
+      "Implemented numerical division guardrails for zero variance and discrete zero-IQR series, automated pipeline-to-dashboard HTML synchronization, and established 31 pytest tests alongside Headless Google Chrome interactive smoke tests.",
+    tech: ["Python", "Pandas", "SciPy", "Chart.js", "FRED API", "Puppeteer"],
+    github: "https://github.com/akbknight/anomaly-detection-monitor",
+    live: "https://akbknight.github.io/anomaly-detection-monitor/",
   },
   {
     title: "Economic Scenario Analysis Simulator",
