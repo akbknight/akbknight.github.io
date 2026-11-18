@@ -191,6 +191,39 @@ For each repository, the register records:
 
 ---
 
+### 1.7 `supply-chain-planner` [VERIFIED & CLOSED]
+- **Intervention Category:** Algorithmic Resolution, Modular Architecture & Dynamic Scenario Consistency
+- **Public URL:** [https://akbknight.github.io/supply-chain-planner/](https://akbknight.github.io/supply-chain-planner/)
+- **Repository:** `https://github.com/akbknight/supply-chain-planner` (Branch: `main`, Commit: `03b4c5a`)
+- **Baseline Evidence:**
+  1. **Architectural Disconnection:** The repository extracted reference files in `src/js/` (`config.js`, `eoq.js`, `simulation.js`), but `index.html` duplicated all data constants, EOQ formulas, scenario logic, and KPI aggregation inline, creating code divergence risk.
+  2. **Baseline Arithmetic Deficits:** In the baseline dataset (`BASE_DATA`), 4 of 8 categories were dimensioned with nominal reorder points below deterministic lead-time demand ($d \times L > R$: IT Equipment $25.2 > 10$, Security Gear $39.2 > 30$, Communication Equip $11.2 > 8$, Vehicle Parts $37.8 > 25$), guaranteeing stockout prior to replenishment delivery under nominal baseline conditions.
+  3. **Contradictory KPI Workflow:** The "Below Reorder Point" KPI card evaluated inventory strictly against frozen nominal reorder points rather than scenario-adjusted lead-time demand. During severe demand surges (2.0x–3.0x) and transit delays (+14 days) where items were in `CRITICAL` stockout status, the KPI counter remained stuck at 0 items below reorder.
+  4. **Complete Absence of Automated Tests:** The repository possessed 0 automated unit, integration, parity, or browser tests.
+- **Intervention & Evidence Repairs:**
+  - **Single Shared Modular Architecture:** Refactored `index.html` to load and bind `src/js/config.js`, `src/js/eoq.js`, and `src/js/simulation.js`. Removed 56 lines of duplicate inline logic. Added explicit browser global `window` exposure across all modules, ensuring 100% execution parity between browser runtime and Node.js automated test harnesses.
+  - **Calibrated Deterministic Reorder Points:** Corrected baseline reorder points in `BASE_DATA` to satisfy deterministic lead-time demand ($R \ge \lceil d \times L \rceil$: Office Supplies 126, IT Equipment 26, Security Gear 40, Medical Supplies 75, Communication Equip 12, Vehicle Parts 38, Stationery 200, Facility Supplies 100).
+  - **Dynamic Scenario Reorder Points & Consistent KPIs:** Implemented dynamic calculation of `effectiveReorderPoint = Math.ceil(effectiveDemand * effectiveLeadTime + safetyStock)` and boolean `isBelowReorder` in `computeScenario`. Updated `computeKPIs` to count items below the dynamic scenario threshold. When demand spikes to 2.0x, the KPI card dynamically reflects 3 items below reorder (IT Equipment, Comm Equip, Vehicle Parts), matching the 3 `CRITICAL` stockout alerts.
+  - **Dual-Dataset Chart.js Dynamic Scaling:** Bound `effectiveReorderPoint` to Chart.js dataset 1 (`stockChart.data.datasets[1].data = rows.map(r => r.effectiveReorderPoint)`), enabling visual comparison between current stock and dynamically rising reorder thresholds. Bound `window.chart = stockChart` ensuring theme toggle cleanly updates chart styling.
+  - **Comprehensive Automated Test Suite (18 tests total):**
+    - `tests/test_eoq.cjs` (8 unit tests): Wilson EOQ formula analytical derivations, zero/negative parameter guards, exact integer outputs for all 8 base categories, safety stock buffers, and stockout risk thresholds.
+    - `tests/test_simulation.cjs` (6 integration tests): Baseline lead-time coverage invariants, 2.0x demand surge verification, maximum stress (+14d delay, 3.0x demand), 40% disruption cuts, and deterministic mathematical invariants (every `CRITICAL` item is strictly below reorder point).
+    - `tests/test_browser_parity.cjs` (4 parity tests): Confirms `index.html` script tags, asserts absence of duplicate inline definitions, checks presence of all interactive DOM controls, and verifies chart assignments.
+    - `tests/test_browser_smoke.cjs` (Real Browser Smoke Test): Headless Google Chrome execution via Puppeteer Core; asserts 0 page/console errors, validates DOM rendering of 4 KPI cards and 8 table rows, tests interactive demand surge slider (verifying 3 critical badges), transit delay slider (+7d), disruption toggle, theme toggle, and captures full-page visual screenshot.
+- **Acceptance Test:**
+  ```bash
+  npm test              # 18 unit, simulation, and browser parity tests (100% PASS)
+  npm run test:browser  # Headless Google Chrome browser smoke test (0 defects, 0 errors)
+  ```
+- **Result:**
+  - **Unit & Simulation Suite:** **18/18 tests passed (100% PASS)**.
+  - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**.
+  - **Live Verification Screenshot:** Saved to `live_after_evidence/supply_chain_planner_desktop.png`.
+  - **Git Remote Synchronization:** Committed and pushed to `main` at `03b4c5a`.
+- **Remaining Analytical Boundary:** The planner is a single-echelon, deterministic lead-time simulation designed for tactical scenario exploration. It does not model stochastic lead-time variance distributions, multi-echelon inventory optimization (MEIO), or global mixed-integer linear programming (MILP) network allocation.
+
+---
+
 ## 2. Empirical Data Lineage & Provenance
 
 ### 2.1 `irs990-grant-dashboard`
@@ -254,20 +287,7 @@ The following applications have undergone visual cleanup and documentation align
 
 ---
 
-### 4.2 `supply-chain-planner`
-- **Intervention Status:** Theme & Monospace Alignment Completed; Analytical Limitations Retained
-- **Public URL:** [https://akbknight.github.io/supply-chain-planner/](https://akbknight.github.io/supply-chain-planner/)
-- **Repository:** `https://github.com/akbknight/supply-chain-planner` (Branch: `main`, Commit: `1edd093`)
-- **Visual Intervention:** Added universal light/dark theme toggle, editorial design tokens, and tabular monospace figure styling.
-- **Acceptance Test:** Theme toggle audit and responsive desktop/mobile layout inspection.
-- **Retained Analytical Limitations:**
-  1. **Deterministic Lead Times:** The multi-echelon safety stock formulation assumes constant, deterministic lead times between stages.
-  2. **No Stochastic Disruption Modeling:** It does not model stochastic lead-time variance, maritime shipping bottlenecks, customs detention risks, or catastrophic supplier outages.
-  3. **Heuristic vs. Optimal Allocation:** Inventory reorder points are computed via local decoupled heuristics rather than global mixed-integer linear programming (MILP) or multi-echelon inventory optimization (MEIO).
-
----
-
-### 4.3 `Vitara`
+### 4.2 `Vitara`
 - **Intervention Status:** Architecture Reviewed & Retained; External Scoped Dependency Retained
 - **Public URL:** [https://akbknight.github.io/vitara/](https://akbknight.github.io/vitara/)
 - **Repository:** `https://github.com/akbknight/vitara` (Branch: `main`, Commit: `eb39ee7`)
@@ -279,7 +299,7 @@ The following applications have undergone visual cleanup and documentation align
 
 ---
 
-### 4.4 `akbknight.github.io` (Main Portfolio Platform)
+### 4.3 `akbknight.github.io` (Main Portfolio Platform)
 - **Intervention Category:** Platform Synchronization & Synthesis
 - **Public URL:** [https://akbknight.github.io/](https://akbknight.github.io/)
 - **Repository:** `https://github.com/akbknight/akbknight.github.io` (Branch: `main`; Deployment Branch: `gh-pages`)
@@ -307,8 +327,8 @@ The following applications have undergone visual cleanup and documentation align
 | **`saltpepper-win`** | HTML5 / CSS / Vanilla JS | **Developer Workflow** | Generic centered hero, chained commands | Asymmetric dev layout, copyable PowerShell commands, terminal widened, price clarity | Verified (Copy tested) | `ce2e40c` | **Live & Deployed** (Pages) |
 | **`ai-strategic-briefing`** | Python / Stats / Web | **Algorithmic Resolution** | Background GPU loop + failing Z-score test | Removed loop, fixed small-sample Z threshold | 43/43 pytest PASS | `196e763` | **Live & Deployed** (Pages) |
 | **`data-pipeline-validator`** | Python / Stats / Web | **Algorithmic & Statistical Resolution** | Static in-memory validation only; blind to distributional drift | Dual-engine architecture + Two-Sample KS test + Continuous/Categorical PSI + Downstream Gate isolation + verified SciPy fallback & explicit insufficient data handling | 54/54 pytest PASS; Browser Smoke PASS (0 defects) | `f3ebf8a` | **Live & Deployed** (Pages) |
+| **`supply-chain-planner`** | JavaScript / Heuristics | **Algorithmic Resolution & Modular Architecture** | Code duplication between index.html and src/js; 4/8 categories with R < d*L; frozen static reorder KPI; 0 tests | Single shared module architecture + calibrated baseline ROP + dynamic scenario ROP & consistent KPI + 18 automated tests | 18/18 tests PASS; Browser Smoke PASS (0 defects) | `03b4c5a` | **Live & Deployed** (Pages) |
 | **`crisis-to-care`** | React / Vite | **Algorithmic & Build** | Broken `package-lock.json` build failure | Resolved lockfile dependencies, verified build | Build Clean (6.13s) | `2e47b8e` | **Deployment-Blocked** (Actions Billing Lock) |
 | **`anomaly-detection-monitor`** | Python / Dash | **Retained Analytical Boundary** | Neon cyberpunk accents & scanlines | Visual alignment done; univariate heuristics only; no multivariate correlation (Mahalanobis/Isolation Forest) | 22/22 pytest PASS (1.85s) | `561e566` | **Live & Deployed** (Pages) |
-| **`supply-chain-planner`** | JavaScript / Heuristics | **Retained Analytical Boundary** | No light/dark toggle, cramped tables | Visual alignment done; deterministic heuristic with constant lead times; no stochastic disruption modeling | Verified (Theme tested) | `1edd093` | **Live & Deployed** (Pages) |
 | **`Vitara`** | HTML5 / Supabase | **Retained Analytical Boundary** | Unaudited nested repository structure | Reviewed & retained; client-side prototype with mock biometrics; wearable sensor streaming is a scoped external dependency | Structure Verified | `eb39ee7` | **Live & Retained** |
 | **`akbknight.github.io`** | Next.js 16 / TypeScript | **Platform Synchronization** | Divergent Hairline focus, unmeasured claims | Direction B editorial + verified empirical findings synchronized across all projects | Static Build PASS | `ab0ebfd` / `11dec09` | **Live & Deployed** (gh-pages) |
