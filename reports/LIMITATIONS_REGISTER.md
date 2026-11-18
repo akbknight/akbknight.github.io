@@ -147,31 +147,32 @@ For each repository, the register records:
 
 ---
 
-### 1.6 `data-pipeline-validator`
-- **Intervention Category:** Algorithmic & Statistical Resolution, Drift Monitoring & Quarantine Enforcement
+### 1.6 `data-pipeline-validator` [ACTIVE REVIEW / REPAIR IN PROGRESS]
+- **Intervention Category:** Algorithmic & Statistical Resolution, Drift Monitoring, Gate Isolation & Explicit Insufficient Data Handling
 - **Public URL:** [https://akbknight.github.io/data-pipeline-validator/](https://akbknight.github.io/data-pipeline-validator/)
-- **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `fa572ec`)
-- **Baseline Evidence:** The validator previously operated strictly on static, in-memory tabular batches (null counts, data type checks, categorical allowable value membership, range bounds). It was completely blind to statistical distribution drift: an incoming batch could have 100% compliant non-null rows, valid status codes, and valid range bounds, while its underlying distribution shifted massively (e.g. amounts scaling 5x or status distribution flipping from 82% completed to 80% failed), passing all static checks and poisoning downstream models and ledgers.
-- **Intervention:**
-  - **Dual-Engine Quality Architecture:** Implemented statistical distribution drift detection module (`src/checks/drift.py`) operating alongside the 7 static invariant checks.
-  - **Two-Sample Kolmogorov-Smirnov Test:** Non-parametric continuous test comparing empirical cumulative distribution functions ($D = \sup_x |F_{\text{baseline}}(x) - F_{\text{current}}(x)|$) with asymptotic $p$-values evaluated at $\alpha = 0.01$.
-  - **Continuous & Categorical Population Stability Index (PSI):** Quantifies empirical distribution shift across decile quantile bins (continuous amounts) and discrete frequency categories (`status`, `currency`) using Laplace epsilon smoothing ($10^{-4}$) to prevent zero division and $\log(0)$.
-  - **Industry Standard Risk Thresholds:** Configured in `configs/validation/rules.yaml`: $\text{PSI} < 0.10$ (`stable` / proceed), $0.10 \le \text{PSI} < 0.25$ (`moderate` / investigate), and $\text{PSI} \ge 0.25$ (`significant` / quarantine).
-  - **Automated Quarantine Gate:** Batches exhibiting significant distribution drift ($\text{PSI} \ge 0.25$ or $p_{\text{KS}} < 0.001$) are automatically downgraded to `critical` and quarantined (`quarantined: true`, action `QUARANTINE_BATCH`), even when static schema checks score 100.0% pass.
-  - **End-to-End Multi-Source Orchestration:** Expanded `src/pipeline/runner.py` to establish clean baseline distributions, evaluate operational batches across 15 enterprise feeds, export aggregated drift metrics, and synchronize `index.html`. Added `--no-drift` and `--no-sync` CLI flags to `src/cli/run.py`.
-  - **Interactive Dashboard & Smoke Test:** Updated `index.html` with drift KPI cards, quarantine badges, and an expandable distribution drift inspection table. Added real Headless Google Chrome browser smoke test (`tests/test_browser_smoke.cjs`).
+- **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `186897d`)
+- **Baseline Evidence:** The validator previously operated strictly on static, in-memory tabular batches (null counts, data type checks, categorical allowable value membership, range bounds). It was completely blind to statistical distribution drift: an incoming batch could have 100% compliant non-null rows, valid status codes, and valid range bounds, while its underlying distribution shifted massively, passing all static checks and poisoning downstream models and ledgers.
+- **Intervention & Evidence Repairs:**
+  - **Dual-Engine Quality Architecture:** Implemented statistical distribution drift screening module (`src/checks/drift.py`) operating alongside the 7 static invariant checks.
+  - **Verified Fallback & SciPy Parity:** Corrected the fallback calculation in `calculate_ks_2samp` when `_HAS_SCIPY=False`. Identical `np.arange(100)` samples now strictly return $D=0.0$, $p=1.0$, and `drift_detected=False`. Verified fallback eCDF and asymptotic Smirnov/Jacobi series against SciPy across identical, near-identical, shifted, small-sample ($n=10$), and tied-value fixtures. Added explicit `scipy>=1.11` dependency in `pyproject.toml`.
+  - **Explicit Insufficient Data Handling:** Empty or small samples ($< \text{min_samples}$ default 5) strictly return an explicit `'insufficient_data'` / `'NOT_EVALUATED'` state ($D=\text{None}, p=\text{None}, \text{PSI}=\text{None}$) rather than false `'stable'` designations. Propagated through `calculate_ks_2samp`, `calculate_psi_continuous`, `calculate_psi_categorical`, `validate_source_drift`, runner summaries, and the browser UI badge (`INSUFFICIENT DATA / NOT EVALUATED`). Demonstrated live on micro-batch feed `RegulatoryReport_DB` (3 records).
+  - **Downstream Ingestion Gate Enforcement:** Distinctly separated statistical screening recommendations (`QUARANTINE_RECOMMENDED`, `INVESTIGATE`, `PROCEED`, `NOT_EVALUATED`) from physical pipeline gating. Implemented `DownstreamGate` (`src/pipeline/gate.py`): batches flagged for critical contract or drift screening violations are blocked from clean storage and isolated to `data/quarantine/{source}_{id}_quarantined.csv` alongside immutable JSON audit manifests, while clean batches are committed to `data/clean/{source}_{id}_clean.csv`.
+  - **Synthetic Demonstration Feeds:** Clearly documented and labeled all feeds, issue rates, and baseline distributions as **synthetic demonstrations** modeled after enterprise payment and banking schemas, not live operational enterprise connections.
+  - **Configurable Screening Heuristics:** Documented that KS/PSI thresholds ($\alpha=0.01$, $\text{PSI} \ge 0.25$) operate as configurable screening rules. Distribution drift alone does not establish corruption or fraud; legitimate business changes (promotions, seasonality, corporate expansion) can cause drift while remaining completely valid. Operational automated blocking requires evaluation of sample size, effect size, multiple testing adjustments, and domain context.
+  - **Interactive Dashboard & Headless Smoke Test:** Updated `index.html` with drift KPI cards, quarantine badges, insufficient data badges, downstream gate callouts, and an expandable distribution drift inspection table. Verified via Headless Google Chrome browser smoke test (`tests/test_browser_smoke.cjs`).
 - **Acceptance Test:**
   ```bash
-  pytest tests/                         # 44 unit and integration tests
-  node tests/test_browser_smoke.cjs     # Headless Google Chrome browser smoke test
-  py -3.14 validate.py                  # Full pipeline execution & JSON/HTML sync
+  pytest tests/                         # 50 unit and integration tests (100% PASS)
+  node tests/test_browser_smoke.cjs     # Headless Google Chrome browser smoke test (0 errors)
+  py -3.14 validate.py                  # Full pipeline execution, gate routing & JSON/HTML sync
   ```
 - **Result:**
-  - **Pytest Suite:** **44/44 tests passed in 5.51s (100% PASS)**, including 13 new statistical tests in `tests/test_drift.py` and 3 integration tests in `tests/test_validator.py`.
-  - **Quarantine Enforcement:** Proved that a batch with 0 static defects (100% pass rate) but severe distribution drift is correctly downgraded to `critical` and flagged for quarantine (`quarantined: true`, `quarantine_reason: Statistical distribution drift critical`).
-  - **Multi-Source Execution:** Validated 12,012 records across 15 enterprise sources in 0.65s. Identified 6 quarantined feeds (e.g. `BranchOps_Export` passed 99.2% of static rules but had $\text{PSI} = 1.120 \ge 0.25$, triggering quarantine).
-  - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**; verified 6 KPI cards, 15 source rows, quarantine badges, row expansion, and theme toggling.
-- **Remaining Analytical Boundary:** The validator operates on batch-level tabular snapshots evaluated against a reference baseline window. It does not perform continuous sliding-window streaming over Apache Kafka partitions, multi-table foreign-key relational graph joins, or automated self-healing data repair.
+  - **Pytest Suite:** **50/50 tests passed in 5.23s (100% PASS)**, including 15 drift tests (with SciPy parity and fallback edge cases), 4 downstream gate isolation tests, and 13 validator tests.
+  - **Quarantine Isolation:** Verified that batches triggering critical drift are physically blocked from `data/clean/` and isolated to `data/quarantine/` with complete JSON audit manifests.
+  - **Insufficient Data Classification:** Verified that micro-batch `RegulatoryReport_DB` (3 records) returns `NOT_EVALUATED` / `insufficient_data` without false stable labels.
+  - **Multi-Source Execution:** Validated 11,526 records across 15 synthetic demonstration sources in 0.95s (4 stable, 4 warning, 6 critical quarantined, 1 insufficient data).
+  - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**; verified 6 KPI cards, 15 source rows, 6 quarantine badges, 1 insufficient data badge, row expansion, drift panel, and gate callouts.
+- **Remaining Analytical Boundary:** The validator operates on batch-level tabular snapshots evaluated against a reference baseline window. It does not perform continuous sliding-window streaming over Apache Kafka partitions, multi-table foreign-key relational graph joins, or automated self-healing data repair. Drift scores are screening heuristics and do not replace domain-level operational investigation.
 
 ---
 
@@ -290,7 +291,7 @@ The following applications have undergone visual cleanup and documentation align
 | **`irs990-grant-dashboard`** | Python / DuckDB / Three.js | **Data Lineage & Provenance** | File ID conflated with provenance; return ObjectIds missing; link verification unclear | Documented SHA-256 hash, file size, extraction commands, duplicates preserved pending verification, missing lineage unresolved, destination-verified links | 7 ML models evaluated | `6da555b` | **Live & Deployed** (Pages) |
 | **`saltpepper-win`** | HTML5 / CSS / Vanilla JS | **Developer Workflow** | Generic centered hero, chained commands | Asymmetric dev layout, copyable PowerShell commands, terminal widened, price clarity | Verified (Copy tested) | `ce2e40c` | **Live & Deployed** (Pages) |
 | **`ai-strategic-briefing`** | Python / Stats / Web | **Algorithmic Resolution** | Background GPU loop + failing Z-score test | Removed loop, fixed small-sample Z threshold | 43/43 pytest PASS | `196e763` | **Live & Deployed** (Pages) |
-| **`data-pipeline-validator`** | Python / Stats / Web | **Algorithmic & Statistical Resolution** | Static in-memory validation only; blind to distributional drift | Dual-engine architecture + Two-Sample KS test + Continuous/Categorical PSI + automated quarantine enforcement on severe drift (PSI >= 0.25) | 44/44 pytest PASS; Browser Smoke PASS (0 defects) | `fa572ec` | **Live & Deployed** (Pages) |
+| **`data-pipeline-validator`** | Python / Stats / Web | **Algorithmic & Statistical Resolution** | Static in-memory validation only; blind to distributional drift | Dual-engine architecture + Two-Sample KS test + Continuous/Categorical PSI + Downstream Gate isolation + verified SciPy fallback & explicit insufficient data handling | 50/50 pytest PASS; Browser Smoke PASS (0 defects) | `186897d` | **Under Active Review** (Pages) |
 | **`crisis-to-care`** | React / Vite | **Algorithmic & Build** | Broken `package-lock.json` build failure | Resolved lockfile dependencies, verified build | Build Clean (6.13s) | `2e47b8e` | **Deployment-Blocked** (Actions Billing Lock) |
 | **`anomaly-detection-monitor`** | Python / Dash | **Retained Analytical Boundary** | Neon cyberpunk accents & scanlines | Visual alignment done; univariate heuristics only; no multivariate correlation (Mahalanobis/Isolation Forest) | 22/22 pytest PASS (1.85s) | `561e566` | **Live & Deployed** (Pages) |
 | **`supply-chain-planner`** | JavaScript / Heuristics | **Retained Analytical Boundary** | No light/dark toggle, cramped tables | Visual alignment done; deterministic heuristic with constant lead times; no stochastic disruption modeling | Verified (Theme tested) | `1edd093` | **Live & Deployed** (Pages) |
