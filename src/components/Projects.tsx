@@ -193,6 +193,17 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     live: "https://akbknight.github.io/master-resume-engineer/",
   },
   {
+    title: "Data Pipeline Integrity & Statistical Drift Validator",
+    category: "Data Quality & Statistical Drift Monitoring",
+    summary:
+      "Automated enterprise quality control engine combining 7 categorical static invariant checks with continuous non-parametric statistical distribution drift detection (Two-Sample Kolmogorov-Smirnov & Population Stability Index deciles).",
+    contribution:
+      "Engineered automated quarantine enforcement on severe distribution drift (PSI ≥ 0.25), catching silent transaction scaling and status shift even when static schema checks pass 100%. Verified by 44 pytest unit tests and Headless Chrome smoke tests.",
+    tech: ["Python", "Pandas", "NumPy", "SciPy", "Statistical Testing", "Chart.js"],
+    github: "https://github.com/akbknight/data-pipeline-validator",
+    live: "https://akbknight.github.io/data-pipeline-validator/",
+  },
+  {
     title: "Economic Scenario Analysis Simulator",
     category: "Macroeconomic Simulation & Policy Analysis",
     summary:
