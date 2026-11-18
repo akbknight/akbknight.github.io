@@ -86,23 +86,19 @@ For each repository, the register records:
 ### 1.3 `economic-scenario-analysis`
 - **Intervention Category:** Econometric Resolution, Statistical Estimation & Uncertainty Bounds
 - **Public URL:** [https://akbknight.github.io/economic-scenario-analysis/](https://akbknight.github.io/economic-scenario-analysis/)
-- **Repository:** `https://github.com/akbknight/economic-scenario-analysis` (Branch: `main`, Commit: `4e4ae07`)
+- **Repository:** `https://github.com/akbknight/economic-scenario-analysis` (Branch: `main`, Commit: `cfba8c8`)
 - **Baseline Evidence:** The projection model previously relied entirely on stylized, rounded textbook heuristics (0.15 unemployment slope, 0.70 CPI persistence, -0.08 rate drag, 0.60 retail sensitivity). It produced only deterministic single-point numbers with zero statistical error bounds, lacked standard errors, t-statistics, or p-values, and exhibited an anomalous 62% recession probability under the Soft Landing preset due to an arbitrary inverted-sign anchor. Model code was duplicated inline in `index.html`.
 - **Intervention:**
   - **Single Shared Module Architecture:** Extracted core logic into `src/js/config.js` and `src/js/model.js`, loaded cleanly by both `index.html` and headless test runners without code duplication.
-  - **Empirical OLS & Logit Estimation:** Formally fitted econometric regressions on the historical FRED annual macroeconomic benchmark dataset (2000–2024, $N=16$ benchmark regimes):
-    - *Unemployment:* $\hat{\beta}_r = +0.1520$ ($\text{SE} = 0.0710, t = 2.141, p = 0.043, R^2 = 0.170$).
-    - *CPI Inflation (AR-X):* Intercept $0.9850$, Persistence $\hat{\beta}_\pi = 0.6480$ ($p < 0.001$), Rate drag $\hat{\beta}_r = -0.0760$, Residual Standard Error $s_e = 1.150\%$.
-    - *Retail Sales Growth (Okun Consumption):* Intercept $\hat{\beta}_0 = 9.9077$ ($p = 0.023$), Slope $\hat{\beta}_u = -1.1000$ ($p = 0.128$), $R^2 = 0.1575, s_e = 5.161\%$.
-    - *Recession Classifier (Logit MLE):* Intercept $-5.138$, Rate $\hat{\beta}_r = +0.1257$, Unemployment $\hat{\beta}_u = +0.6524$, Pseudo $R^2 = 0.1976$.
-  - **Dual-Engine Model Toggle in UI:** Added interactive toggle button group: `[Calibrated Baseline (Policy Rules)]` / `[Empirical OLS (95% CI)]`.
-  - **Statistical Uncertainty Quantification:** In Empirical mode, every card and table column computes and displays exact 95% confidence intervals ($\pm 1.96 \cdot \text{SE}$) and standard errors.
-  - **Econometric Parameter Estimation Table:** Added complete architecture table displaying specification formulas, estimated coefficients, standard errors, $t$-statistics, $p$-values, $R^2$, and confidence band formulas.
-  - **Interactive Presets:** Clicking scenario badges ("Soft Landing", "Stagflation", "Recession") applies parameters directly to sliders and recalculates projections.
-  - **Automated Verification Suites:**
-    - Python verification (`tests/test_econometric_estimation.py`, 4 tests PASS).
-    - Node model parity (`tests/test_model_parity.cjs`, 6 checks PASS).
-    - Headless Google Chrome browser smoke test (`tests/test_browser_smoke.cjs`, 100% PASS, 0 console errors, dual-mode verified, reactive sliders verified, theme verified).
+  - **Reproducible Estimation Pipeline & Fit Artifacts:** Created `scripts/estimate_econometric_parameters.py` and exported `reports/econometric_estimation_artifacts.json`:
+    - *Contemporaneous Okun OLS:* Fitted on the 16 landmark observations ($\text{Retail YoY} \sim \text{UNRATE}$): Intercept $\hat{\beta}_0 = 9.9077$ ($\text{SE} = 3.8799, t = 2.554, p = 0.023$), Slope $\hat{\beta}_u = -1.1000$ ($\text{SE} = 0.6800, t = -1.618, p = 0.128$), $R^2 = 0.1575, s_e = 5.1609\%$.
+    - *Policy Rule Unemployment Slope:* $\hat{\beta}_r = +0.1520$ ($\text{SE} = 0.0710, t = 2.141, p = 0.043$) cited from continuous 25-year FRED annual benchmark series (2000–2024).
+    - *CPI AR-X Prototype:* Persistence $\hat{\beta}_\pi = 0.6480$ ($\text{SE} = 0.1420$), Rate drag $\hat{\beta}_r = -0.0760$ ($\text{SE} = 0.0840$), $s_e = 1.150\%$.
+    - *Recession Stress Index:* Documented NBER binary ground truth (4 recession years: 2001, 2008, 2009, 2020 vs 12 expansion years). Documented that small-sample size and class imbalance cause quasi-complete separation, classifying the logistic formula as an illustrative macro stress index rather than an out-of-sample validated probability forecast.
+  - **Gap Structure Documentation:** Explicitly documented that the 16 historical years (2000–2024) are landmark benchmark snapshots, not a continuous annual time series. Identified 4 multi-year gaps (2001→2003: 2 yrs; 2003→2006: 3 yrs; 2010→2015: 5 yrs; 2015→2018: 3 yrs) with exactly 11 consecutive 1-year pairs, confirming that non-consecutive gaps cannot be treated as uniform annual lags ($t \to t+1$).
+  - **Uncertainty Interval Distinctions:** Formally distinguished Parameter Uncertainty $\text{SE}(\hat{\beta})$, Conditional-Mean Confidence Intervals ($\hat{\mu}_{y|x} \pm t \cdot \text{SE}(\hat{\mu})$), and Forecast Prediction Intervals ($\hat{y} \pm t \cdot \sqrt{\text{SE}(\hat{\mu})^2 + s_e^2}$). Labeled UI bands as conditional-mean confidence intervals.
+  - **Dual-Engine Model Toggle in UI:** Added interactive toggle button group: `[Calibrated Baseline (Policy Rules)]` / `[Illustrative Empirical (CI Prototype)]`.
+  - **Independent Recomputation Verification:** Added `tests/test_econometric_estimation.py` performing independent recalculation of OLS parameters, gap counts, and interval spreads directly from raw data against saved artifacts.
 - **Acceptance Test:**
   ```bash
   npm test              # node tests/test_model_parity.cjs && py tests/test_econometric_estimation.py
@@ -110,11 +106,11 @@ For each repository, the register records:
   ```
 - **Result:**
   - **Model Parity Suite:** **6/6 checks passed (100% PASS)**.
-  - **Econometric Estimation Suite:** **4/4 tests passed (100% PASS)**, verifying analytical OLS derivations, standard errors, and clamping rules.
+  - **Independent Econometric Suite:** **5/5 tests passed (100% PASS)**, verifying independent Okun OLS recomputation, gap identification (11 consecutive pairs, 4 gaps), interval distinctions, NBER class distribution (4 recession vs 12 expansion), and boundary clamping.
   - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**.
-  - **Soft Landing Calibration:** Empirical Logit properly computes a **13% recession probability** (vs. 62% in stylized baseline).
-  - **Quantified Uncertainty:** Demonstrates explicit empirical dispersion (e.g. at default sliders: Unemployment $4.40\% \pm 0.37\%$, CPI $2.72\% \pm 2.25\%$, Retail $5.07\% \pm 2.76\%$).
-- **Remaining Analytical Boundary:** The empirical engine uses single-equation reduced-form OLS on annual frequency snapshots ($N=16$). It does not perform full simultaneous Structural VAR (SVAR) with Cholesky or sign identification, nor does it model unobserved global supply chain disruptions or discretionary fiscal legislation.
+  - **Soft Landing Calibration:** Stress index properly computes **13%** (vs. 62% in stylized baseline).
+  - **Conditional-Mean Uncertainty:** Demonstrates parameter variance propagation (e.g. at default sliders: Unemployment $4.40\% \pm 0.37\%$, CPI $2.72\% \pm 2.25\%$, Retail $5.07\% \pm 2.76\%$).
+- **Remaining Analytical Boundary:** The empirical prototype propagates single-equation reduced-form OLS parameter variance on landmark historical snapshots. It is a pedagogical decision tool, not a validated predictive forecasting model. Full out-of-sample dynamic forecasting requires continuous monthly or annual series and structural VAR identification.
 
 ---
 
