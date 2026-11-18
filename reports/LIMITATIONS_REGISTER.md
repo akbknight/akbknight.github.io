@@ -86,7 +86,7 @@ For each repository, the register records:
 ### 1.3 `economic-scenario-analysis`
 - **Intervention Category:** Econometric Resolution, Statistical Estimation & Uncertainty Bounds
 - **Public URL:** [https://akbknight.github.io/economic-scenario-analysis/](https://akbknight.github.io/economic-scenario-analysis/)
-- **Repository:** `https://github.com/akbknight/economic-scenario-analysis` (Branch: `main`, Commit: `cfba8c8`)
+- **Repository:** `https://github.com/akbknight/economic-scenario-analysis` (Branch: `main`, Commit: `5a8aea4`)
 - **Baseline Evidence:** The projection model previously relied entirely on stylized, rounded textbook heuristics (0.15 unemployment slope, 0.70 CPI persistence, -0.08 rate drag, 0.60 retail sensitivity). It produced only deterministic single-point numbers with zero statistical error bounds, lacked standard errors, t-statistics, or p-values, and exhibited an anomalous 62% recession probability under the Soft Landing preset due to an arbitrary inverted-sign anchor. Model code was duplicated inline in `index.html`.
 - **Intervention:**
   - **Single Shared Module Architecture:** Extracted core logic into `src/js/config.js` and `src/js/model.js`, loaded cleanly by both `index.html` and headless test runners without code duplication.
