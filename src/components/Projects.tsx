@@ -198,7 +198,7 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     summary:
       "Interactive macroeconomic policy simulation modeling Federal Reserve rate levers, CPI inflation, and unemployment to project 12-month forward retail sales and stress index using FRED benchmark series (2000–2024).",
     contribution:
-      "Architected dual-engine exploration coupling stylized Taylor/Okun heuristics with an illustrative empirical prototype propagating OLS parameter variance and conditional-mean confidence intervals (±1.96·SE).",
+      "Architected dual-engine exploration coupling stylized macroeconomic policy heuristics with an illustrative empirical prototype propagating contemporaneous retail OLS parameter variance and conditional-mean confidence intervals (±1.96·SE).",
     tech: ["JavaScript", "Chart.js", "FRED API", "Econometrics", "Puppeteer"],
     github: "https://github.com/akbknight/economic-scenario-analysis",
     live: "https://akbknight.github.io/economic-scenario-analysis/",
