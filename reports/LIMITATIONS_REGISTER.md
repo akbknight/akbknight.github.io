@@ -147,32 +147,47 @@ For each repository, the register records:
 
 ---
 
-### 1.6 `data-pipeline-validator` [ACTIVE REVIEW / REPAIR IN PROGRESS]
+### 1.6 `data-pipeline-validator` [VERIFIED & CLOSED]
 - **Intervention Category:** Algorithmic & Statistical Resolution, Drift Monitoring, Gate Isolation & Explicit Insufficient Data Handling
 - **Public URL:** [https://akbknight.github.io/data-pipeline-validator/](https://akbknight.github.io/data-pipeline-validator/)
-- **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `186897d`)
+- **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `f3ebf8a`)
 - **Baseline Evidence:** The validator previously operated strictly on static, in-memory tabular batches (null counts, data type checks, categorical allowable value membership, range bounds). It was completely blind to statistical distribution drift: an incoming batch could have 100% compliant non-null rows, valid status codes, and valid range bounds, while its underlying distribution shifted massively, passing all static checks and poisoning downstream models and ledgers.
 - **Intervention & Evidence Repairs:**
   - **Dual-Engine Quality Architecture:** Implemented statistical distribution drift screening module (`src/checks/drift.py`) operating alongside the 7 static invariant checks.
-  - **Verified Fallback & SciPy Parity:** Corrected the fallback calculation in `calculate_ks_2samp` when `_HAS_SCIPY=False`. Identical `np.arange(100)` samples now strictly return $D=0.0$, $p=1.0$, and `drift_detected=False`. Verified fallback eCDF and asymptotic Smirnov/Jacobi series against SciPy across identical, near-identical, shifted, small-sample ($n=10$), and tied-value fixtures. Added explicit `scipy>=1.11` dependency in `pyproject.toml`.
+  - **Strengthened Fallback & SciPy Parity:**
+    - Corrected fallback eCDF calculation when `_HAS_SCIPY=False` ($D=0.0 \implies p=1.0, \text{drift}=\text{False}$).
+    - Implemented dual-branch Kolmogorov distribution survival function: small-$z$ Jacobi theta expansion for $z < 0.3$, Smirnov series for $z \ge 0.3$.
+    - Documented and tested approximation tolerances against SciPy ground truth: $|D_{\text{fb}} - D_{\text{scipy}}| \le 0.005$ and $|p_{\text{fb}} - p_{\text{scipy}}| \le 0.02$.
+    - Added dedicated threshold-boundary tests near $\alpha = 0.01$ ($D=0.23, n=100 \implies p_{\text{scipy}}=0.009878, p_{\text{fb}}=0.008216$, both reject; $D=0.22, n=100 \implies p_{\text{scipy}}=0.015577, p_{\text{fb}}=0.013112$, neither rejects; $\Delta p \le 0.0025$).
+    - Approximate fallback results are explicitly and machine-readably tagged with `is_approximate: True` and method declared as `"Kolmogorov-Smirnov (2-sample asymptotic approximation)"`.
   - **Explicit Insufficient Data Handling:** Empty or small samples ($< \text{min_samples}$ default 5) strictly return an explicit `'insufficient_data'` / `'NOT_EVALUATED'` state ($D=\text{None}, p=\text{None}, \text{PSI}=\text{None}$) rather than false `'stable'` designations. Propagated through `calculate_ks_2samp`, `calculate_psi_continuous`, `calculate_psi_categorical`, `validate_source_drift`, runner summaries, and the browser UI badge (`INSUFFICIENT DATA / NOT EVALUATED`). Demonstrated live on micro-batch feed `RegulatoryReport_DB` (3 records).
-  - **Downstream Ingestion Gate Enforcement:** Distinctly separated statistical screening recommendations (`QUARANTINE_RECOMMENDED`, `INVESTIGATE`, `PROCEED`, `NOT_EVALUATED`) from physical pipeline gating. Implemented `DownstreamGate` (`src/pipeline/gate.py`): batches flagged for critical contract or drift screening violations are blocked from clean storage and isolated to `data/quarantine/{source}_{id}_quarantined.csv` alongside immutable JSON audit manifests, while clean batches are committed to `data/clean/{source}_{id}_clean.csv`.
-  - **Synthetic Demonstration Feeds:** Clearly documented and labeled all feeds, issue rates, and baseline distributions as **synthetic demonstrations** modeled after enterprise payment and banking schemas, not live operational enterprise connections.
+  - **Downstream Ingestion Gate Enforcement & Policy Differentiation:**
+    - Distinctly separated statistical screening recommendations (`QUARANTINE_RECOMMENDED`, `INVESTIGATE`, `PROCEED`, `NOT_EVALUATED`) from physical pipeline gating.
+    - Implemented `DownstreamGate` (`src/pipeline/gate.py`) supporting distinct configurable routing policies:
+      - `quarantine_on_critical`: quarantines batches with either static invariant violations or statistical drift alerts.
+      - `quarantine_on_drift`: quarantines specifically and exclusively on critical distribution drift while admitting batches with static-only errors to clean storage.
+      - `audit_only`: logs screening recommendations and admits all batches to clean storage.
+      - Unsupported policy strings explicitly raise `ValueError`.
+  - **Write-Once Audit Manifests & Repeat-Batch Overwrite Protection:**
+    - Removed all un-backed "immutable" claims in code, documentation, and UI.
+    - Implemented write-once JSON audit manifests with overwrite protection. If repeat batches attempt to reuse an existing `batch_id` without explicit `allow_overwrite=True`, `FileExistsError` is raised to prevent accidental clobbering of historical evidence.
+  - **Synthetic Local File-Routing Demonstration Context:**
+    - Consistently documented and labeled all feeds, issue rates, baseline distributions, and downstream storage directories as **synthetic local file-routing demonstrations** modeled after benchmark payment schemas, rather than an established enterprise ingestion integration.
   - **Configurable Screening Heuristics:** Documented that KS/PSI thresholds ($\alpha=0.01$, $\text{PSI} \ge 0.25$) operate as configurable screening rules. Distribution drift alone does not establish corruption or fraud; legitimate business changes (promotions, seasonality, corporate expansion) can cause drift while remaining completely valid. Operational automated blocking requires evaluation of sample size, effect size, multiple testing adjustments, and domain context.
   - **Interactive Dashboard & Headless Smoke Test:** Updated `index.html` with drift KPI cards, quarantine badges, insufficient data badges, downstream gate callouts, and an expandable distribution drift inspection table. Verified via Headless Google Chrome browser smoke test (`tests/test_browser_smoke.cjs`).
 - **Acceptance Test:**
   ```bash
-  pytest tests/                         # 50 unit and integration tests (100% PASS)
-  node tests/test_browser_smoke.cjs     # Headless Google Chrome browser smoke test (0 errors)
-  py -3.14 validate.py                  # Full pipeline execution, gate routing & JSON/HTML sync
+  pytest tests/                         # 54 unit and integration tests (100% PASS in 5.50s)
+  node tests/test_browser_smoke.cjs     # Headless Google Chrome browser smoke test (0 defects, 0 errors)
+  py -3.14 validate.py                  # Full pipeline execution, gate routing & JSON/HTML sync (0.73s)
   ```
 - **Result:**
-  - **Pytest Suite:** **50/50 tests passed in 5.23s (100% PASS)**, including 15 drift tests (with SciPy parity and fallback edge cases), 4 downstream gate isolation tests, and 13 validator tests.
-  - **Quarantine Isolation:** Verified that batches triggering critical drift are physically blocked from `data/clean/` and isolated to `data/quarantine/` with complete JSON audit manifests.
+  - **Pytest Suite:** **54/54 tests passed in 5.50s (100% PASS)**, including 16 drift tests (with SciPy parity, threshold boundary cases, approximate labeling, and fallback edge cases), 7 downstream gate isolation tests (verifying distinct policies, overwrite prevention, and hold policies), 18 static invariant tests, and 13 validator tests.
+  - **Quarantine Isolation:** Verified that batches triggering critical drift are physically blocked from `data/clean/` and isolated to `data/quarantine/` with write-once JSON audit manifests.
   - **Insufficient Data Classification:** Verified that micro-batch `RegulatoryReport_DB` (3 records) returns `NOT_EVALUATED` / `insufficient_data` without false stable labels.
-  - **Multi-Source Execution:** Validated 11,526 records across 15 synthetic demonstration sources in 0.95s (4 stable, 4 warning, 6 critical quarantined, 1 insufficient data).
+  - **Multi-Source Execution:** Validated 11,526 records across 15 synthetic demonstration sources in 0.73s (4 stable, 4 warning, 6 critical quarantined, 1 insufficient data).
   - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**; verified 6 KPI cards, 15 source rows, 6 quarantine badges, 1 insufficient data badge, row expansion, drift panel, and gate callouts.
-- **Remaining Analytical Boundary:** The validator operates on batch-level tabular snapshots evaluated against a reference baseline window. It does not perform continuous sliding-window streaming over Apache Kafka partitions, multi-table foreign-key relational graph joins, or automated self-healing data repair. Drift scores are screening heuristics and do not replace domain-level operational investigation.
+- **Remaining Analytical Boundary:** The demonstration operates on batch-level tabular snapshots evaluated against a reference baseline window in a synthetic local file-routing directory structure. It does not perform continuous sliding-window streaming over Apache Kafka partitions, multi-table foreign-key relational graph joins, or automated self-healing data repair. Drift scores are screening heuristics and do not replace domain-level operational investigation.
 
 ---
 
