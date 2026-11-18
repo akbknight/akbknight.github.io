@@ -196,10 +196,10 @@ const ARCHIVE_PROJECTS: ArchiveProject[] = [
     title: "Economic Scenario Analysis Simulator",
     category: "Macroeconomic Simulation & Policy Analysis",
     summary:
-      "Interactive econometric policy engine modeling Federal Reserve rate levers, CPI inflation, and unemployment inputs to project 12-month forward retail sales growth and calibrated recession probabilities using FRED historical series (2000–2024).",
+      "Interactive macroeconomic policy simulation modeling Federal Reserve rate levers, CPI inflation, and unemployment to project 12-month forward retail sales and stress index using FRED benchmark series (2000–2024).",
     contribution:
-      "Engineered dual-engine architecture with formal empirical OLS & MLE logit estimation, deriving 95% confidence bounds (±1.96·SE) across macroeconomic regimes (2000–2024) alongside stylized policy rules.",
-    tech: ["JavaScript", "Chart.js", "FRED API", "OLS Econometrics", "Puppeteer"],
+      "Architected dual-engine exploration coupling stylized Taylor/Okun heuristics with an illustrative empirical prototype propagating OLS parameter variance and conditional-mean confidence intervals (±1.96·SE).",
+    tech: ["JavaScript", "Chart.js", "FRED API", "Econometrics", "Puppeteer"],
     github: "https://github.com/akbknight/economic-scenario-analysis",
     live: "https://akbknight.github.io/economic-scenario-analysis/",
   },
