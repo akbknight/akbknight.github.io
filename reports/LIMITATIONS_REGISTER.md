@@ -147,6 +147,34 @@ For each repository, the register records:
 
 ---
 
+### 1.6 `data-pipeline-validator`
+- **Intervention Category:** Algorithmic & Statistical Resolution, Drift Monitoring & Quarantine Enforcement
+- **Public URL:** [https://akbknight.github.io/data-pipeline-validator/](https://akbknight.github.io/data-pipeline-validator/)
+- **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `fa572ec`)
+- **Baseline Evidence:** The validator previously operated strictly on static, in-memory tabular batches (null counts, data type checks, categorical allowable value membership, range bounds). It was completely blind to statistical distribution drift: an incoming batch could have 100% compliant non-null rows, valid status codes, and valid range bounds, while its underlying distribution shifted massively (e.g. amounts scaling 5x or status distribution flipping from 82% completed to 80% failed), passing all static checks and poisoning downstream models and ledgers.
+- **Intervention:**
+  - **Dual-Engine Quality Architecture:** Implemented statistical distribution drift detection module (`src/checks/drift.py`) operating alongside the 7 static invariant checks.
+  - **Two-Sample Kolmogorov-Smirnov Test:** Non-parametric continuous test comparing empirical cumulative distribution functions ($D = \sup_x |F_{\text{baseline}}(x) - F_{\text{current}}(x)|$) with asymptotic $p$-values evaluated at $\alpha = 0.01$.
+  - **Continuous & Categorical Population Stability Index (PSI):** Quantifies empirical distribution shift across decile quantile bins (continuous amounts) and discrete frequency categories (`status`, `currency`) using Laplace epsilon smoothing ($10^{-4}$) to prevent zero division and $\log(0)$.
+  - **Industry Standard Risk Thresholds:** Configured in `configs/validation/rules.yaml`: $\text{PSI} < 0.10$ (`stable` / proceed), $0.10 \le \text{PSI} < 0.25$ (`moderate` / investigate), and $\text{PSI} \ge 0.25$ (`significant` / quarantine).
+  - **Automated Quarantine Gate:** Batches exhibiting significant distribution drift ($\text{PSI} \ge 0.25$ or $p_{\text{KS}} < 0.001$) are automatically downgraded to `critical` and quarantined (`quarantined: true`, action `QUARANTINE_BATCH`), even when static schema checks score 100.0% pass.
+  - **End-to-End Multi-Source Orchestration:** Expanded `src/pipeline/runner.py` to establish clean baseline distributions, evaluate operational batches across 15 enterprise feeds, export aggregated drift metrics, and synchronize `index.html`. Added `--no-drift` and `--no-sync` CLI flags to `src/cli/run.py`.
+  - **Interactive Dashboard & Smoke Test:** Updated `index.html` with drift KPI cards, quarantine badges, and an expandable distribution drift inspection table. Added real Headless Google Chrome browser smoke test (`tests/test_browser_smoke.cjs`).
+- **Acceptance Test:**
+  ```bash
+  pytest tests/                         # 44 unit and integration tests
+  node tests/test_browser_smoke.cjs     # Headless Google Chrome browser smoke test
+  py -3.14 validate.py                  # Full pipeline execution & JSON/HTML sync
+  ```
+- **Result:**
+  - **Pytest Suite:** **44/44 tests passed in 5.51s (100% PASS)**, including 13 new statistical tests in `tests/test_drift.py` and 3 integration tests in `tests/test_validator.py`.
+  - **Quarantine Enforcement:** Proved that a batch with 0 static defects (100% pass rate) but severe distribution drift is correctly downgraded to `critical` and flagged for quarantine (`quarantined: true`, `quarantine_reason: Statistical distribution drift critical`).
+  - **Multi-Source Execution:** Validated 12,012 records across 15 enterprise sources in 0.65s. Identified 6 quarantined feeds (e.g. `BranchOps_Export` passed 99.2% of static rules but had $\text{PSI} = 1.120 \ge 0.25$, triggering quarantine).
+  - **Headless Chrome Browser Smoke Test:** **100% PASS (0 page errors, 0 console errors)**; verified 6 KPI cards, 15 source rows, quarantine badges, row expansion, and theme toggling.
+- **Remaining Analytical Boundary:** The validator operates on batch-level tabular snapshots evaluated against a reference baseline window. It does not perform continuous sliding-window streaming over Apache Kafka partitions, multi-table foreign-key relational graph joins, or automated self-healing data repair.
+
+---
+
 ## 2. Empirical Data Lineage & Provenance
 
 ### 2.1 `irs990-grant-dashboard`
@@ -197,20 +225,7 @@ For each repository, the register records:
 
 The following applications have undergone visual cleanup and documentation alignment, and their core analytical limitations or external dependencies are **explicitly scoped and retained**:
 
-### 4.1 `data-pipeline-validator`
-- **Intervention Status:** Visual & Typographic Alignment Completed; Analytical Limitations Retained
-- **Public URL:** [https://akbknight.github.io/data-pipeline-validator/](https://akbknight.github.io/data-pipeline-validator/)
-- **Repository:** `https://github.com/akbknight/data-pipeline-validator` (Branch: `master`, Commit: `1f25b89`)
-- **Visual Intervention:** Removed decorative calipers and pseudo-sci-fi scanline overlays; applied Editorial Quantitative Craft design tokens and clean tabular typography.
-- **Acceptance Test:** `pytest tests/` (28/28 tests passed in 1.13s).
-- **Retained Analytical Limitations:**
-  1. **Static In-Memory Validation Only:** The validator operates strictly on static, in-memory tabular batches (null counts, data type checks, categorical allowable value membership).
-  2. **No Statistical Distribution Drift:** It lacks continuous statistical drift detection algorithms (e.g., Kolmogorov-Smirnov two-sample tests, Population Stability Index (PSI), or Wasserstein distance) to detect subtle feature shift over time.
-  3. **No Streaming Schema Evolution:** It does not handle streaming schema changes, out-of-order event ingestion, or distributed partitions (Kafka/Spark).
-
----
-
-### 4.2 `anomaly-detection-monitor`
+### 4.1 `anomaly-detection-monitor`
 - **Intervention Status:** Visual Alignment Completed; Analytical Limitations Retained
 - **Public URL:** [https://akbknight.github.io/anomaly-detection-monitor/](https://akbknight.github.io/anomaly-detection-monitor/)
 - **Repository:** `https://github.com/akbknight/anomaly-detection-monitor` (Branch: `master`, Commit: `561e566`)
@@ -223,7 +238,7 @@ The following applications have undergone visual cleanup and documentation align
 
 ---
 
-### 4.3 `supply-chain-planner`
+### 4.2 `supply-chain-planner`
 - **Intervention Status:** Theme & Monospace Alignment Completed; Analytical Limitations Retained
 - **Public URL:** [https://akbknight.github.io/supply-chain-planner/](https://akbknight.github.io/supply-chain-planner/)
 - **Repository:** `https://github.com/akbknight/supply-chain-planner` (Branch: `main`, Commit: `1edd093`)
@@ -236,7 +251,7 @@ The following applications have undergone visual cleanup and documentation align
 
 ---
 
-### 4.4 `Vitara`
+### 4.3 `Vitara`
 - **Intervention Status:** Architecture Reviewed & Retained; External Scoped Dependency Retained
 - **Public URL:** [https://akbknight.github.io/vitara/](https://akbknight.github.io/vitara/)
 - **Repository:** `https://github.com/akbknight/vitara` (Branch: `main`, Commit: `eb39ee7`)
@@ -248,7 +263,7 @@ The following applications have undergone visual cleanup and documentation align
 
 ---
 
-### 4.5 `akbknight.github.io` (Main Portfolio Platform)
+### 4.4 `akbknight.github.io` (Main Portfolio Platform)
 - **Intervention Category:** Platform Synchronization & Synthesis
 - **Public URL:** [https://akbknight.github.io/](https://akbknight.github.io/)
 - **Repository:** `https://github.com/akbknight/akbknight.github.io` (Branch: `main`; Deployment Branch: `gh-pages`)
@@ -275,9 +290,10 @@ The following applications have undergone visual cleanup and documentation align
 | **`irs990-grant-dashboard`** | Python / DuckDB / Three.js | **Data Lineage & Provenance** | File ID conflated with provenance; return ObjectIds missing; link verification unclear | Documented SHA-256 hash, file size, extraction commands, duplicates preserved pending verification, missing lineage unresolved, destination-verified links | 7 ML models evaluated | `6da555b` | **Live & Deployed** (Pages) |
 | **`saltpepper-win`** | HTML5 / CSS / Vanilla JS | **Developer Workflow** | Generic centered hero, chained commands | Asymmetric dev layout, copyable PowerShell commands, terminal widened, price clarity | Verified (Copy tested) | `ce2e40c` | **Live & Deployed** (Pages) |
 | **`ai-strategic-briefing`** | Python / Stats / Web | **Algorithmic Resolution** | Background GPU loop + failing Z-score test | Removed loop, fixed small-sample Z threshold | 43/43 pytest PASS | `196e763` | **Live & Deployed** (Pages) |
+| **`data-pipeline-validator`** | Python / Stats / Web | **Algorithmic & Statistical Resolution** | Static in-memory validation only; blind to distributional drift | Dual-engine architecture + Two-Sample KS test + Continuous/Categorical PSI + automated quarantine enforcement on severe drift (PSI >= 0.25) | 44/44 pytest PASS; Browser Smoke PASS (0 defects) | `fa572ec` | **Live & Deployed** (Pages) |
 | **`crisis-to-care`** | React / Vite | **Algorithmic & Build** | Broken `package-lock.json` build failure | Resolved lockfile dependencies, verified build | Build Clean (6.13s) | `2e47b8e` | **Deployment-Blocked** (Actions Billing Lock) |
-| **`data-pipeline-validator`** | Python / Dash | **Retained Analytical Boundary** | Cluttered calipers & neon scanlines | Visual alignment done; in-memory batch checks only; no statistical drift detection (KS/PSI/Wasserstein) | 28/28 pytest PASS (1.13s) | `1f25b89` | **Live & Deployed** (Pages) |
 | **`anomaly-detection-monitor`** | Python / Dash | **Retained Analytical Boundary** | Neon cyberpunk accents & scanlines | Visual alignment done; univariate heuristics only; no multivariate correlation (Mahalanobis/Isolation Forest) | 22/22 pytest PASS (1.85s) | `561e566` | **Live & Deployed** (Pages) |
 | **`supply-chain-planner`** | JavaScript / Heuristics | **Retained Analytical Boundary** | No light/dark toggle, cramped tables | Visual alignment done; deterministic heuristic with constant lead times; no stochastic disruption modeling | Verified (Theme tested) | `1edd093` | **Live & Deployed** (Pages) |
 | **`Vitara`** | HTML5 / Supabase | **Retained Analytical Boundary** | Unaudited nested repository structure | Reviewed & retained; client-side prototype with mock biometrics; wearable sensor streaming is a scoped external dependency | Structure Verified | `eb39ee7` | **Live & Retained** |
+| **`akbknight.github.io`** | Next.js 16 / TypeScript | **Platform Synchronization** | Divergent Hairline focus, unmeasured claims | Direction B editorial + verified empirical findings synchronized across all projects | Static Build PASS | Current `main` / `gh-pages` | **Live & Deployed** (gh-pages) |
 | **`akbknight.github.io`** | Next.js 16 / TypeScript | **Platform Synchronization** | Divergent Hairline focus, unmeasured claims | Direction B editorial + verified empirical findings synchronized across all projects | Static Build PASS | Current `main` / `gh-pages` | **Live & Deployed** (gh-pages) |
